@@ -8,6 +8,18 @@ const Signup = () => {
 
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
+  const [avatar, setAvatar] = useState(null);
+  const [error, setError] = useState(null);
+  
+  const handleSubmit = () =>{
+    console.log()
+  }
+
+  const handleFileInputChange (e) =>{
+    const file = e.target.files[0];
+    setAvatar(file);
+  } 
+
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -126,6 +138,20 @@ const Signup = () => {
                   </div>
             </div>
             
+            <div>
+              <label htmlFor="avatar"
+                className="block text-sm font-medium text-gray-700"
+              > 
+
+
+              </label>
+              <div className="mt-2 flex items-center">
+                <span className="inline-block h-8 w-8 rounded-full overflow-hidden" ></span>
+
+              </div>
+            </div>
+
+
             <div>
               <button 
               type="submit"
