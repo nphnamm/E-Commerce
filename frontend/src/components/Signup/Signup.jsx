@@ -115,37 +115,15 @@ const Signup = () => {
 
 
             </div>
-            
-            <div className={`${styles.noramlFlex} justify-between`}>
-                  <div className={`${styles.noramlFlex}`}>
-                      <input
-                        type="checkbox" name="remember-me" id="remember-me"
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                      />
-                      <label htmlFor="remember-me"
-                      className="ml-2 block text-sm text-gray-900"
-                      >
-                        Remember me
-                      </label>
-                  </div>
-                  <div className="text-sm">
-                    <a
-                    href=".forgot-password"
-                    className="font-medium text-blue-600 hover:text-blue-50"
-                    >
-                      Forgot your password?
-                    </a>
-
-                  </div>
-            </div>
+        
             
             <div>
-              <label htmlFor="avatar"
+               <label htmlFor="avatar"
                 className="block text-sm font-medium text-gray-700"
               > 
 
 
-              </label>
+              </label> 
               <div className="mt-2 flex items-center">
                 <span className="inline-block h-8 w-8 rounded-full overflow-hidden" >
                   {avatar ? 
@@ -181,7 +159,7 @@ const Signup = () => {
             
             <div className={`${styles.noramlFlex} w-full`}>
                   <h4>Not have any account?</h4>
-                  <Link to="/sign-up" className="text-blue-600 hover:text-blue-400 pl-2">Sign Up
+                  <Link to="/login" className="text-blue-600 hover:text-blue-400 pl-2">Sign In
                   
                   </Link>
             </div>
