@@ -3,6 +3,8 @@ import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 import styles from './../../styles/styles';
 import { Link } from "react-router-dom";
 import {RxAvatar} from 'react-icons/rx';
+import { server } from "../../server";
+import axios from "axios";
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -12,16 +14,27 @@ const Signup = () => {
   const [avatar, setAvatar] = useState(null);
   const [error, setError] = useState(null);
   
-  const handleSubmit = () =>{
-    console.log()
-  }
+
 
   const handleFileInputChange = (e) =>{
     const file = e.target.files[0];
     setAvatar(file);
   } 
 
-
+  const handleSubmit = async (e) =>{
+    const config = {headers: {"Content-Type":"multipart/form-data"}}
+    const newForm = FormData();
+    newForm.append('file',avatar);
+    newForm.append('name',name);
+    newForm.append('emai',email);
+    newForm.append('password',password);
+    console.log('check new', newForm)
+    axios.post(`http://localhost:8000/api/v2/user/create-user`,newForm, config).then((res)=>{
+      console.log(res)
+    }).catch((err)=>{
+      console.log(err)
+    })  
+  }
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -31,7 +44,7 @@ const Signup = () => {
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             
             
             <div>
@@ -153,7 +166,7 @@ const Signup = () => {
               type="submit"
               className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
               >
-                LOG IN  
+                SIGN UP
               </button>
             </div>
             

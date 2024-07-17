@@ -2,7 +2,7 @@ const express = require("express")
 const path = require("path");
 const router = express.Router();
 const User = require("../model/user");
-const {uplload} = require('../multer');
+const {upload} = require('../multer');
 const ErrorHandler = require("../utils/ErrorHandler");
 
 
@@ -19,15 +19,14 @@ router.post("/create-user", upload.single("file"), async(req,res)=>{
     }
     const filename = req.file.filename;
     const fileUrl = path.join(filename);
-    const avatar = filter
     const user = {
         name: name,
         email: email, 
         password: password,
-        avatar: file
+        avatar: fileUrl
 
     };
-    console.log(user);
+    console.log('check user',user);
 
 
 })
