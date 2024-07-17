@@ -1,13 +1,35 @@
-const express = require("express");
+const express = require("express")
 const path = require("path");
 const router = express.Router();
+const User = require("../model/user");
+const {uplload} = require('../multer');
+const ErrorHandler = require("../utils/ErrorHandler");
 
-const storage = multer.diskStorage({
-    destination: function(req,res,cb){
-        cb(null,"uploads");
-    },
-    filename: function(req,file,cb){
-        const uniqueSuffix = Date.now() + "-" + Math.round.apply(Math.random() *1e9);
-        const filename = file.originalname.split(".")[0];
+
+
+router.post("/create-user", upload.single("file"), async(req,res)=>{
+    const {name, email,password} = req.body;
+
+
+    const userEmail = await User.findOne({email});
+
+    if(userEmail){
+        return next(new ErrorHandler("User already exists",400));
+
     }
+    const filename = req.file.filename;
+    const fileUrl = path.join(filename);
+    const avatar = filter
+    const user = {
+        name: name,
+        email: email, 
+        password: password,
+        avatar: file
+
+    };
+    console.log(user);
+
+
 })
+
+module.exports = router;
