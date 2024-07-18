@@ -22,14 +22,17 @@ const Signup = () => {
   } 
 
   const handleSubmit = async (e) =>{
+    e.preventDefault();
     const config = {headers: {"Content-Type":"multipart/form-data"}}
-    const newForm = FormData();
-    newForm.append('file',avatar);
+    const newForm = new FormData();
     newForm.append('name',name);
-    newForm.append('emai',email);
+    newForm.append('email',email);
     newForm.append('password',password);
+    newForm.append('file',avatar);
     console.log('check new', newForm)
-    axios.post(`http://localhost:8000/api/v2/user/create-user`,newForm, config).then((res)=>{
+     axios.post(`http://localhost:8000/api/v2/user/create-user`,newForm, config).
+     
+     then((res)=>{
       console.log(res)
     }).catch((err)=>{
       console.log(err)
