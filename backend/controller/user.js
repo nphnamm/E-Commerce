@@ -3,10 +3,13 @@ const path = require("path");
 const router = express.Router();
 const User = require("../model/user");
 const {upload} = require('../multer');
+const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+
 const ErrorHandler = require("../utils/ErrorHandler");
 const fs = require("fs");
 const sendMail = require("../utils/sendMail");
 const jwt = require("jsonwebtoken");
+const sendToken = require("../utils/jwtToken");
 
 router.post("/create-user", upload.single("file"), async(req,res,next)=>{
     
@@ -86,5 +89,30 @@ const createActivationToken = (user) =>{
     return jwt.sign(user,process.env.ACTIVATION_SECRET,{expiresIn:"5m"});
 }
 
+router.post("/activation",catchAsyncErrors(async(req,res,next)=>{
+    try{
+        const {activationToken} = req.body;
+        const newUser = jwt.verify(activationToken,process.env.ACTIVATION_SECRET);
+        if(!newUser){
+            return next(new ErrorHandler("Invalid Activation Link",400));
+           
+        }
+        const { name, email, password, avatar } = newUser;
 
+        let user = await User.findOne({ email });
+        user = await User.create({
+            name,
+            email,
+            avatar,
+            password,
+        });
+        sendToken(user, 201, res);
+        if (user) {
+          return next(new ErrorHandler("User already exists", 400));
+        }
+
+    }catch(error){
+
+    }
+}))
 module.exports = router;
