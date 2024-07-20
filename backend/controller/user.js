@@ -22,6 +22,7 @@ router.post("/create-user", upload.single("file"), async(req,res,next)=>{
         const filename = req.file.filename;
         const filePath = `uploads/${filename}`;
 
+
         // fs.unlink is a Node. js function used to delete a file from the filesystem. 
         // It's part of the fsmodule, which provides an interface for 
         //interacting with the file system.
@@ -29,9 +30,6 @@ router.post("/create-user", upload.single("file"), async(req,res,next)=>{
             if(err){
                 console.log(err);
                 res.status(500).json({message: "Error deleting file"});
-
-            }else{
-                res.json({message: "File deleted successfully"});
 
             }
         });
@@ -71,13 +69,13 @@ router.post("/create-user", upload.single("file"), async(req,res,next)=>{
     }
 
 
-    console.log(user);
-    const newUser = await User.create(user);
-    res.status(201).json({
-        success: true,
-        newUser,
+    // console.log(user);
+    // const newUser = await User.create(user);
+    // res.status(201).json({
+    //     success: true,
+    //     newUser,
 
-    })
+    // })
     } catch (error) {
     return next(new ErrorHandler(error.message, 500));
     }
@@ -91,27 +89,40 @@ const createActivationToken = (user) =>{
 
 router.post("/activation",catchAsyncErrors(async(req,res,next)=>{
     try{
-        const {activationToken} = req.body;
-        const newUser = jwt.verify(activationToken,process.env.ACTIVATION_SECRET);
+        const {activation_token} = req.body;
+        if (!process.env.ACTIVATION_SECRET) {
+            return next(new ErrorHandler('Missing environment variable ACTIVATION_SECRET', 500));
+          }
+    
+        const newUser = jwt.verify(activation_token,process.env.ACTIVATION_SECRET);
+        console.log("check secret", process.env.ACTIVATION_SECRET);
         if(!newUser){
             return next(new ErrorHandler("Invalid Activation Link",400));
            
         }
+        console.log('check user', newUser);
+
+        console.log('check activation', activation_token);
+
         const { name, email, password, avatar } = newUser;
 
         let user = await User.findOne({ email });
+        if (user) {
+            return next(new ErrorHandler("User already exists", 400));
+        }
+
         user = await User.create({
             name,
             email,
             avatar,
             password,
         });
+        console.log('check activation', user);
         sendToken(user, 201, res);
-        if (user) {
-          return next(new ErrorHandler("User already exists", 400));
-        }
+
 
     }catch(error){
+        return next(new ErrorHandler(error.message, 500));
 
     }
 }))
