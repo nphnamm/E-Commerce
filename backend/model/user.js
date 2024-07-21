@@ -63,8 +63,8 @@ const userSchema = new mongoose.Schema({
 //TODO HASH PASSWORD
 
 userSchema.methods.getJwtToken = function () {
-    return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRE,
+    return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
+        expiresIn: process.env.JWT_EXPIRES,
         });
 
 };

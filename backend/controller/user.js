@@ -1,9 +1,10 @@
-const express = require("express")
+const express = require("express");
 const path = require("path");
 const router = express.Router();
 const User = require("../model/user");
-const {upload} = require('../multer');
+const { upload } = require("../multer");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+require("dotenv").config({ path: "config/.env" });
 
 const ErrorHandler = require("../utils/ErrorHandler");
 const fs = require("fs");
@@ -11,63 +12,54 @@ const sendMail = require("../utils/sendMail");
 const jwt = require("jsonwebtoken");
 const sendToken = require("../utils/jwtToken");
 
-router.post("/create-user", upload.single("file"), async(req,res,next)=>{
-    
-    try {
-    const {name, email,password} = req.body;
+router.post("/create-user", upload.single("file"), async (req, res, next) => {
+  try {
+    const { name, email, password } = req.body;
 
-    const userEmail = await User.findOne({email});
+    const userEmail = await User.findOne({ email });
 
-    if(userEmail){
-        const filename = req.file.filename;
-        const filePath = `uploads/${filename}`;
+    if (userEmail) {
+      const filename = req.file.filename;
+      const filePath = `uploads/${filename}`;
 
-
-        // fs.unlink is a Node. js function used to delete a file from the filesystem. 
-        // It's part of the fsmodule, which provides an interface for 
-        //interacting with the file system.
-        fs.unlink(filePath, (err)=>{
-            if(err){
-                console.log(err);
-                res.status(500).json({message: "Error deleting file"});
-
-            }
-        });
-        return next(new ErrorHandler("User already exists", 400));
-
-
+      // fs.unlink is a Node. js function used to delete a file from the filesystem.
+      // It's part of the fsmodule, which provides an interface for
+      //interacting with the file system.
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.log(err);
+          res.status(500).json({ message: "Error deleting file" });
+        }
+      });
+      return res.status(400).json({ message: "User already exists" });
+      // return next(new ErrorHandler("User already exists", 400));
     }
     const filename = req.file.filename;
     const fileUrl = path.join(filename);
     const user = {
-        name: name,
-        email: email, 
-        password: password,
-        avatar: fileUrl
-
+      name: name,
+      email: email,
+      password: password,
+      avatar: fileUrl,
     };
     const activationToken = createActivationToken(user);
     const activationUrl = `http://localhost:3000/activation/${activationToken}`;
 
-    console.log('check', activationUrl);
+    console.log("check", activationUrl);
     try {
-        await sendMail({
-            email: user.email,
-            subject: "Activate your account",
-            message: `Hello ${user.name}, please click on the link to active your account: ${activationUrl}`,
-
-        })
-        res.status(201).json({
-            success:true,
-            message: `please check your email: -${user.email} to activate your account`
-        })
-
-    }catch(error){
-        console.log("Error", error);
-        return next(new ErrorHandler(error.message,500));
-
+      await sendMail({
+        email: user.email,
+        subject: "Activate your account",
+        message: `Hello ${user.name}, please click on the link to active your account: ${activationUrl}`,
+      });
+      res.status(201).json({
+        success: true,
+        message: `please check your email: ${user.email} to activate your account`,
+      });
+    } catch (error) {
+      console.log("Error", error);
+      return next(new ErrorHandler(error.message, 500));
     }
-
 
     // console.log(user);
     // const newUser = await User.create(user);
@@ -76,54 +68,85 @@ router.post("/create-user", upload.single("file"), async(req,res,next)=>{
     //     newUser,
 
     // })
-    } catch (error) {
+  } catch (error) {
     return next(new ErrorHandler(error.message, 500));
-    }
-
+  }
 });
 
 // Crete Activation Token
-const createActivationToken = (user) =>{
-    return jwt.sign(user,process.env.ACTIVATION_SECRET,{expiresIn:"5m"});
-}
+const createActivationToken = (user) => {
+  return jwt.sign(user, process.env.ACTIVATION_SECRET, { expiresIn: "5m" });
+};
 
-router.post("/activation",catchAsyncErrors(async(req,res,next)=>{
-    try{
-        const {activation_token} = req.body;
-        if (!process.env.ACTIVATION_SECRET) {
-            return next(new ErrorHandler('Missing environment variable ACTIVATION_SECRET', 500));
-          }
-    
-        const newUser = jwt.verify(activation_token,process.env.ACTIVATION_SECRET);
-        console.log("check secret", process.env.ACTIVATION_SECRET);
-        if(!newUser){
-            return next(new ErrorHandler("Invalid Activation Link",400));
-           
-        }
-        console.log('check user', newUser);
+router.post(
+  "/activation",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const { activation_token } = req.body;
 
-        console.log('check activation', activation_token);
+      const newUser = jwt.verify(
+        activation_token,
+        process.env.ACTIVATION_SECRET
+      );
+      console.log("check secret", process.env.ACTIVATION_SECRET);
+      if (!newUser) {
+        return next(new ErrorHandler("Invalid Activation Link", 400));
+      }
+      console.log("check user", newUser);
 
-        const { name, email, password, avatar } = newUser;
+      console.log("check activation", activation_token);
 
-        let user = await User.findOne({ email });
-        if (user) {
-            return next(new ErrorHandler("User already exists", 400));
-        }
+      const { name, email, password, avatar } = newUser;
 
-        user = await User.create({
-            name,
-            email,
-            avatar,
-            password,
-        });
-        console.log('check activation', user);
-        sendToken(user, 201, res);
+      let user = await User.findOne({ email });
+      if (user) {
+        return next(new ErrorHandler("User already exists", 400));
+      }
 
-
-    }catch(error){
-        return next(new ErrorHandler(error.message, 500));
-
+      user = await User.create({
+        name,
+        email,
+        avatar,
+        password,
+      });
+      console.log("check activation", user);
+      sendToken(user, 201, res);
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
     }
-}))
+  })
+);
+
+// login user
+router.post(
+    "/login-user",
+    catchAsyncErrors(async (req, res, next) => {
+      try {
+        const { email, password } = req.body;
+  
+        if (!email || !password) {
+          return next(new ErrorHandler("Please provide the all fields!", 400));
+        }
+  
+        const user = await User.findOne({ email }).select("+password");
+  
+        if (!user) {
+          return next(new ErrorHandler("User doesn't exists!", 400));
+        }
+  
+        const isPasswordValid = await user.comparePassword(password);
+  
+        if (!isPasswordValid) {
+          return next(
+            new ErrorHandler("Please provide the correct information", 400)
+          );
+        }
+  
+        sendToken(user, 201, res);
+      } catch (error) {
+        return next(new ErrorHandler(error.message, 500));
+      }
+    })
+  );
+
 module.exports = router;
