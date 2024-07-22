@@ -124,22 +124,29 @@ router.post(
       try {
         const { email, password } = req.body;
   
-        if (!email || !password) {
-          return next(new ErrorHandler("Please provide the all fields!", 400));
+        if (!email || !password) {  
+          
+          return res.status(400).json({ message: "Please Provide The All Fields!" });
+
+          //return next(new ErrorHandler("!", 400));
         }
   
         const user = await User.findOne({ email }).select("+password");
   
         if (!user) {
-          return next(new ErrorHandler("User doesn't exists!", 400));
+          return res.status(400).json({ message: "User Doesn't Exist !" });
+
+          return next(new ErrorHandler("", 400));
         }
   
-        const isPasswordValid = await user.comparePassword(password);
-  
+         const isPasswordValid = await user.comparePassword(password);
+        // const isPasswordValid = user.password.find(
+        //   (passwordEnter) => passsword === passwordEnter
+        // );
         if (!isPasswordValid) {
-          return next(
-            new ErrorHandler("Please provide the correct information", 400)
-          );
+     
+            return res.status(400).json({ message: "Please Provide Correct Informations !" });
+        
         }
   
         sendToken(user, 201, res);
