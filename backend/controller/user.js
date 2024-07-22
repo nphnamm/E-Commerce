@@ -11,6 +11,7 @@ const fs = require("fs");
 const sendMail = require("../utils/sendMail");
 const jwt = require("jsonwebtoken");
 const sendToken = require("../utils/jwtToken");
+const { isAuthenticated } = require("../middleware/auth");
 
 router.post("/create-user", upload.single("file"), async (req, res, next) => {
   try {
@@ -154,6 +155,24 @@ router.post(
         return next(new ErrorHandler(error.message, 500));
       }
     })
-  );
+);
+// load user 
+
+router.get("/getuser", isAuthenticated, catchAsyncErrors(async(req,res,next)=>{
+  try{
+      const user = await User.findById(req.user.id);
+      if(!user){
+        return next(new ErrorHandler("User doesn't exists", 400));
+
+      }
+      res.status(200).json({
+        success:true,
+        user
+      })
+
+  }catch(err){
+    return next(new ErrorHandler(err.message,500))
+  }
+}))
 
 module.exports = router;
