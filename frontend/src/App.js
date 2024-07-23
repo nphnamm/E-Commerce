@@ -8,19 +8,14 @@ import { ToastContainer, toast } from "react-toastify";
 import { useEffect } from "react";
 import axios from "axios";
 import { server } from "./server.js";
+import Store from "./redux/store.js";
+import { loadUser } from "./redux/actions/user.js";
 
 function App() {
   useEffect(() => {
-    axios
-      .get(`${server}/user/getuser`, { withCredentials: true })
-      .then((res) => {
-        toast.success(`Welcome ${res.data.user.name}`)
-        console.log(res.data);
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message);
-        console.log(err);
-      });
+
+    Store.dispatch(loadUser());
+
   }, []);
   return (
     <BrowserRouter>
