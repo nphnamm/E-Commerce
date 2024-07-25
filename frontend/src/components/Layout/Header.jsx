@@ -100,7 +100,7 @@ function Header() {
         } transition hidden 800px:flex items-center justify-between w-full bg-[#3321c8] h-[70px]`}
       >
         <div
-          className={`${styles.section} relative ${styles.noramlFlex} justify-between`}
+          className={`${styles.section} relative ${styles.normalFlex} justify-between`}
         >
           {/*Categories*/}
           <div onClick={() => setDropDown(!dropDown)}>
@@ -125,6 +125,9 @@ function Header() {
             </div>
           </div>
           {/*nav items*/}
+          <div className={`${styles.normalFlex}`}>
+
+          </div>
         </div>
       </div>
     </>

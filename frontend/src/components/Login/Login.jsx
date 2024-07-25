@@ -96,8 +96,8 @@ const Login = () => {
 
             </div>
             
-            <div className={`${styles.noramlFlex} justify-between`}>
-                  <div className={`${styles.noramlFlex}`}>
+            <div className={`${styles.normalFlex} justify-between`}>
+                  <div className={`${styles.normalFlex}`}>
                       <input
                         type="checkbox" name="remember-me" id="remember-me"
                         className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
@@ -128,7 +128,7 @@ const Login = () => {
               </button>
             </div>
             
-            <div className={`${styles.noramlFlex} w-full`}>
+            <div className={`${styles.normalFlex} w-full`}>
                   <h4>Not have any account?</h4>
                   <Link to="/sign-up" className="text-blue-600 hover:text-blue-400 pl-2">Sign Up
                   
