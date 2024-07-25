@@ -33,7 +33,11 @@ const Categories = () => {
                 };
                 return (
                     <div>
-                        <div className='flex items-center justify-center w-full h-[100px] cursor-pointer overflow-hidden'>
+                        <div 
+                        className='flex items-center justify-center w-full h-[100px] cursor-pointer overflow-hidden'
+                        key={i.id}
+                        onClick={()=>handleSubmit(i)}
+                        >
                             <h5 className={`text-[18px] leading-[1.3]`}>{i.title}</h5>
                             <img
                                 src={i.image_Url}
@@ -41,7 +45,6 @@ const Categories = () => {
                                 alt=''
                             />
                         </div>
-
                     </div>
                 )
             })}
