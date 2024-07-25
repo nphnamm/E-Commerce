@@ -134,6 +134,19 @@ function Header({activeHeading}) {
           <div className={`${styles.normalFlex}`}>
                   <Navbar active={activeHeading}/>
           </div>
+
+          {/*icon item: favorite, shopping cart, profile */}
+          {/*TODO: to justify three divs, i used display:flex 
+            and inside each div i also used display:flex and 
+            items-center, finally within each div tag I used 
+            display:relative for the div tag parent, margin 
+            right 15px, and use absolute for the child span 
+            tags, In the span child tag I use top and right 
+            to make the span tag appear in the top 
+            right and use leading-tight to set the line-heigt 
+            to 1 to align the text in the span tag between top and bottm  
+          */}
+              
           <div className="flex">
             <div className={`${styles.normalFlex}`}>
                 <div
