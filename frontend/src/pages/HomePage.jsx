@@ -10,7 +10,7 @@ function HomePage() {
      <Header activeHeading={1}/> 
       <Hero/>      
       <Categories/>
-      <BestDeals/>
+      {/* <BestDeals/> */}
 
     </div>
   )
