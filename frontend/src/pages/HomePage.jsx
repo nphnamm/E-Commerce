@@ -4,7 +4,7 @@ import Header from '../components/Layout/Header'
 function HomePage() {
   return (
     <div>
-     <Header /> 
+     <Header activeHeading={1}/> 
 
     </div>
   )
