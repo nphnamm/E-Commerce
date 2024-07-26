@@ -70,6 +70,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
   };
 
   return (
+
     <div className="bg-[#fff]">
       {data ? (
         <div className="fixed w-full h-screen top-0 left-0 bg-[#00000030] z-40 flex items-center justify-center">
@@ -82,11 +83,11 @@ const ProductDetailsCard = ({ setOpen, data }) => {
 
             <div className="block w-full 800px:flex">
               <div className="w-full 800px:w-[50%]">
-                <img src={`${data.images && data.images[0]?.url}`} alt="" />
+                <img src={`${data.image_Url && data.image_Url[0]?.url}`} alt="" />
                 <div className="flex">
                   <Link to={`/shop/preview/${data.shop._id}`} className="flex">
                     <img
-                      src={`${data.images && data.images[0]?.url}`}
+                      src={`${data.shop.shop_avatar.url && data.shop.shop_avatar.url}`}
                       alt=""
                       className="w-[50px] h-[50px] rounded-full mr-2"
                     />
@@ -94,7 +95,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                       <h3 className={`${styles.shop_name}`}>
                         {data.shop.name}
                       </h3>
-                      <h5 className="pb-3 text-[15px]">{data?.ratings} Ratings</h5>
+                      <h5 className="pb-3 text-[15px]">{data?.rating} Ratings</h5>
                     </div>
                   </Link>
                 </div>
@@ -117,10 +118,10 @@ const ProductDetailsCard = ({ setOpen, data }) => {
 
                 <div className="flex pt-3">
                   <h4 className={`${styles.productDiscountPrice}`}>
-                    {data.discountPrice}$
+                    {data.discount_price}$
                   </h4>
                   <h3 className={`${styles.price}`}>
-                    {data.originalPrice ? data.originalPrice + "$" : null}
+                    {data.price ? data.price + "$" : null}
                   </h3>
                 </div>
                 <div className="flex items-center mt-12 justify-between pr-3">
