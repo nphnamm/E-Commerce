@@ -70,11 +70,14 @@ const ProductDetailsCard = ({ setOpen, data }) => {
   };
 
   return (
-
+    // DIALOG PRODUCT
     <div >
       {data ? (
         // TODO: use a div tag full heihgt and width full set background is gray and z-index 40 , items-center to align items vertically , justify-center to align items horizontally
         <div className="fixed w-full h-screen top-0 left-0 bg-[#00000030] z-40 flex items-center justify-center">
+          {/* // TODO: if it is a phone screen the width will be 90% and the height will take up 9/10 of the screen 
+          // TODO: If the screen is larger than 800px, the width will be 60 percent and the height will be 75/100 of the screen
+          // TODO: Use overflow-y-scroll so that if the content takes up more than the height, a scroll will be displayed to scroll down to the content below. */}
 
           <div className="w-[90%] 800px:w-[60%] h-[90vh] overflow-y-scroll 800px:h-[75vh] bg-white rounded-md shadow-sm relative p-4">
             <RxCross1
@@ -84,6 +87,8 @@ const ProductDetailsCard = ({ setOpen, data }) => {
             />
 
             <div className="block w-full 800px:flex">
+
+              {/* // TODO: 50% screen of the product */}
               <div className="w-full 800px:w-[50%]">
                 <img src={`${data.image_Url && data.image_Url[0]?.url}`} alt="" />
                 <div className="flex">
@@ -116,6 +121,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                 <h1 className={`${styles.productTitle} text-[20px]`}>
                   {data.name}
                 </h1>
+                {/* // TODO: p is block tag */}
                 <p>{data.description}</p>
 
                 <div className="flex pt-3">

@@ -16,8 +16,8 @@ const BestDeals = () => {
   }, []);
   console.log('product card', productData);
   return (
+        //TODO: if max screen is 1385 when use styles section then screen is 1269 and each div is 253
     <div>
-   
       <div className={`${styles.section}`}>
         <div className={`${styles.heading}`}>
           <h1>Best Deals</h1>
