@@ -11,6 +11,8 @@ const ProductCard = ({data,isEvent}) => {
   // const { cart } = useSelector((state) => state.cart);
   const [click, setClick] = useState(false);
   const [open, setOpen] = useState(false);
+  const [imgSrc, setImgSrc] = useState("Invalid Image Source");
+
   // const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,7 +20,10 @@ const ProductCard = ({data,isEvent}) => {
     //   setClick(true);
     // } else {
     //   setClick(false);
+
     // }
+
+    setImgSrc( data.image_Url[0].url)
   }, []);
 
   const removeFromWishlistHandler = (data) => {
@@ -47,17 +52,16 @@ const ProductCard = ({data,isEvent}) => {
   };
   const d = data.name;
   const product_name = d.replace(/\s+/g,"-");
-  const image = data.image_Url[0].url ? data.image_Url[0].url : 'https://www.fs-code.com/storage/blogs/404-error-1633957800.jpg';
   return (
+    //TODO: Full width is 253 
     <>
-    <div className='w-full h-[370px] bg-white rouded-lg shadow-sm p-3 relative cursor-pointer'>
-          <div className='flex justify-end'></div>
+    <div className='w-full h-[370px] bg-white rouded-lg shadow-lg p-3 relative cursor-pointer'>
+          {/* <div className='flex justify-end'></div> */}
           
           <Link to={`${isEvent === true ? `/product/${data.id}?isEvent=true`: `product/${data.id}`}`}>
             <img 
-            src={image} 
-            onerror="this.src='https://www.fs-code.com/storage/blogs/404-error-1633957800.jpg'"
-
+            src={imgSrc} 
+            onError = {() => setImgSrc("https://www.fs-code.com/storage/blogs/404-error-1633957800.jpg")}
             alt={data.title} 
             className='w-full h-[170px] object-contain'/>
           
