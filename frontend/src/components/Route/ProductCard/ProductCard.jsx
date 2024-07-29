@@ -58,6 +58,8 @@ const ProductCard = ({data,isEvent}) => {
     <div className='w-full h-[370px] bg-white rouded-lg shadow-lg p-3 relative cursor-pointer'>
           {/* <div className='flex justify-end'></div> */}
           
+
+          {/* //TODO: Use object-contain to keep the image size the same even if the screen is resized. */}
           <Link to={`${isEvent === true ? `/product/${data.id}?isEvent=true`: `product/${data.id}`}`}>
             <img 
             src={imgSrc} 
@@ -67,12 +69,13 @@ const ProductCard = ({data,isEvent}) => {
           
           </Link>
           <Link to={`/shop/preview/${data?.shop.id}`}>
-            <h5 className={`${styles?.shop_name}`}>{data.shop.name}</h5>
+            <h5 className={`${styles?.shop_name}`}>{data.shop.name}</h5> 
+            {/* //TODO: h1 -> h5 block tags */}
           </Link>
           <Link to={`${isEvent === true ? `/product/${data.id}?isEvent=true`: `product/${data.id}`}`}>
             <h4 className='pb-3 font-[500]'>
               {data.name.length > 40 ? data.name.slice(0,40) + "..." : data.name}
-            
+              {/* //TODO: Cut off the last part if the product name is longer than 40 characters and replace it with `...` */}
             </h4>
             <div className='flex'>
               <Ratings rating={data?.rating}/>
