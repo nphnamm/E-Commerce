@@ -74,7 +74,7 @@ function Header({activeHeading}) {
                 {searchData &&
                   searchData.map((i, index) => {
                     return (
-                      <Link to={`/product/${i.id}`}>
+                      <Link to={`/products/${i.id}`}>
                         <div className="w-full flex items-start py-3 hover:bg-slate-300   border-b-2 border-neutral-400 mb-2 ">
                           <img
                             src={`${i.image_Url[0]?.url}`}
