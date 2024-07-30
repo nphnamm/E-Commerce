@@ -9,7 +9,7 @@ const EventCard = ({active,data}) => {
 
     }
   return (
-    <div className={`w-full block bg-white rounded-lg ${active ? "unset" : "mb-12"} lg:flex p-2`}>
+    <div className={`w-full block bg-white rounded-lg lg:flex p-2 mb-12`}>
         <div className='w-full lg:w-[50%] m-auto'>
             <img src="https://m.media-amazon.com/images/I/31Vle5fVdaL.jpg" alt=''/>
         </div>
@@ -46,9 +46,9 @@ const EventCard = ({active,data}) => {
                 500 sold
             </span>
         </div>
-        </div>
-    
         <CountDown />
+       
+    
         <br/>
         {/* <div className='flex items-center'>
             <Link to={`/product/${data._id}?isEvent=true`}>
@@ -65,6 +65,7 @@ const EventCard = ({active,data}) => {
 
             </div>
         </div> */}
+         </div>
     </div>
   )
 }
