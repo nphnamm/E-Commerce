@@ -2,7 +2,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { LoginPage, SignupPage, ActivationPage, HomePage,ProductsPage ,BestSellingPage} from "./Routes.js";
+import { LoginPage, SignupPage, ActivationPage, HomePage,ProductsPage ,BestSellingPage,EventsPage , FAQPage} from "./Routes.js";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useEffect } from "react";
@@ -35,6 +35,9 @@ function App() {
           path="best-selling"
           element={<BestSellingPage />}
         />
+        <Route path="/events" element={<EventsPage />} />
+        <Route path="/faq" element={<FAQPage />} />
+
       </Routes>
       <ToastContainer
         position="bottom-center"
