@@ -4,7 +4,7 @@ import { navItems } from '../../static/data'
 import { Link } from 'react-router-dom'
 
 function Navbar({active}) {
-    console.log('active', active);
+    // console.log('active', active);
   return (
     <div className={`block 800px:${styles.normalFlex}`}>
         
