@@ -34,12 +34,12 @@ const Signup = () => {
      axios.post(`http://localhost:8000/api/v2/user/create-user`,newForm, config).
      then((res)=>{
       if(res.data.success === true){
+        toast.success(res.data.message);
         setName("");
         setEmail("");
         setPassword("");
         setAvatar();
-        toast.success(res.data.message);
-        navigate("/")
+        // navigate("/")
       }
     }).catch((err)=>{
       toast.error(err.response.data.message)
