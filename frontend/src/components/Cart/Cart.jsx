@@ -4,6 +4,7 @@ import styles from '../../styles/styles';
 import { IoBagHandleOutline } from "react-icons/io5";
 import { HiOutlineMinus, HiPlus } from "react-icons/hi";
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 const Cart = ({setOpenCart}) => {
 
@@ -125,15 +126,13 @@ const Cart = ({setOpenCart}) => {
 
                     </div>
                     {/*Item length*/}
-                    <div className={`${styles.normalFlex}`}>
+                    <div className={`${styles.normalFlex} p-4`}>
                         <IoBagHandleOutline
                             size={25}
 
                         />
                         <h5 className='pl-2 text-[20px] font-[500]'>
-                            {cartData && cartData.length}
-                            
-                            items
+                            {cartData && cartData.length} items
                             
                         </h5>
                     </div>
@@ -151,8 +150,19 @@ const Cart = ({setOpenCart}) => {
                         ))}
 
                     </div>
+                </div>
+              <div className='px-5 mb-3'>
+                {/* //Checkout button */}
+                    <Link to="/checkout">
+                      <div className='h-[45px] flex items-center justify-center w-[100%] bg-[#e44343] rounded-[5px]'>
+                          <h1 className='text-[#fff] text-[18px] font-[600]'>
+                              Checkout Now (USD$1080)
+                          </h1>
+                      </div>
+                    </Link>
 
-            </div>
+              </div>
+
 
 
         </div>
@@ -180,13 +190,13 @@ const CartSingle =({data,quantityChangeHandler,removeFromCartHandler})=>{
             <div className='w-full flex items-center'>
                 <div>
                     <div 
-                    className={`bg-[#e44343] border border-[#e4434373] rounded=full w-[25px] h-[25px] ${styles.normalFlex} justify-center cursor-pointer`}
+                    className={`bg-[#e44343] border border-[#e4434373] rounded-full w-[25px] h-[25px] ${styles.normalFlex} justify-center cursor-pointer`}
                     onClick={()=> setValue(value + 1)}
                     >
                         <HiPlus size={18} color='#fff'/>
 
                     </div>
-                    <span className='pl-[10px]'>10</span>
+                    <span className='pl-[10px]'>{value}</span>
                     <div className='bg-[#a7abb14f] rounded-full w-[25px] h-[25px] flex items-center justify-center cursor-pointer'
                     onClick={()=> setValue(value === 1 ? 1 : value -1)}
                     >
