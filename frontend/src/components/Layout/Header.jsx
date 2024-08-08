@@ -17,7 +17,7 @@ import Wishlist from "../Wishlist/Wishlist";
 
 function Header({activeHeading}) {
   const {isAuthenticated, user} = useSelector((state) => state.user);
-  console.log('user', user);
+  // console.log('user', user);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState(null);
   const [active, setActive] = useState(false);

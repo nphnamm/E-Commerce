@@ -52,6 +52,7 @@ const ProductCard = ({data,isEvent}) => {
   };
   const d = data.name;
   const product_name = d.replace(/\s+/g,"-");
+  console.log('product name', product_name);
   return (
     //TODO: Full width is 253 
     <>

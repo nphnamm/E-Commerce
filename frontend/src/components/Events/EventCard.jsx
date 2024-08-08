@@ -18,8 +18,8 @@ const EventCard = ({active,data}) => {
             <img src="https://m.media-amazon.com/images/I/31Vle5fVdaL.jpg" alt=''/>
         </div>
 
-        // TODO: Use a div tag with flex and flex-col properties to place items vertically and if you have to
-        // TODO: set up layout in those div tags, you can still use flex property.
+        {/* // TODO: Use a div tag with flex and flex-col properties to place items vertically and if you have to
+        // TODO: set up layout in those div tags, you can still use flex property. */}
         <div className='w-full lg:w-[50%] flex flex-col justify-center'>
             <h2 className={`${styles.productDiscountPrice}`}>
                 {/* {data.name} */}

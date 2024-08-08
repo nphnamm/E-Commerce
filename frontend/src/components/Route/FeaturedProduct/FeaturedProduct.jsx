@@ -4,6 +4,7 @@ import { productData } from "../../../static/data";
 import ProductCard from "../ProductCard/ProductCard";
 
 const FeaturedProduct = () => {
+  // console.log('product ', productData)
   return (
     <div>
       <div className={`${styles.section}`}>

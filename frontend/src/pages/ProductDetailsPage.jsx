@@ -7,19 +7,23 @@ import Footer from '../components/Layout/Footer';
 
 const ProductDetailsPage = () => {
     const {name} = useParams();
-    console.log('name',name)
+ 
     const [data,setData] = useState(null);
     const productName = name.replace(/-/g," ");
+    console.log('productname',productName);
+    console.log('productname1',productData);
+
     useEffect(()=>{
         const data = productData.find((i)=>i.name === productName)
         setData(data);
     },[])
+    console.log('check dataaa', data);
   return (
     <div>
         <Header/>
 
-        <ProductDetails/>
-        <h1>{data.name}</h1>
+        <ProductDetails data={data}/> 
+         {/* <h1>{data.name}</h1>  */}
         <Footer/>
     </div>
   )

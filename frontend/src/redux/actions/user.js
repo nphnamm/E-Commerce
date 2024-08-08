@@ -19,7 +19,7 @@ export const loadUser = () => async(dispatch) =>{
             
 
         });
-        console.log("data", data.user.name);
+        // console.log("data", data.user.name);
         toast.success(`Welcome ${data.user.name} !`)
 
         
