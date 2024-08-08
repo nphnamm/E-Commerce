@@ -15,7 +15,16 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <div className="bg-[#000] text-white">
+
+      {/* //TODO: The above Part, if the application is on mobile screen, the items will have a maximum width.
+      //TODO: otherwise if it is on a large screen of 768px, the items will have the flex attribute. */}
+
+
       <div className="md:flex md:justify-between md:items-center sm:px-12 px-4 bg-[#342ac8] py-7">
+        
+        {/* //TODO: if the application is on mobile screen, the h1 tag will have a width attribute according to the content, but 
+        //TODO: on screens larger than 768px, it will have a size that takes up 2/5 of the width of the surrounding div tag.  */}
+
         <h1 className="lg:text-4xl text-3xl md:mb-0 mb-6 lg:leading-normal font-semibold md:w-2/5">
           <span className="text-[#56d879]">Subscribe</span> us for get news
           <br />
@@ -35,6 +44,8 @@ const Footer = () => {
           </button>
         </div>
       </div>
+
+      {/* //TODO: text-center <=> text-align: center  */}
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6 sm:px-8 px-5 py-16 sm:text-center">
         <ul className="px-5 text-center sm:text-start flex sm:block flex-col items-center">
           <img
@@ -104,6 +115,9 @@ const Footer = () => {
             </li>
           ))}
         </ul>
+
+
+
       </div>
 
       <div
