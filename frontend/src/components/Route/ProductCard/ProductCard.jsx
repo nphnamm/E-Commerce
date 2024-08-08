@@ -60,7 +60,7 @@ const ProductCard = ({data,isEvent}) => {
           
 
           {/* //TODO: Use object-contain to keep the image size the same even if the screen is resized. */}
-          <Link to={`${isEvent === true ? `/product/${data.id}?isEvent=true`: `product/${data.id}`}`}>
+          <Link to={`/product/${product_name}`}>
             <img 
             src={imgSrc} 
             onError = {() => setImgSrc("https://www.fs-code.com/storage/blogs/404-error-1633957800.jpg")}
