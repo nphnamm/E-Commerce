@@ -181,14 +181,14 @@ const CartSingle =({data,quantityChangeHandler,removeFromCartHandler})=>{
                 <div>
                     <div 
                     className={`bg-[#e44343] border border-[#e4434373] rounded=full w-[25px] h-[25px] ${styles.normalFlex} justify-center cursor-pointer`}
-                    onClick={()=> increment(data)}
+                    onClick={()=> setValue(value + 1)}
                     >
                         <HiPlus size={18} color='#fff'/>
 
                     </div>
                     <span className='pl-[10px]'>10</span>
                     <div className='bg-[#a7abb14f] rounded-full w-[25px] h-[25px] flex items-center justify-center cursor-pointer'
-                    onClick={()=> decrement(data)}
+                    onClick={()=> setValue(value === 1 ? 1 : value -1)}
                     >
                         <HiOutlineMinus size={16} color="#7d879c"/>
 

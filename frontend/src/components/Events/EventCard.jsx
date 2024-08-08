@@ -9,11 +9,18 @@ const EventCard = ({active,data}) => {
 
     }
   return (
+    //TODO: if the application is on mobile screen, the item will have the block attribute, 
+    //TODO: and if it is on a desktop screen, it will have the flex attribute. If the actie value is true, the margin bottom will be set to 0px, otherwise it will be 12px
+
+
     <div className={`w-full block bg-white rounded-lg ${active ? "unset" : "mb-12"} lg:flex p-2`}>
         <div className='w-full lg:w-[50%] m-auto'>
             <img src="https://m.media-amazon.com/images/I/31Vle5fVdaL.jpg" alt=''/>
         </div>
-        <div className='w-full lg:[w-50%] flex flex-col justify-center'>
+
+        // TODO: Use a div tag with flex and flex-col properties to place items vertically and if you have to
+        // TODO: set up layout in those div tags, you can still use flex property.
+        <div className='w-full lg:w-[50%] flex flex-col justify-center'>
             <h2 className={`${styles.productDiscountPrice}`}>
                 {/* {data.name} */}
                 Iphone 14pro max 8/256gb
