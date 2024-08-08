@@ -13,6 +13,7 @@ import Navbar from "./Navbar";
 import { useSelector } from "react-redux";
 import { backend_url } from "../../server";
 import Cart from "../Cart/Cart";
+import Wishlist from "../Wishlist/Wishlist";
 
 function Header({activeHeading}) {
   const {isAuthenticated, user} = useSelector((state) => state.user);
@@ -202,7 +203,13 @@ function Header({activeHeading}) {
                       
                   </div>
               </div>
+               {/* cart popup */}
               {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
+              
+               {/* wishlist popup */}
+              {openWishlist ? (
+                <Wishlist setOpenWishlist={setOpenWishlist} />
+              ) : null}
 
 
   
