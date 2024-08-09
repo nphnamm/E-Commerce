@@ -316,6 +316,7 @@ export const navItems = [
         },
         ratings: 4.2,
       },
+      price: 999,
       discount_price: 1099,
       rating: 5,
       total_sell: 80,
