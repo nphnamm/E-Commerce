@@ -71,7 +71,7 @@ const Footer = () => {
             />
           </div>
         </ul>
-
+        {/* //TODO: use text-start to align all lines evenly to the beginnning of the line. */}
         <ul className="text-center sm:text-start">
           <h1 className="mb-1 font-semibold">Company</h1>
           {footerProductLinks.map((link,index) => (
