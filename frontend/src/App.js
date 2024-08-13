@@ -10,6 +10,7 @@ import axios from "axios";
 import { server } from "./server.js";
 import Store from "./redux/store.js";
 import { loadUser } from "./redux/actions/user.js";
+import ProfilePage from "./pages/ProfilePage.jsx";
 
 function App() {
   useEffect(() => {
@@ -31,6 +32,13 @@ function App() {
         />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/faq" element={<FAQPage />} />
+        {/* <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/order/success/:id" element={<OrderSuccessPage />} /> */}
+        <Route path="/profile" element={<ProfilePage />} />
+
+
+
 
       </Routes>
       <ToastContainer
