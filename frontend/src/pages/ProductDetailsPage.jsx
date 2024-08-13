@@ -4,6 +4,7 @@ import { productData } from '../static/data';
 import Header from '../components/Layout/Header';
 import ProductDetails from '../components/Route/Products/ProductDetails';
 import Footer from '../components/Layout/Footer';
+import SuggestedProduct from '../components/Route/Products/SuggestedProduct';
 
 const ProductDetailsPage = () => {
     const {name} = useParams();
@@ -23,7 +24,7 @@ const ProductDetailsPage = () => {
         <Header/>
 
         <ProductDetails data={data}/> 
-         {/* <h1>{data.name}</h1>  */}
+        {data && <SuggestedProduct data={data}/>}
         <Footer/>
     </div>
   )
