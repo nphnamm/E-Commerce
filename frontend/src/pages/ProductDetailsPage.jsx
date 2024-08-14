@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { productData } from '../static/data';
 import Header from '../components/Layout/Header';
-import ProductDetails from '../components/Route/Products/ProductDetails';
 import Footer from '../components/Layout/Footer';
-import SuggestedProduct from '../components/Route/Products/SuggestedProduct';
+import SuggestedProduct from '../components/Products/SuggestedProduct';
+import ProductDetails from '../components/Products/ProductDetails';
 
 const ProductDetailsPage = () => {
     const {name} = useParams();

@@ -30,7 +30,7 @@ const Signup = () => {
     newForm.append('email',email);
     newForm.append('password',password);
     newForm.append('file',avatar);
-    console.log('check new', newForm)
+    // console.log('check new', newForm)
      axios.post(`http://localhost:8000/api/v2/user/create-user`,newForm, config).
      then((res)=>{
       if(res.data.success === true){

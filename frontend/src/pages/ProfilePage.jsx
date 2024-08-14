@@ -17,7 +17,7 @@ const ProfilePage = () => {
 
 
         </div> 
-         <ProfileContent/>
+         <ProfileContent active={active} />
       </div>
     </div>
   )

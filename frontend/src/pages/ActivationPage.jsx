@@ -6,7 +6,7 @@ import axios from 'axios';
 function ActivationPage() {
   const {activation_token} = useParams();
   const [error, setError] = useState(false);
-  console.log('check', activation_token);
+  // console.log('check', activation_token);
   useEffect(()=>{
     if(activation_token){
       const actiavtionEmail = async () =>{
@@ -15,7 +15,7 @@ function ActivationPage() {
           await axios.post(`${server}/user/activation`,{
             activation_token,
           }).then((res) =>{
-            console.log(res);
+            // console.log(res);
 
           }).catch((err)=>{
             setError(true);

@@ -4,7 +4,7 @@ import styles from '../../../styles/styles'
 import { AiFillHeart, AiOutlineEye, AiOutlineHeart, AiOutlineShoppingCart } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
 import ProductDetailsCard from '../ProductDetailsCard/ProductDetailsCard'
-import Ratings from '../Products/Ratings'
+import Ratings from '../../Products/Ratings';
 
 const ProductCard = ({data,isEvent}) => {
   // const { wishlist } = useSelector((state) => state.wishlist);
