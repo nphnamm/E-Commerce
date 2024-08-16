@@ -229,7 +229,7 @@ const ProductDetailsInfo = ({ data }) => {
 
       {active === 1 ? (
         <>
-          <p className="py-2 text-[18px] leading-8 pb-10 whitespace-pre-line overflow-y-scroll">
+          <p className="py-2 text-[18px] leading-8 pb-10 whitespace-pre-line ">
             {data.description}
           </p>
          
