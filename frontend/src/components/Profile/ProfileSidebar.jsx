@@ -11,13 +11,23 @@ import { TbAddressBook } from "react-icons/tb";
 import { RxPerson } from "react-icons/rx";
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { server } from '../../server';
 
 const ProfileSidebar = ({setActive,active}) => {
   const {user} = useSelector((state) => state.user);
 
     const navigate = useNavigate();
     const logoutHandler = () => {
-     
+      axios.get(`${server}/user/logout`,{withCredentials:true}).then((res)=>{
+        toast.success(res.data.message);
+        navigate("/login");
+        window.location.reload(true);
+
+      }).catch((error)=>{
+        console.log(error.response.data.message);
+      })
     };
   return (
     <div className='w-full bg-white shadow-sm rounded-[10px] p-4 pt-8'>

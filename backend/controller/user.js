@@ -175,4 +175,21 @@ router.get("/getuser", isAuthenticated, catchAsyncErrors(async(req,res,next)=>{
   }
 }))
 
+// log out user
+router.get("/logout", isAuthenticated, catchAsyncErrors(async(req,res,next)=>{
+  try{
+      res.cookie("token", null,{
+        expires: new Date(Date.now()),
+        httpOnly: true,
+      });
+      res.status(201).json({
+        success:true,
+        message: "Logged Out Successfully !"
+      })
+
+  }catch(err){
+    return next(new ErrorHandler(err.message,500))
+  }
+}))
+
 module.exports = router;
