@@ -85,8 +85,8 @@ const ProfileContent = ({ active }) => {
                     />
                   </div>
                 </div>
-                <div className="w-full flex pb-3">
-                  <div className="w-[50%]">
+                <div className="w-full 800px:flex block pb-3">
+                  <div className="w-[100%] 800px:w-[50%]">
                     <label className="block pb-2">Phone Number</label>
                     <input
                       type="text"
@@ -97,7 +97,7 @@ const ProfileContent = ({ active }) => {
                     />
                   </div>
 
-                  <div className="w-[50%]">
+                  <div className="w-[100%] 800px:w-[50%]">
                     <label className="block pb-2">Zip Code</label>
                     <input
                       type="text"
@@ -108,8 +108,8 @@ const ProfileContent = ({ active }) => {
                     />
                   </div>
                 </div>
-                <div className="w-full flex pb-3">
-                  <div className="w-[50%]">
+                <div className="w-full 800px:flex block pb-3">
+                  <div className="w-[100%] 800px:w-[50%]">
                     <label className="block pb-2">Address 1</label>
                     <input
                       type="number"
@@ -120,7 +120,7 @@ const ProfileContent = ({ active }) => {
                     />
                   </div>
 
-                  <div className="w-[50%]">
+                  <div className="w-[100%] 800px:w-[50%]">
                     <label className="block pb-2">Adress 2</label>
                     <input
                       type="password"

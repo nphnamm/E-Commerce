@@ -11,8 +11,12 @@ import { server } from "./server.js";
 import Store from "./redux/store.js";
 import { loadUser } from "./redux/actions/user.js";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import ProtectedRoute from "./routes/ProtectedRoute.js";
+import { useSelector } from "react-redux";
 
 function App() {
+  const {loading, isAuthenticated} = useSelector((state) => state.user);
+  
   useEffect(() => {
 
     Store.dispatch(loadUser());
@@ -35,7 +39,14 @@ function App() {
         {/* <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/order/success/:id" element={<OrderSuccessPage />} /> */}
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
 
 
 
