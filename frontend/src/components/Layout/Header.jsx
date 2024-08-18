@@ -277,7 +277,7 @@ function Header({ activeHeading }) {
                 />
               </div>
 
-              <div className="my-8 w-[92%] m-auto h-[40px relative]">
+              <div className="my-8 w-[92%] m-auto h-[40px] relative]">
                 <input
                   type="search"
                   placeholder="Search Product..."
@@ -307,6 +307,43 @@ function Header({ activeHeading }) {
                   </div>
                 )}
               </div>
+              <Navbar active={activeHeading} />
+              <div className={`${styles.button} ml-4 !rounded-[4px]`}>
+                <Link to="/shop-create">
+                  <h1 className="text-[#fff] flex items-center">
+                    Become Seller <IoIosArrowForward className="ml-1" />
+                  </h1>
+                </Link>
+              </div>
+              <div className="flex w-full justify-center">
+                {isAuthenticated ? (
+                  <div>
+                    <Link to="/profile">
+                      <img
+                        src={`${user.avatar?.url}`}
+                        alt=""
+                        className="w-[60px] h-[60px] rounded-full border-[3px] border-[#0eae88]"
+                      />
+                    </Link>
+                  </div>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="text-[18px] pr-[10px] text-[#000000b7]"
+                    >
+                      Login /
+                    </Link>
+                    <Link
+                      to="/sign-up"
+                      className="text-[18px] text-[#000000b7]"
+                    >
+                      Sign up
+                    </Link>
+                  </>
+                )}
+              </div>
+
             </div>
           </div>
         )}
