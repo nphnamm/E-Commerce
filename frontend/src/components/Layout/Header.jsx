@@ -36,6 +36,8 @@ function Header({activeHeading}) {
       );
     setSearchData(filteredProducts);
   };
+  const [open, setOpen] = useState(false);
+
   // console.log("search term ", searchTerm);
   // console.log("search data ", searchData);
 
@@ -218,6 +220,45 @@ function Header({activeHeading}) {
   
           </div>
         </div>
+
+        {/* mobile header */}
+        <div
+        className={`${
+          active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
+        }
+      w-full h-[60px] bg-[#fff] z-50 top-0 left-0 shadow-sm 800px:hidden`}
+      >
+        <div className="w-full flex items-center justify-between">
+          <div>
+              <BiMenuAltLeft
+              size={40}
+              className="ml-4"
+              onClick={()=>setOpen(true)}
+              />
+          </div>
+          <div>
+            <Link to="/">
+              <img
+                src="https://shopo.quomodothemes.website/assets/images/logo.svg"
+                alt=""
+                className="mt-3 cursor-pointer"
+              />
+            </Link>
+          </div>
+          <div>
+            <div
+              className="relative mr-[20px]"
+              onClick={() => setOpenCart(true)}
+            >
+              <AiOutlineShoppingCart size={30} />
+              <span class="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px]  leading-tight text-center">
+                {/* {cart && cart.length} */}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       </>
       
     
