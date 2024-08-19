@@ -13,6 +13,7 @@ import { loadUser } from "./redux/actions/user.js";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.js";
 import { useSelector } from "react-redux";
+import ShopCreatePage from "./pages/ShopCreate.jsx";
 
 function App() {
   const {loading, isAuthenticated} = useSelector((state) => state.user);
@@ -36,9 +37,14 @@ function App() {
         />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/faq" element={<FAQPage />} />
-        {/* <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/payment" element={<PaymentPage />} />
-        <Route path="/order/success/:id" element={<OrderSuccessPage />} /> */}
+        {/* <Route path="/checkout" element={
+          <ProtectedRoute>
+
+            <CheckoutPage />
+          </ProtectedRoute>
+          }/> */}
+        {/* <Route path="/payment" element={<PaymentPage />} /> */}
+        {/* <Route path="/order/success/:id" element={<OrderSuccessPage />} />  */}
         <Route
           path="/profile"
           element={
@@ -47,6 +53,8 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/shop-create" element={<ShopCreatePage />} />
+
 
 
 
