@@ -8,9 +8,11 @@ const sendToken = require("../utils/jwtToken");
 const { isAuthenticated } = require("../middleware/auth");
 const shop = require("../model/shop");
 const ErrorHandler = require("../utils/ErrorHandler");
+const { upload } = require("../multer");
+const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 
 
-router.post('/create-shop',upload.single("file"),async(req,res,next)=>{
+router.post('/create-shop',upload.single("file"),catchAsyncErrors(async(req,res,next)=>{
 
     try{
         const {email} = req.body; 
@@ -30,10 +32,13 @@ router.post('/create-shop',upload.single("file"),async(req,res,next)=>{
         const filename = req.file.filename;
         const fileUrl = path.join(filename);
         const seller = {
-          name: name,
+          name: req.body.name,
           email: email,
-          password: password,
-          avatar: fileUrl,
+          password: req.body.password,
+          avatar:fileUrl,
+          address: req.body.address,
+          phoneNumber: req.body.phoneNumber,
+          zipCode:req.body.zipCode
         };
         const activationToken = createActivationToken(seller);
         const activationUrl = `http://localhost:3000/seller/activation/${activationToken}`;
@@ -54,11 +59,12 @@ router.post('/create-shop',upload.single("file"),async(req,res,next)=>{
           }
 
 
-    }catch(eror){
-        return next(new ErrorHandler(error.message,400));
+    }catch(error){
+         console.log("error!!!", error)
+         return next(new ErrorHandler(error.message,500));
 
     }
-})
+}))
 
 // create activation token
 const createActivationToken = (seller) => {
@@ -69,7 +75,7 @@ const createActivationToken = (seller) => {
 
 // activate user
 router.post(
-    "/activation",
+    "/shop/activation",
     catchAsyncErrors(async (req, res, next) => {
       try {
         const { activation_token } = req.body;

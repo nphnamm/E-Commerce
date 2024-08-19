@@ -14,6 +14,7 @@ import ProfilePage from "./pages/ProfilePage.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.js";
 import { useSelector } from "react-redux";
 import ShopCreatePage from "./pages/ShopCreate.jsx";
+import SellerActivationPage from "./pages/SellerActivationPage.jsx";
 
 function App() {
   const {loading, isAuthenticated} = useSelector((state) => state.user);
@@ -54,7 +55,10 @@ function App() {
           }
         />
         <Route path="/shop-create" element={<ShopCreatePage />} />
-
+        <Route
+          path="/seller/activation/:activation_token"
+          element={<SellerActivationPage />}
+        />
 
 
 
