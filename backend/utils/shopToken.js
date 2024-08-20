@@ -1,7 +1,7 @@
 // create token and saving that in cookies
 const sendShopToken = (user, statusCode, res) => {
     const token = user.getJwtToken();
-    console.log('check jwtToken ', token);
+    console.log('check jwtToken shop ', token);
 
     // Options for cookies
     const options = {

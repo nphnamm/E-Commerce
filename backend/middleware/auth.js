@@ -18,11 +18,11 @@ exports.isAuthenticated = catchAsyncErrors(async(req,res,next)=>{
 
 exports.isSeller = catchAsyncErrors(async(req,res,next) => {
     const {seller_token} = req.cookies;
-    console.log("check cookie", token);
+    console.log("check cookie", seller_token);
 
     if(!seller_token){
-        return next(new ErrorHandler("Please login to continue", 401));
-    }
+        return next(new ErrorHandler("Please login to continue access to your shop", 401));
+    }   
 
     const decoded = jwt.verify(seller_token, process.env.JWT_SECRET_KEY);
 

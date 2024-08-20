@@ -22,10 +22,10 @@ module.exports = (err, req, res,next) =>{
         const message = `Your url is expired please try again later`;
         err = new ErrorHandler(message, 400);
     }
-    res.status(err.status).json({
+    res.status(err.statusCode).json({
         success: false,
-        message: err.message
-    })
+        message: err.message,
+      });
 
 
 }

@@ -4,7 +4,7 @@ const router = express.Router();
 const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMail");
-const { isAuthenticated } = require("../middleware/auth");
+const { isAuthenticated, isSeller } = require("../middleware/auth");
 const Shop = require("../model/shop");
 const ErrorHandler = require("../utils/ErrorHandler");
 const { upload } = require("../multer");
@@ -149,4 +149,26 @@ router.post(
     }
   })
 );
+
+
+//Get User
+router.get("/getSeller", isSeller, catchAsyncErrors(async(req,res,next)=>{
+  try{
+      console.log('check', req.seller);
+      const seller = await Shop.findById(req.seller.id);
+      if(!seller){
+        return next(new ErrorHandler("Shop doesn't exists", 400));
+
+      }
+      res.status(200).json({
+        success:true,
+        seller
+      })
+
+  }catch(err){
+    console.log(error);
+    //  return next(new ErrorHandler(err.message,500))
+  }
+}))
+
 module.exports = router;

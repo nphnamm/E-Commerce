@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 
 import { LoginPage, SignupPage, ActivationPage, HomePage,ProductsPage ,BestSellingPage,EventsPage , FAQPage,ProductDetailsPage} from "./Routes.js";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,23 +9,35 @@ import { useEffect } from "react";
 import axios from "axios";
 import { server } from "./server.js";
 import Store from "./redux/store.js";
-import { loadUser } from "./redux/actions/user.js";
+import { loadSeller, loadUser } from "./redux/actions/user.js";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.js";
 import { useSelector } from "react-redux";
 import ShopCreatePage from "./pages/ShopCreate.jsx";
 import SellerActivationPage from "./pages/SellerActivationPage.jsx";
 import ShopLoginPage from "./pages/ShopLoginPage.jsx";
+import ShopDashboardPage from "./pages/Shop/ShopDashboardPage.jsx";
+import SellerProtectedRoute from "./routes/SellerProtectedRoute.js";
+import ShopHomePage from "./pages/Shop/ShopHomePage.jsx";
 
 function App() {
   const {loading, isAuthenticated} = useSelector((state) => state.user);
-  
+  const {isSeller,seller,isLoading} = useSelector((state) => state.seller);
+  // console.log(
+  // seller
+  // )
+  const navigate = useNavigate();
   useEffect(() => {
 
     Store.dispatch(loadUser());
+    Store.dispatch(loadSeller());
+
 
   }, []);
   return (
+    <>
+    
+    {isLoading || loading ? null : (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -57,12 +69,25 @@ function App() {
         />
         <Route path="/shop-create" element={<ShopCreatePage />} />
         <Route path="/shop-login" element={<ShopLoginPage />} />
+        <Route path="/shop/:id" element={
+          <SellerProtectedRoute>
+            <ShopHomePage/>
+          </SellerProtectedRoute>
+
+        } />
 
         <Route
           path="/seller/activation/:activation_token"
           element={<SellerActivationPage />}
         />
-
+         <Route
+          path="/dashboard"
+          element={
+   
+              <ShopDashboardPage />
+          
+          }
+        />
 
 
 
@@ -80,6 +105,10 @@ function App() {
         theme="dark"
       />
     </BrowserRouter>
+
+    )}
+    </>
+
   );
 }
 
