@@ -4,12 +4,12 @@ const router = express.Router();
 const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMail");
-const sendToken = require("../utils/jwtToken");
 const { isAuthenticated } = require("../middleware/auth");
-const shop = require("../model/shop");
+const Shop = require("../model/shop");
 const ErrorHandler = require("../utils/ErrorHandler");
 const { upload } = require("../multer");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const sendShopToken = require("../utils/shopToken");
 
 
 router.post('/create-shop',upload.single("file"),catchAsyncErrors(async(req,res,next)=>{
@@ -73,16 +73,16 @@ const createActivationToken = (seller) => {
     });
 };
 
-// activate user
+// activate shop
 router.post(
-    "/shop/activation",
+    "/activation",
     catchAsyncErrors(async (req, res, next) => {
       try {
         const { activation_token } = req.body;
   
         const newSeller = jwt.verify(
-          activation_token,
-          process.env.ACTIVATION_SECRET
+            activation_token,
+            process.env.ACTIVATION_SECRET
         );
   
         if (!newSeller) {
@@ -106,9 +106,12 @@ router.post(
           address,
           phoneNumber,
         });
-  
+
+        console.log("check activation", seller);
+
         sendShopToken(seller, 201, res);
       } catch (error) {
+        // console.log(error)
         return next(new ErrorHandler(error.message, 500));
       }
     })
