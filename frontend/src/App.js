@@ -21,12 +21,10 @@ import SellerProtectedRoute from "./routes/SellerProtectedRoute.js";
 import ShopHomePage from "./pages/Shop/ShopHomePage.jsx";
 
 function App() {
-  const {loading, isAuthenticated} = useSelector((state) => state.user);
-  const {isSeller,seller,isLoading} = useSelector((state) => state.seller);
+  
   // console.log(
   // seller
   // )
-  const navigate = useNavigate();
   useEffect(() => {
 
     Store.dispatch(loadUser());
@@ -35,9 +33,7 @@ function App() {
 
   }, []);
   return (
-    <>
-    
-    {isLoading || loading ? null : (
+  
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -106,8 +102,8 @@ function App() {
       />
     </BrowserRouter>
 
-    )}
-    </>
+
+    
 
   );
 }
