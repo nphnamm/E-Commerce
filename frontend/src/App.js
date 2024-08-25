@@ -2,7 +2,17 @@ import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 
-import { LoginPage, SignupPage, ActivationPage, HomePage,ProductsPage ,BestSellingPage,EventsPage , FAQPage,ProductDetailsPage} from "./Routes.js";
+import {
+  LoginPage,
+  SignupPage,
+  ActivationPage,
+  HomePage,
+  ProductsPage,
+  BestSellingPage,
+  EventsPage,
+  FAQPage,
+  ProductDetailsPage,
+} from "./Routes.js";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useEffect } from "react";
@@ -16,35 +26,32 @@ import { useSelector } from "react-redux";
 import ShopCreatePage from "./pages/ShopCreate.jsx";
 import SellerActivationPage from "./pages/SellerActivationPage.jsx";
 import ShopLoginPage from "./pages/ShopLoginPage.jsx";
-import ShopDashboardPage from "./pages/Shop/ShopDashboardPage.jsx";
+import { ShopCreateProduct, ShopDashboardPage } from "./routes/ShopRoutes.js";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute.js";
 import ShopHomePage from "./pages/Shop/ShopHomePage.jsx";
 
 function App() {
-  
   // console.log(
   // seller
   // )
   useEffect(() => {
-
     Store.dispatch(loadUser());
     Store.dispatch(loadSeller());
-
-
   }, []);
   return (
-  
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignupPage />} />
-        <Route path="/activation/:activation_token" element={<ActivationPage />}/>
-        <Route path="/products" element={<ProductsPage/>}/>
-        <Route path="/product/:name" element={<ProductDetailsPage/>}/>
-
-        <Route  path="best-selling" element={<BestSellingPage />}
+        <Route
+          path="/activation/:activation_token"
+          element={<ActivationPage />}
         />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/product/:name" element={<ProductDetailsPage />} />
+
+        <Route path="best-selling" element={<BestSellingPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/faq" element={<FAQPage />} />
         {/* <Route path="/checkout" element={
@@ -65,28 +72,28 @@ function App() {
         />
         <Route path="/shop-create" element={<ShopCreatePage />} />
         <Route path="/shop-login" element={<ShopLoginPage />} />
-        <Route path="/shop/:id" element={
-          <SellerProtectedRoute>
-            <ShopHomePage/>
-          </SellerProtectedRoute>
-
-        } />
+        <Route
+          path="/shop/:id"
+          element={
+            <SellerProtectedRoute>
+              <ShopHomePage />
+            </SellerProtectedRoute>
+          }
+        />
 
         <Route
           path="/seller/activation/:activation_token"
           element={<SellerActivationPage />}
         />
-         <Route
-          path="/dashboard"
+        <Route path="/dashboard" element={<ShopDashboardPage />} />
+        <Route
+          path="/dashboard-create-product"
           element={
-   
-              <ShopDashboardPage />
-          
+            <SellerProtectedRoute>
+              <ShopCreateProduct />
+            </SellerProtectedRoute>
           }
         />
-
-
-
       </Routes>
       <ToastContainer
         position="bottom-center"
@@ -101,10 +108,6 @@ function App() {
         theme="dark"
       />
     </BrowserRouter>
-
-
-    
-
   );
 }
 

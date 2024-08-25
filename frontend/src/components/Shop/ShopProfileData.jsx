@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "../../styles/styles";
-
+import { productData } from "../../static/data";
+import ProductCard from './../Route/ProductCard/ProductCard';
 const ShopProfileData = ({ isOwner }) => {
   const [active, setActive] = useState(1);
 
@@ -49,6 +50,19 @@ const ShopProfileData = ({ isOwner }) => {
           )}
         </div>
       </div>
+      <br/>
+      {active === 1 && (
+        <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] xl:grid-cols-4 xl:gap-[20px] mb-12 border-0">
+        {productData && productData.map((i,index) => (
+          <ProductCard data={i} key={index} isShop={true}/>
+          ))}
+
+        </div>
+      )}
+
+
+
+
     </div>
   );
 };
