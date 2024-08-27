@@ -3,10 +3,11 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { createProduct } from "../../redux/actions/product";
 
 function CreateProduct() {
   const { seller } = useSelector((state) => state.seller);
-//   const { success, error } = useSelector((state) => state.products);
+  const { isLoading,success, error } = useSelector((state) => state.products);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -20,15 +21,15 @@ function CreateProduct() {
   const [stock, setStock] = useState();
 
   useEffect(() => {
-    // if (error) {
-    //   toast.error(error);
-    // }
-    // if (success) {
-    //   toast.success("Product created successfully!");
-    //   navigate("/dashboard");
-    //   window.location.reload();
-    // }
-  }, []);
+    if (error) {
+      toast.error(error);
+    }
+    if (success) {
+      toast.success("Product created successfully!");
+      navigate("/dashboard");
+      window.location.reload();
+    }
+  }, [dispatch,error]);
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -75,6 +76,7 @@ function CreateProduct() {
     //     images,
     //   })
     // );
+    dispatch(createProduct(newForm));
   };
   console.log('check images', images);
 
