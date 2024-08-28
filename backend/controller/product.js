@@ -92,7 +92,10 @@ router.get("/logout", isAuthenticated, catchAsyncErrors(async(req,res,next)=>{
   }catch(err){
     return next(new ErrorHandler(err.message,500))
   }
-}))
+  
+}));
+
+
 
 
 
