@@ -1,5 +1,5 @@
 import React from 'react'
-import AllProducts from "../../components/Shop/AllProducts";
+import AllProducts from "../../components/Shop/AllProducts.jsx";
 import DashboardSideBar from '../../components/Shop/Layout/DashboardSidebar';
 import DashboardHeader from '../../components/Shop/Layout/DashboardHeader';
 
