@@ -1,72 +1,36 @@
-const mongoose = require("mongoose");
+const express = require("express");
+const cactchAsyncErrors = require("../middleware/catchAsyncErrors");
+const {upload} = require("../multer");
+const Event = require("../model/event");
+const router = express.Router();
 
-const eventSchema = new mongoose.Schema({
-    name:{
-        type: String,
-        required:[true,"Please enter your event product name!"],
-    },
-    description:{
-        type: String,
-        required:[true,"Please enter your event product description!"],
-    },
-    category:{
-        type: String,
-        required:[true,"Please enter your event product category!"],
-    },
-    start_Date: {
-        type: Date,
-        required: true,
-      },
-      Finish_Date: {
-        type: Date,
-        required: true,
-      },
-      status: {
-        type: String,
-        default: "Running",
-      },
-    tags:{
-        type: String,
-    },
-    originalPrice:{
-        type: Number,
-    },
-    discountPrice:{
-        type: Number,
-        required: [true,"Please enter your event product price!"],
-    },
-    stock:{
-        type: Number,
-        required: [true,"Please enter your event product stock!"],
-    },
-    images:[
-        {
-            public_id: {
-                type: String,
-                required: true,
-              },
-              url: {
-                type: String,
-                required: true,
-              },
-        },
-    ],
-    shopId:{
-        type: String,
-        required: true,
-    },
-    shop:{
-        type: Object,
-        required: true,
-    },
-    sold_out:{
-        type: Number,
-        default: 0,
-    },
-    createdAt:{
-        type: Date,
-        default: Date.now(),
+
+// create product
+router.post("/create-event",upload.array("images"), catchAsyncErrors(async(req,res,next)=>{
+    try{
+        const shopId = req.body.shopId;
+        const shop = await Shop.findById(shopId);
+        if(!shop){
+            return next(new ErrorHandler("Shop Id is invalid!", 400));
+
+        }else{
+            const files = req.files;
+            const imageUrls = files.map((file)=> `${file.filename}`);
+
+            const eventData = req.body;
+            eventData.images = imageUrls
+            eventData.shop = shop;
+            const product = await Event.create(eventData);
+            res.status(201).json({
+                success: true,
+                product,
+            })
+        }
+
+    }catch(error){
+        console.log('error',error);
+         return next(new ErrorHandler(error,400))
     }
-});
+}));
 
-module.exports = mongoose.model("Event", eventSchema);
+module.exports = router; 
