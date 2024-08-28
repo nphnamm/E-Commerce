@@ -24,14 +24,28 @@ const CreateEvent = () => {
   const [endDate, setEndDate] = useState(null);
 
   const handleStartDateChange = (e) => {
+    // alert(e.target.value)
     const startDate = new Date(e.target.value);
-    const minEndDate = new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000);
+    // console.log('check', startDate.toISOString());
+
+    const minEndDate = new Date(startDate.getTime() + 1 * 24 * 60 * 60 * 1000);
+    // console.log('min data', minEndDate);
+    const today = new Date();
+    // console.log('today',today.getTime());
+    // console.log('startDate',startDate.getTime());
+
+    // if(startDate.getTime() < today.getTime()){
+    //   toast.error("Date Invalid")
+    //   startDate = 0
+    //   return;
+    // }
     setStartDate(startDate);
     setEndDate(null);
     document.getElementById("end-date").min = minEndDate.toISOString.slice(
       0,
       10
     );
+   
   };
 
   const handleEndDateChange = (e) => {
@@ -42,7 +56,7 @@ const CreateEvent = () => {
   const today = new Date().toISOString().slice(0, 10);
 
   const minEndDate = startDate
-    ? new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000)
+    ? new Date(startDate.getTime() + 1 * 24 * 60 * 60 * 1000)
         .toISOString()
         .slice(0, 10)
     : "";
@@ -83,20 +97,19 @@ const CreateEvent = () => {
     images.forEach((image) => {
       newForm.append("images", image);
     });
-    const data = {
-      name,
-      description,
-      category,
-      tags,
-      originalPrice,
-      discountPrice,
-      stock,
-      images,
-      shopId: seller._id,
-      start_Date: startDate?.toISOString(),
-      Finish_Date: endDate?.toISOString(),
-    };
-    dispatch(createevent(data));
+    newForm.append("name", name);
+    newForm.append("description", description);
+    newForm.append("category", category);
+    newForm.append("tags", tags);
+    newForm.append("originalPrice", originalPrice);
+    newForm.append("discountPrice", discountPrice);
+    newForm.append("stock", stock);
+    newForm.append("shopId", seller._id);
+    newForm.append("start_Date", startDate.toISOString());
+    newForm.append("Finish_Date", endDate.toISOString());
+
+
+    dispatch(createevent(newForm));
   };
 
   return (
