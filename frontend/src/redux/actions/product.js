@@ -1,10 +1,8 @@
-
-
-// create product 
-
 import axios from "axios";
 import { server } from "../../server";
+const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 
+// create product 
 export const createProduct = (newForm)=> async (dispatch)=>{
     try{
         dispatch({
@@ -26,3 +24,18 @@ export const createProduct = (newForm)=> async (dispatch)=>{
     }
     
 }
+
+//get all products of a shop 
+Router.get("/get-all-products-shop/:id",catchAsyncErrors(async(req,res,next)=>{
+    try{
+        const products = await Product.find({shopId:req.params.id});
+        res.status(201).json({
+            success:true,
+            products,
+        })
+
+    }catch(error){
+        return next(new ErrorHandler(error,400));
+    }
+}))
+

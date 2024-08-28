@@ -94,6 +94,14 @@ function App() {
             </SellerProtectedRoute>
           }
         />
+        <Route
+          path="/dashboard-product"
+          element={
+            <SellerProtectedRoute>
+              <ShopAllProducts />
+            </SellerProtectedRoute>
+          }
+        />
       </Routes>
       <ToastContainer
         position="bottom-center"

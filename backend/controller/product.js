@@ -17,7 +17,8 @@ router.post("/create-product",upload.array("images"), catchAsyncErrors(async(req
 
         }else{
             const files = req.files;
-            const imageUrls = files.map((file)=> `${file.fileName}`);
+            console.log('files', files);
+            const imageUrls = files.map((file)=> `${file.filename}`);
             const productData = req.body;
             productData.images = imageUrls
             productData.shop = shop;
@@ -29,7 +30,8 @@ router.post("/create-product",upload.array("images"), catchAsyncErrors(async(req
         }
 
     }catch(error){
-        return next(new ErrorHandler(error,400))
+        console.log('error',error);
+         return next(new ErrorHandler(error,400))
     }
 }))
 
