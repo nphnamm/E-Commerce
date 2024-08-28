@@ -26,7 +26,7 @@ import { useSelector } from "react-redux";
 import ShopCreatePage from "./pages/ShopCreate.jsx";
 import SellerActivationPage from "./pages/SellerActivationPage.jsx";
 import ShopLoginPage from "./pages/ShopLoginPage.jsx";
-import { ShopCreateProduct, ShopDashboardPage } from "./routes/ShopRoutes.js";
+import { ShopCreateEvents, ShopCreateProduct, ShopDashboardPage } from "./routes/ShopRoutes.js";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute.js";
 import ShopHomePage from "./pages/Shop/ShopHomePage.jsx";
 import ShopAllProducts from "./pages/Shop/ShopAllProducts.jsx";
