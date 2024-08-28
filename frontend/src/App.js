@@ -103,6 +103,14 @@ function App() {
             </SellerProtectedRoute>
           }
         />
+         <Route
+          path="/dashboard-create-event"
+          element={
+            <SellerProtectedRoute>
+              <ShopCreateEvents />
+            </SellerProtectedRoute>
+          }
+        />
       </Routes>
       <ToastContainer
         position="bottom-center"
