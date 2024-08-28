@@ -3,6 +3,7 @@
 // create product 
 
 import axios from "axios";
+import { server } from "../../server";
 
 export const createProduct = (newForm)=> async (dispatch)=>{
     try{
@@ -11,7 +12,7 @@ export const createProduct = (newForm)=> async (dispatch)=>{
         });
         const config = {headers :{"Content-Type":"multipart/form-data"}};
   
-        const {data }= await axios.post(`${server}/product/create-product`,newForm, config);
+        const {data }= await axios.post(`${server }/product/create-product`,newForm, config);
 
         dispatch({
             type:"productCreateSuccess",

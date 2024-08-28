@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createProduct } from "../../redux/actions/product";
+import { categoriesData } from "../../static/data";
 
 function CreateProduct() {
   const { seller } = useSelector((state) => state.seller);
@@ -29,31 +30,37 @@ function CreateProduct() {
       navigate("/dashboard");
       window.location.reload();
     }
-  }, [dispatch,error]);
+  }, [dispatch,error,success]);
 
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    console.log('check file', files);
-    // setImages([]);
+    e.preventDefault();
+    let files = Array.from(e.target.files);
+    setImages((prevImages) => [...prevImages, ...files]);
+       const reader = new FileReader();
+     reader.readAsDataURL(files);
 
-    files.forEach((file) => {
-      const reader = new FileReader();
 
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setImages((old) => [...old, reader.result]);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
+    // console.log('check file', files);
+    // // setImages([]);
+
+    // files.forEach((file) => {
+    //   const reader = new FileReader();
+
+    //   reader.onload = () => {
+    //     if (reader.readyState === 2) {
+    //       setImages((old) => [...old, reader.result]);
+    //     }
+    //   };
+    //   reader.readAsDataURL(file);
+    // });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const newForm = new FormData();
-
+    console.log('check',images);
     images.forEach((image) => {
-      newForm.set("images", image);
+      newForm.append("images", image);
     });
     newForm.append("name", name);
     newForm.append("description", description);
@@ -100,6 +107,21 @@ function CreateProduct() {
         </div>
         <br />
         <div>
+          <label className="pb-2">Description</label>
+          <textarea
+            cols="30"
+            required
+            rows="8"
+            name="description"
+            type="text"
+            value={description}
+            className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Enter your product tags..."
+          ></textarea>
+        </div>
+        <br />
+        <div>
           <label className="pb-2">Tags</label>
           <input
             type="text"
@@ -109,6 +131,25 @@ function CreateProduct() {
             onChange={(e) => setTags(e.target.value)}
             placeholder="Enter your product tags..."
           />
+        </div>
+        <br />
+        <div>
+          <label className="pb-2">
+            Category <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full mt-2 border h-[35px] rounded-[5px]"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="Choose a category">Choose a category</option>
+            {categoriesData &&
+              categoriesData.map((i) => (
+                <option value={i.title} key={i.title}>
+                  {i.title}
+                </option>
+              ))}
+          </select>
         </div>
         <br />
         <div>
@@ -170,7 +211,7 @@ function CreateProduct() {
             {images &&
               images.map((i) => (
                 <img
-                  src={i}
+                  src={URL.createObjectURL(i)}
                   key={i}
                   alt=""
                   className="h-[120px] w-[120px] object-cover m-2"
