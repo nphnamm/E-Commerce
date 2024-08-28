@@ -6,6 +6,7 @@ const Shop = require("../model/shop");
 const {upload} = require("../multer");
 const ErrorHandler = require("../utils/ErrorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const { isAuthenticated, isSeller } = require("../middleware/auth");
 
 // create product
 router.post("/create-product",upload.array("images"), catchAsyncErrors(async(req,res,next)=>{
@@ -41,7 +42,7 @@ router.get(
     catchAsyncErrors(async (req, res, next) => {
       try {
         const products = await Product.find({ shopId: req.params.id });
-  
+        console.log('check product', products);
         res.status(201).json({
           success: true,
           products,
@@ -50,7 +51,50 @@ router.get(
         return next(new ErrorHandler(error, 400));
       }
     })
-  );
+);
+// delete product of a shop
+router.delete(
+  "/delete-shop-product/:id",
+  isSeller,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const productId = req.params.id;
+      const product = await Product.findByIdAndDelete(productId);
+
+      if (!product) {
+        return next(new ErrorHandler("Product is not found with this id", 404));
+      }    
+
+      
+
+      res.status(201).json({
+        success: true,
+        message: "Product Deleted successfully!",
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
+// log out user
+router.get("/logout", isAuthenticated, catchAsyncErrors(async(req,res,next)=>{
+  try{
+      res.cookie("seller_token", null,{
+        expires: new Date(Date.now()),
+        httpOnly: true,
+      });
+      res.status(201).json({
+        success:true,
+        message: "Logged Out Successfully !"
+      })
+
+  }catch(err){
+    return next(new ErrorHandler(err.message,500))
+  }
+}))
+
+
 
 
 module.exports = router;

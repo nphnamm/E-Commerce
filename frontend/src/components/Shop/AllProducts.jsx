@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProductsShop } from "../../redux/actions/product";
+import { deleteProduct, getAllProductsShop } from "../../redux/actions/product";
 import { AiOutlineDelete, AiOutlineEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
@@ -11,9 +11,10 @@ function AllProducts() {
   const { products, isLoading } = useSelector((state) => state.products);
   const { seller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
+  console.log('check seller', seller);
 
   const handleDelete = (id) => {
-    // dispatch(deleteProduct(id));
+    dispatch(deleteProduct(id));
     window.location.reload();
   };
   useEffect(() => {
@@ -86,7 +87,16 @@ function AllProducts() {
     },
   ];
   const row = [];
-
+  products &&
+    products.forEach((item) => {
+      row.push({
+        id: item._id,
+        name: item.name,
+        price: "US$ " + item.discountPrice,
+        Stock: item.stock,
+        sold: item?.sold_out,
+      });
+    });
   return (
     <>
       {isLoading ? (

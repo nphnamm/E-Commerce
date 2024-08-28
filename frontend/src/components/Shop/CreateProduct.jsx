@@ -30,14 +30,14 @@ function CreateProduct() {
       navigate("/dashboard");
       window.location.reload();
     }
-  }, [dispatch,error,success]);
+  }, [dispatch,error,success,images]);
 
   const handleImageChange = (e) => {
     e.preventDefault();
     let files = Array.from(e.target.files);
     setImages((prevImages) => [...prevImages, ...files]);
-       const reader = new FileReader();
-     reader.readAsDataURL(files);
+    // const reader = new FileReader();
+    // reader.readAsDataURL(files);
 
 
     // console.log('check file', files);

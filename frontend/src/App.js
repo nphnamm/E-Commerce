@@ -96,7 +96,7 @@ function App() {
           }
         />
         <Route
-          path="/dashboard-product"
+          path="/dashboard-products"
           element={
             <SellerProtectedRoute>
               <ShopAllProducts />
