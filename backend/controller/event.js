@@ -62,6 +62,32 @@ router.get(
         return next(new ErrorHandler(error, 400));
       }
     })
+);
+// delete event of a shop
+router.delete(
+    "/delete-shop-event/:id",
+    catchAsyncErrors(async (req, res, next) => {
+      try {
+
+        const productId = req.params.id;
+
+        const event = await Event.findByIdAndDelete(productId);
+  
+        if (!product) {
+          return next(new ErrorHandler("Product is not found with this id", 500));
+        }    
+  
+    
+      
+  
+        res.status(201).json({
+          success: true,
+          message: "Event Deleted successfully!",
+        });
+      } catch (error) {
+        return next(new ErrorHandler(error, 400));
+      }
+    })
   );
   
 module.exports = router; 
