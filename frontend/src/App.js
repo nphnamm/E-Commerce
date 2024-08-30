@@ -30,7 +30,8 @@ import {
   ShopCreateEvents,
   ShopCreateProduct,
   ShopDashboardPage,
-  ShopAllEvents
+  ShopAllEvents,
+  ShopAllCoupouns,
 } from "./routes/ShopRoutes.js";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute.js";
 import ShopHomePage from "./pages/Shop/ShopHomePage.jsx";
@@ -121,6 +122,14 @@ function App() {
           element={
             <SellerProtectedRoute>
               <ShopAllEvents />
+            </SellerProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard-coupouns"
+          element={
+            <SellerProtectedRoute>
+              <ShopAllCoupouns />
             </SellerProtectedRoute>
           }
         />

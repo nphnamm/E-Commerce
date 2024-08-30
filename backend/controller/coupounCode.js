@@ -7,14 +7,16 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const router = express.Router();
 const fs = require("fs");
 const { isSeller } = require("../middleware/auth");
+const CoupounCode = require("../model/coupounCode");
 
 // create coupounCode
 
 router.post(
-  "/create-coupoun-code",
+  "/create-coupon-code",
+  isSeller,
   catchAsyncErrors(async (req, res, next) => {
     try {
-      const isCoupounCodeExists = await coupounCode.find({
+      const isCoupounCodeExists = await CoupounCode.find({
         name: req.body.name,
       });
       if (isCoupounCodeExists.length !== 0) {
@@ -31,3 +33,21 @@ router.post(
     }
   })
 );
+
+// get all coupons of a shop
+router.get(
+    "/get-coupon/:id",
+    isSeller,
+    catchAsyncErrors(async (req, res, next) => {
+      try {
+        const couponCodes = await CoupounCode.find({ shopId: req.seller.id });
+        res.status(201).json({
+          success: true,
+          couponCodes,
+        });
+      } catch (error) {
+        return next(new ErrorHandler(error, 400));
+      }
+    })
+  );
+module.exports = router;
