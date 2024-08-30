@@ -5,6 +5,8 @@ const Event = require("../model/event");
 const Shop = require("../model/shop");
 const ErrorHandler = require("../utils/ErrorHandler");
 const router = express.Router();
+const fs = require("fs");
+
 
 
 // create product
@@ -71,12 +73,20 @@ router.delete(
 
         const productId = req.params.id;
 
-        const event = await Event.findByIdAndDelete(productId);
+        const event = await Event.findById(productId);
   
         if (!product) {
           return next(new ErrorHandler("Product is not found with this id", 500));
         }    
-  
+        const filePath = event.images;
+        fs.unlink(filePath,(err)=>{
+            if(err){
+                console.log('error',err);
+                res.status(500).json({message: "Error Deleting file"});
+
+            }
+        })
+
     
       
   
