@@ -1,18 +1,22 @@
 import axios from "axios";
 import { server } from "../../server";
+import { toast } from "react-toastify";
 
 // create event
-export const createevent = (data) => async (dispatch) => {
+export const createevent = (newForm) => async (dispatch) => {
   try {
     dispatch({
       type: "eventCreateRequest",
     });
+    const config = {headers :{"Content-Type":"multipart/form-data"}};
 
-    const { d } = await axios.post(`${server}/event/create-event`, data);
+    const { data } = await axios.post(`${server}/event/create-event`, newForm,config);
     dispatch({
       type: "eventCreateSuccess",
-      payload: d.event,
+      payload: data.event,
     });
+    toast.success("Created Event Successfully");
+
   } catch (error) {
     dispatch({
       type: "eventCreateFail",
