@@ -43,7 +43,7 @@ router.get(
     catchAsyncErrors(async (req, res, next) => {
       try {
         const products = await Product.find({ shopId: req.params.id });
-        console.log('check product', products);
+        // console.log('check product', products);
         res.status(201).json({
           success: true,
           products,
@@ -61,9 +61,10 @@ router.delete(
     try {
       const productId = req.params.id;
       const productData = await Product.findById(productId);
+      
+      console.log('product data', productData)
 
-
-      if (!product) {
+      if (!productData) {
         return next(new ErrorHandler("Product is not found with this id", 404));
       }    
 

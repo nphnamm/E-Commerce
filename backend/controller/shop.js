@@ -154,7 +154,7 @@ router.post(
 //Get User
 router.get("/getSeller", isSeller, catchAsyncErrors(async(req,res,next)=>{
   try{
-      console.log('check', req.seller);
+      // console.log('check', req.seller);
       const seller = await Shop.findById(req.seller.id);
       if(!seller){
         return next(new ErrorHandler("Shop doesn't exists", 400));

@@ -14,8 +14,9 @@ function AllProducts() {
   console.log('check seller', seller);
 
   const handleDelete = (id) => {
+    console.log('check id',id);
     dispatch(deleteProduct(id));
-    window.location.reload();
+     window.location.reload();
   };
   useEffect(() => {
     dispatch(getAllProductsShop(seller._id));
