@@ -6,6 +6,7 @@ const Shop = require("../model/shop");
 const ErrorHandler = require("../utils/ErrorHandler");
 const router = express.Router();
 const fs = require("fs");
+const { isSeller } = require("../middleware/auth");
 
 
 
@@ -68,6 +69,7 @@ router.get(
 // delete event of a shop
 router.delete(
     "/delete-shop-event/:id",
+    isSeller,
     catchAsyncErrors(async (req, res, next) => {
       try {
 
@@ -76,7 +78,7 @@ router.delete(
         
   
         if (!eventData) {
-          return next(new ErrorHandler("Product is not found with this id", 404));
+          return next(new ErrorHandler("Event is not found with this id", 404));
         }    
   
         eventData.images.forEach((imageUrl)=>{

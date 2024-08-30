@@ -1,0 +1,33 @@
+const express = require("express");
+const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const { upload } = require("../multer");
+const Event = require("../model/event");
+const Shop = require("../model/shop");
+const ErrorHandler = require("../utils/ErrorHandler");
+const router = express.Router();
+const fs = require("fs");
+const { isSeller } = require("../middleware/auth");
+
+// create coupounCode
+
+router.post(
+  "/create-coupoun-code",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const isCoupounCodeExists = await coupounCode.find({
+        name: req.body.name,
+      });
+      if (isCoupounCodeExists.length !== 0) {
+        return next(new ErrorHandler("Coupoun Code already exists!", 400));
+      }
+      const coupounCode = await CoupounCode.create(req.body);
+
+      res.status(201).json({
+        success: true,
+        coupounCode,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
