@@ -89,7 +89,22 @@ router.delete(
     }
   })
 );
+// get all products
+router.get(
+  "/get-all-products",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const products = await Product.find().sort({ createdAt: -1 });
 
+      res.status(201).json({
+        success: true,
+        products,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
 // log out user
 router.get("/logout", isAuthenticated, catchAsyncErrors(async(req,res,next)=>{
   try{

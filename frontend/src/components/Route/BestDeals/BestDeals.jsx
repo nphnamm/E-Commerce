@@ -5,18 +5,16 @@ import { useSelector } from "react-redux";
 import ProductCard from "../ProductCard/ProductCard";
 const BestDeals = () => {
   const [data, setData] = useState([]);
-//   const { allProducts } = useSelector((state) => state.products);
+  const { allProducts } = useSelector((state) => state.products);
   useEffect(() => {
-    // const allProductsData = allProducts ? [...allProducts] : [];
-    // const sortedData = allProductsData?.sort((a, b) => b.sold_out - a.sold_out);
-    // const firstFive = sortedData && productData.slice(0, 5);
-    const d = productData && productData.sort((a,b)=> b.total_sell - a.total_sell);
-    const firstFive = d.slice(0,5);
+    const allProductsData = allProducts ? [...allProducts] : [];
+    const sortedData = allProductsData?.sort((a,b) => b.sold_out - a.sold_out); 
+    const firstFive = sortedData && sortedData.slice(0, 5);
     setData(firstFive);
-  }, []);
+  }, [allProducts]);
   // console.log('product card', productData);
   return (
-        //TODO: if max screen is 1385 when use styles section then screen is 1269 and each div is 253
+    //TODO: if max screen is 1385 when use styles section then screen is 1269 and each div is 253
     <div>
       <div className={`${styles.section}`}>
         <div className={`${styles.heading}`}>
