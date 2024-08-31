@@ -23,7 +23,7 @@ const ProductCard = ({data,isEvent}) => {
 
     // }
 
-    setImgSrc( data.image_Url[0].url)
+    // setImgSrc( data?.image_Url[0]?.url)
   }, []);
 
   const removeFromWishlistHandler = (data) => {
