@@ -23,6 +23,8 @@ import { RxCross1 } from "react-icons/rx";
 function Header({ activeHeading }) {
   const { isAuthenticated, user } = useSelector((state) => state.user);
   // console.log('user', user);
+  const { allProducts } = useSelector((state) => state.products);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState(null);
   const [active, setActive] = useState(false);
@@ -35,8 +37,8 @@ function Header({ activeHeading }) {
     const term = e.target.value;
     setSearchTerm(term);
     const filteredProducts =
-      productData &&
-      productData.filter((product) =>
+    allProducts &&
+    allProducts.filter((product) =>
         product.name.toLowerCase().includes(term.toLowerCase())
       );
     setSearchData(filteredProducts);
@@ -88,10 +90,10 @@ function Header({ activeHeading }) {
                 {searchData &&
                   searchData.map((i, index) => {
                     return (
-                      <Link to={`/products/${i.id}`}>
+                      <Link to={`/product/${i._id}`}>
                         <div className="w-full flex items-start py-3 hover:bg-slate-300   border-b-2 border-neutral-400 mb-2 ">
                           <img
-                            src={`${i.image_Url[0]?.url}`}
+                            src={`${backend_url}${i.images[0]}`}
                             alt=""
                             className="w-[40px] h-[40px] mr-[10px]"
                           />

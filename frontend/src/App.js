@@ -32,6 +32,7 @@ import {
   ShopDashboardPage,
   ShopAllEvents,
   ShopAllCoupouns,
+  ShopPreviewPage
 } from "./routes/ShopRoutes.js";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute.js";
 import ShopHomePage from "./pages/Shop/ShopHomePage.jsx";
@@ -92,11 +93,13 @@ function App() {
             </SellerProtectedRoute>
           }
         />
+        <Route path="/shop/preview/:id" element={<ShopPreviewPage />} />
 
         <Route
           path="/seller/activation/:activation_token"
           element={<SellerActivationPage />}
         />
+
         <Route path="/dashboard" element={<ShopDashboardPage />} />
         <Route
           path="/dashboard-create-product"

@@ -33,13 +33,13 @@ const ProductDetails = ({ data }) => {
       setCount(count - 1);
     }
   };
-  const totalReviewsLength =0;
+  const totalReviewsLength = 0;
 
   const totalRatings = 0;
   const incrementCount = () => {
     setCount(count + 1);
   };
-  const avg =  totalRatings / totalReviewsLength || 0;
+  const avg = totalRatings / totalReviewsLength || 0;
 
   const averageRating = avg.toFixed(2);
   useEffect(() => {
@@ -56,7 +56,7 @@ const ProductDetails = ({ data }) => {
                 <img src={data?.images} alt="" className="w-[80%]" />
 
                 <div className="w-full flex">
-                {data &&
+                  {data &&
                     data.images.map((i, index) => (
                       <div
                         className={`${
@@ -76,7 +76,6 @@ const ProductDetails = ({ data }) => {
                       select === 1 ? "border" : "null"
                     } cursor-pointer`}
                   ></div>
-                  
                 </div>
               </div>
               <div className="w-full 800px:w-[50%]">
@@ -280,6 +279,9 @@ const ProductDetailsInfo = ({
       {active === 3 ? (
         <div className="w-full block 800px:flex p-5">
           <div className="w-full 800px:w-[50%]">
+            <Link to={`/shop/preview/${data.shop._id}`}>
+            
+           
             <div className="flex items-center">
               <img
                 src={data?.shop?.shop_avatar?.url}
@@ -291,6 +293,7 @@ const ProductDetailsInfo = ({
                 <h5 className="pb-3 text-[15px]">(4/5) Ratings</h5>
               </div>
             </div>
+            </Link>
             <p className="pt-2">{data.shop.description}</p>
           </div>
           <div className="w-full 800px:w-[50%] mt-5 800px:mt-0 800px:flex flex-col items-end">
