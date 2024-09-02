@@ -1,24 +1,31 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { productData } from '../static/data';
+import { useParams, useSearchParams } from 'react-router-dom'
 import Header from '../components/Layout/Header';
 import Footer from '../components/Layout/Footer';
 import SuggestedProduct from '../components/Products/SuggestedProduct';
 import ProductDetails from '../components/Products/ProductDetails';
+import { useSelector } from 'react-redux';
 
 const ProductDetailsPage = () => {
-    const {name} = useParams();
- 
-    const [data,setData] = useState(null);
-    const productName = name.replace(/-/g," ");
-    console.log('productname',productName);
-    console.log('productname1',productData);
+  const { allProducts } = useSelector((state) => state.products);
+  const { allEvents } = useSelector((state) => state.events);
 
-    useEffect(()=>{
-        const data = productData.find((i)=>i.name === productName)
+    const {id} = useParams();
+  
+    const [data,setData] = useState(null);
+    const [searchParams] = useSearchParams();
+    const eventData = searchParams.get("isEvent");
+
+
+    useEffect(() => {
+      
+        const data = allProducts && allProducts.find((i) => i._id === id);
         setData(data);
-    },[])
-    console.log('check dataaa', data);
+      
+    }, [allProducts, allEvents]);
+    console.log('check dataaa', allProducts);
+    console.log('check dataaa', id);
+
   return (
     <div>
         <Header/>
