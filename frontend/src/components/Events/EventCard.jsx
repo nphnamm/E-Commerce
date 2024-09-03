@@ -2,11 +2,25 @@ import React from 'react'
 import styles from '../../styles/styles'
 import CountDown from './CountDown'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 const EventCard = ({active,data}) => {
-
-    const addToCartHandler = (data) =>{
-
+    // const { cart } = useSelector((state) => state.cart);
+    const dispatch = useDispatch();
+  
+    const addToCartHandler = (data) => {
+    //   const isItemExists = cart && cart.find((i) => i._id === data._id);
+    //   if (isItemExists) {
+    //     toast.error("Item already in cart!");
+    //   } else {
+    //     if (data.stock < 1) {
+    //       toast.error("Product stock limited!");
+    //     } else {
+    //       const cartData = { ...data, qty: 1 };
+    //       dispatch(addTocart(cartData));
+    //       toast.success("Item added to cart successfully!");
+    //     }
+    //   }
     }
   return (
     //TODO: if the application is on mobile screen, the item will have the block attribute, 
@@ -15,50 +29,44 @@ const EventCard = ({active,data}) => {
 
     <div className={`w-full block bg-white rounded-lg ${active ? "unset" : "mb-12"} lg:flex p-2`}>
         <div className='w-full lg:w-[50%] m-auto'>
-            <img src="https://m.media-amazon.com/images/I/31Vle5fVdaL.jpg" alt=''/>
+            <img src={`${data?.images[0]?.url}`} alt="" />
         </div>
 
         {/* // TODO: Use a div tag with flex and flex-col properties to place items vertically and if you have to
         // TODO: set up layout in those div tags, you can still use flex property. */}
         <div className='w-full lg:w-[50%] flex flex-col justify-center'>
             <h2 className={`${styles.productDiscountPrice}`}>
-                {/* {data.name} */}
-                Iphone 14pro max 8/256gb
+                {data?.name}
             </h2>
             <p>
-            Product details are a crucial part of any eCommerce website or online marketplace. 
-            These details help the potential customers to make an informed decision about the product they are interested in buying. 
-            A well-written product description can also be a powerful marketing tool that can help to increase sales.
-            Product details typically include information about the product's features, specifications, dimensions, weight, materials,
-            and other relevant information that can help customers to understand the product better. The product details section
-            should also include high-quality images and videos of the product, as well as customer reviews and ratings
-                {/* {data.description} */}
+            
+                 {data?.description} 
             </p>
 
             <div className='flex py-2 justify-between'>
             <div className='flex'>
                 <h5 className='font-[500] text-[18px] text-[#d55b45] pr-3 line-through'>
-                    {/* {data.originalPrice}$ */}
-                    1099$
+                    {data?.originalPrice}$
+                    
 
                 </h5>
                 <h5 className='font-bold text-[20px] text-[#333] font-Roboto'>
-                    {/* {data.discountPrice}$ */}
-                    999$
+                    {data?.discountPrice}$
+                    
                 </h5>
 
             </div>
             <span className='pr-3 font-[400] text-[17px] text-[#44a55e]'>
-                {/* {data.sold_out} sold */}
-                500 sold
+                {data?.sold_out} sold 
+         
             </span>
         </div>
-        <CountDown />
+        <CountDown data={data}/>
        
     
         <br/>
-        {/* <div className='flex items-center'>
-            <Link to={`/product/${data._id}?isEvent=true`}>
+        <div className='flex items-center'>
+            <Link to={`/product/${data?._id}?isEvent=true`}>
                 <div className={`${styles.button} text-[#fff]`}>
                     See Detail
 
@@ -71,7 +79,7 @@ const EventCard = ({active,data}) => {
                     Add to cart
 
             </div>
-        </div> */}
+        </div>
          </div>
     </div>
   )
