@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import Loader from '../components/Layout/Loader';
 const EventsPage = () => {
   const { allEvents, isLoading } = useSelector((state) => state.events);
+  
   console.log("all event", allEvents);
   return (
     <>

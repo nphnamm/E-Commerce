@@ -5,15 +5,16 @@ import { AiFillHeart, AiOutlineEye, AiOutlineHeart, AiOutlineShoppingCart } from
 import { useDispatch, useSelector } from 'react-redux'
 import ProductDetailsCard from '../ProductDetailsCard/ProductDetailsCard'
 import Ratings from '../../Products/Ratings';
+import { toast } from 'react-toastify'
 
 const ProductCard = ({data,isEvent}) => {
   // const { wishlist } = useSelector((state) => state.wishlist);
-  // const { cart } = useSelector((state) => state.cart);
+   const { cart } = useSelector((state) => state.cart);
   const [click, setClick] = useState(false);
   const [open, setOpen] = useState(false);
   const [imgSrc, setImgSrc] = useState("Invalid Image Source");
 
-  // const dispatch = useDispatch();
+   const dispatch = useDispatch();
 
   useEffect(() => {
     // if (wishlist && wishlist.find((i) => i._id === data._id)) {
@@ -27,13 +28,13 @@ const ProductCard = ({data,isEvent}) => {
   }, []);
 
   const removeFromWishlistHandler = (data) => {
-    // setClick(!click);
-    // dispatch(removeFromWishlist(data));
+    //  setClick(!click);
+    //  dispatch(removeFromWishlist(data));
   };
 
   const addToWishlistHandler = (data) => {
-    // setClick(!click);
-    // dispatch(addToWishlist(data));
+    //  setClick(!click);
+    //  dispatch(addToWishlist(data));
   };
 
   const addToCartHandler = (id) => {

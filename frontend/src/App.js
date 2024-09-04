@@ -38,7 +38,7 @@ import SellerProtectedRoute from "./routes/SellerProtectedRoute.js";
 import ShopHomePage from "./pages/Shop/ShopHomePage.jsx";
 import ShopAllProducts from "./pages/Shop/ShopAllProducts.jsx";
 import { getAllProducts } from "./redux/actions/product.js";
-import { getAllEventsShop } from "./redux/actions/event.js";
+import { getAllEvents, getAllEventsShop } from "./redux/actions/event.js";
 
 function App() {
   // console.log(
@@ -50,6 +50,7 @@ function App() {
 
     Store.dispatch(getAllProducts());
     Store.dispatch(getAllEventsShop());
+    Store.dispatch(getAllEvents());
   }, []);
   return (
     <BrowserRouter>

@@ -22,16 +22,19 @@ import { RxCross1 } from "react-icons/rx";
 
 function Header({ activeHeading }) {
   const { isAuthenticated, user } = useSelector((state) => state.user);
-  // console.log('user', user);
+  const { isSeller } = useSelector((state) => state.seller);
+  const { wishlist } = useSelector((state) => state.wishlist);
+  const { cart } = useSelector((state) => state.cart);
   const { allProducts } = useSelector((state) => state.products);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState(null);
   const [active, setActive] = useState(false);
-  const [openWishlist, setOpenWishlist] = useState(false);
-  const [openCart, setOpenCart] = useState(false);
-
   const [dropDown, setDropDown] = useState(false);
+  const [openCart, setOpenCart] = useState(false);
+  const [openWishlist, setOpenWishlist] = useState(false);
+  const [open, setOpen] = useState(false);
+
 
   const handleSearchChange = (e) => {
     const term = e.target.value;
@@ -43,7 +46,6 @@ function Header({ activeHeading }) {
       );
     setSearchData(filteredProducts);
   };
-  const [open, setOpen] = useState(false);
 
   // console.log("search term ", searchTerm);
   // console.log("search data ", searchData);

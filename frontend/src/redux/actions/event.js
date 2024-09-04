@@ -78,6 +78,7 @@ export const getAllEvents = () => async (dispatch) => {
     });
 
     const { data } = await axios.get(`${server}/event/get-all-events`);
+    console.log('data', data);
     dispatch({
       type: "getAlleventsSuccess",
       payload: data.events,
