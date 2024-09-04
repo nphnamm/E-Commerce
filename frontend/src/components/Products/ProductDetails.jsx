@@ -10,6 +10,7 @@ import styles from "../../styles/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProductsShop } from "../../redux/actions/product";
 import Ratings from "./Ratings";
+import { backend_url } from "../../server";
 
 const ProductDetails = ({ data }) => {
   const [count, setCount] = useState(1);
@@ -53,7 +54,9 @@ const ProductDetails = ({ data }) => {
           <div className="w-full py-5">
             <div className="block w-full 800px:flex">
               <div className="w-full 800px:w-[50%]">
-                <img src={data?.images} alt="" className="w-[80%]" />
+                <img 
+            src={`${backend_url}${data?.images[0]}`}
+            alt="" className="w-[80%]" />
 
                 <div className="w-full flex">
                   {data &&
@@ -90,10 +93,10 @@ const ProductDetails = ({ data }) => {
 
                 <div className="flex pt-3">
                   <h4 className={`${styles.productDiscountPrice}`}>
-                    {data.discount_price}$
+                    {data?.discountPrice}$
                   </h4>
                   <h3 className={`${styles.price}`}>
-                    {data.price ? data.price + "$" : null}
+                    {data.originalPrice ? data.originalPrice + "$" : null}
                   </h3>
                 </div>
 

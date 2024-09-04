@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import ProductDetailsCard from '../ProductDetailsCard/ProductDetailsCard'
 import Ratings from '../../Products/Ratings';
 import { toast } from 'react-toastify'
+import { addToWishlist, removeFromWishlist } from '../../../redux/actions/wishlist'
+import { addTocart } from '../../../redux/actions/cart'
+import { backend_url } from '../../../server'
 
 const ProductCard = ({data,isEvent}) => {
   // const { wishlist } = useSelector((state) => state.wishlist);
@@ -28,32 +31,32 @@ const ProductCard = ({data,isEvent}) => {
   }, []);
 
   const removeFromWishlistHandler = (data) => {
-    //  setClick(!click);
-    //  dispatch(removeFromWishlist(data));
+      setClick(!click);
+     dispatch(removeFromWishlist(data));
   };
 
   const addToWishlistHandler = (data) => {
-    //  setClick(!click);
-    //  dispatch(addToWishlist(data));
+     setClick(!click);
+     dispatch(addToWishlist(data));
   };
 
   const addToCartHandler = (id) => {
-    // const isItemExists = cart && cart.find((i) => i._id === id);
-    // if (isItemExists) {
-    //   toast.error("Item already in cart!");
-    // } else {
-    //   if (data.stock < 1) {
-    //     toast.error("Product stock limited!");
-    //   } else {
-    //     const cartData = { ...data, qty: 1 };
-    //     dispatch(addTocart(cartData));
-    //     toast.success("Item added to cart successfully!");
-    //   }
-    // }
+    const isItemExists = cart && cart.find((i) => i._id === id);
+    if (isItemExists) {
+      toast.error("Item already in cart!");
+    } else {
+      if (data.stock < 1) {
+        toast.error("Product stock limited!");
+      } else {
+        const cartData = { ...data, qty: 1 };
+        dispatch(addTocart(cartData));
+        toast.success("Item added to cart successfully!");
+      }
+    }
   };
   const d = data.name;
   const product_name = d.replace(/\s+/g,"-");
-  console.log('product name', product_name);
+  console.log('product name', data);
   return (
     //TODO: Full width is 253 
     <>
@@ -64,7 +67,7 @@ const ProductCard = ({data,isEvent}) => {
           {/* //TODO: Use object-contain to keep the image size the same even if the screen is resized. */}
           <Link to={`/product/${data?._id}`}>
             <img 
-            src={imgSrc} 
+            src={`${backend_url}${data?.images[0]}`}
             onError = {() => setImgSrc("https://www.fs-code.com/storage/blogs/404-error-1633957800.jpg")}
             alt={data.title} 
             className='w-full h-[170px] object-contain'/>
@@ -87,13 +90,13 @@ const ProductCard = ({data,isEvent}) => {
             <div className="py-2 flex items-center justify-between">
             <div className="flex">
               <h5 className={`${styles.productDiscountPrice}`}>
-                {data.price === 0
-                  ? data.price
-                  : data.discount_price}
+                {data.originalPrice === 0
+                  ? data.originalPrice
+                  : data.discountPrice}
                 $
               </h5>
               <h4 className={`${styles.price}`}>
-                {data.price ? data.price + " $" : null}
+                {data.originalPrice ? data.originalPrice + " $" : null}
               </h4>
             </div>
             <span className="font-[400] text-[17px] text-[#68d284]">

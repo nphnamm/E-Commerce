@@ -3,6 +3,7 @@ import styles from '../../styles/styles'
 import CountDown from './CountDown'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { backend_url } from '../../server'
 
 const EventCard = ({active,data}) => {
     // const { cart } = useSelector((state) => state.cart);
@@ -29,7 +30,12 @@ const EventCard = ({active,data}) => {
 
     <div className={`w-full block bg-white rounded-lg ${active ? "unset" : "mb-12"} lg:flex p-2`}>
         <div className='w-full lg:w-[50%] m-auto'>
-            <img src={`${data?.images[0]?.url}`} alt="" />
+            <img 
+            src={`${backend_url}${data?.images[0]}`}
+            
+            alt="" 
+            
+            />
         </div>
 
         {/* // TODO: Use a div tag with flex and flex-col properties to place items vertically and if you have to

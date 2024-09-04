@@ -4,6 +4,8 @@ const ErrorHandler = require("./middleware/error");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const path = require('path');
+const fs = require('fs');
 
 
 app.use(express.json());
@@ -17,7 +19,21 @@ app.use(cors({
 
 app.use("/", express.static("/uploads"))
 app.use(bodyParser.urlencoded({extended:true,limit:"50mb"}));
-
+// Endpoint lấy file hình ảnh
+// GET method to retrieve the uploaded image
+app.get('/:filename', (req, res) => {
+  const { filename } = req.params;
+  const filepath = path.join(__dirname,'..', 'uploads', filename);
+  console.log('file path', filepath);
+  // Check if the file exists
+  fs.access(filepath, fs.constants.F_OK, (err) => {
+    if (err) {
+      return res.status(404).send('File not found.');
+    }
+    // Send the image file to the client
+    res.sendFile(filepath);
+  });
+});
 
 
 // CONFIG

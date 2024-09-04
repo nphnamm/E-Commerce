@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 // add to wishlist
 export const addToWishlist = (data) => async (dispatch, getState) => {
     dispatch({
@@ -6,6 +8,7 @@ export const addToWishlist = (data) => async (dispatch, getState) => {
     });
   
     localStorage.setItem("wishlistItems", JSON.stringify(getState().wishlist.wishlist));
+    toast.success("Add the product to Wishlist Successfully!")
     return data;
   };
   
@@ -16,6 +19,8 @@ export const addToWishlist = (data) => async (dispatch, getState) => {
       payload: data._id,
     });
     localStorage.setItem("wishlistItems", JSON.stringify(getState().wishlist.wishlist));
+    toast.success("Remove the product to Wishlist Successfully!")
+
     return data;
   };
   

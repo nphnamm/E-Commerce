@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTocart, removeFromCart } from '../../redux/actions/cart';
+import { backend_url } from '../../server';
 
 const Cart = ({setOpenCart}) => {
   const { cart } = useSelector((state) => state.cart);
@@ -136,8 +137,8 @@ const CartSingle =({data,quantityChangeHandler,removeFromCartHandler})=>{
                     </div>
                 </div>
                 <img
-                 src={`${data?.images[0]?.url}`}
-                alt=''
+            src={`${backend_url}${data?.images[0]}`}
+            alt=''
                 className='w-[130px] h-min ml-2 mr-2 rounded-[5px]'
                 />
                 <div className='pl-[5px]'>
