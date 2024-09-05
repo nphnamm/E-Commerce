@@ -11,8 +11,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllProductsShop } from "../../redux/actions/product";
 import Ratings from "./Ratings";
 import { backend_url } from "../../server";
+import { addToWishlist, removeFromWishlist } from "../../redux/actions/wishlist";
+import { toast } from "react-toastify";
+import { addTocart } from "../../redux/actions/cart";
 
 const ProductDetails = ({ data }) => {
+  const { wishlist } = useSelector((state) => state.wishlist);
+  const { cart } = useSelector((state) => state.cart);
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(0);
@@ -23,7 +28,7 @@ const ProductDetails = ({ data }) => {
   const [name, setName] = useState("");
   const dispatch = useDispatch();
 
-  //   const [select, setSelect] = useState(false);
+
 
   const handleMessageSubmit = () => {
     navigate("/inbox?conversation=507ebjver88ehfd");
@@ -43,10 +48,34 @@ const ProductDetails = ({ data }) => {
   const avg = totalRatings / totalReviewsLength || 0;
 
   const averageRating = avg.toFixed(2);
+  const removeFromWishlistHandler = (data) => {
+    setClick(!click);
+    dispatch(removeFromWishlist(data));
+  };
+
+  const addToWishlistHandler = (data) => {
+    setClick(!click);
+    dispatch(addToWishlist(data));
+  };
+
+  const addToCartHandler = (id) => {
+    const isItemExists = cart && cart.find((i) => i._id === id);
+    if (isItemExists) {
+      toast.error("Item already in cart!");
+    } else {
+      if (data.stock < 1) {
+        toast.error("Product stock limited!");
+      } else {
+        const cartData = { ...data, qty: count };
+        dispatch(addTocart(cartData));
+        toast.success("Item added to cart successfully!");
+      }
+    }
+  };
   useEffect(() => {
     dispatch(getAllProductsShop(data && data?.shop._id));
   }, [data]);
-  console.log("check data in product", data);
+
   return (
     <div className="bg-white">
       {data ? (

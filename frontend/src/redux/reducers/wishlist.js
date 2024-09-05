@@ -11,6 +11,8 @@ export const wishlistReducer = createReducer(initialState, {
     const item = action.payload;
     const isItemExist = state.wishlist.find((i) => i._id === item._id);
     if (isItemExist) {
+      console.log('...state', ...state);
+      console.log('wishlist', state.wishlist);
       return {
         ...state,
         wishlist: state.wishlist.map((i) =>

@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 //   removeFromWishlist,
 // } from "../../../redux/actions/wishlist";
  import { addTocart } from './../../../redux/actions/cart';
+import { backend_url } from "../../../server";
 
 const ProductDetailsCard = ({ setOpen, data }) => {
    const { cart } = useSelector((state) => state.cart);
@@ -92,11 +93,15 @@ const ProductDetailsCard = ({ setOpen, data }) => {
 
               {/* // TODO: 50% screen of the product */}
               <div className="w-full 800px:w-[50%]">
-                <img src={`${data?.images && data?.images[0]?.url}`} alt="" />
+                <img 
+                  src={`${backend_url}${data?.images[0]}`}
+
+                
+                alt="" />
                 <div className="flex">
                   <Link to={`/shop/preview/${data?.shop?._id}`} className="flex">
                     <img
-                      src={`${data?.shop?.shop_avatar?.url && data?.shop?.shop_avatar?.url}`}
+                      src={`${backend_url}${data?.shop?.avatar}`}
                       alt=""
                       className="w-[50px] h-[50px] rounded-full mr-2"
                     />

@@ -23,6 +23,7 @@ const Wishlist = ({setOpenWishlist}) => {
 
   const addToCartHandler = (data) => {
     const newData = {...data, qty:1};
+    console.log('new data', newData);
     dispatch(addTocart(newData));
     setOpenWishlist(false);
   }
