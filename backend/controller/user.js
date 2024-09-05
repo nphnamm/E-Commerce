@@ -232,7 +232,32 @@ router.put(
   })
 );
 
+// update user avatar
+router.put(
+  "/update-avatar",
+  isAuthenticated,
+  upload.single("image"),
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      let existsUser = await User.findById(req.user.id);
+      const existAvatarPath = `uploads/${existsUser.avatar}`;
+      fs.unlinkSync(existAvatarPath);
+      
+      const fileUrl = path.job(req.file.file);
+      const user = await User.findByIdAndUpdate(req.user.id,{
+        avatar:fileUrl
+      });
 
+
+      res.status(200).json({
+        success: true,
+        user,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
 
 
 module.exports = router;

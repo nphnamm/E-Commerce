@@ -15,6 +15,7 @@ import {
   AiOutlineDelete,
 } from "react-icons/ai";
 import { updateUserInformation } from '../../redux/actions/user';
+import { server } from './../../server';
 
 
 
@@ -35,8 +36,28 @@ const ProfileContent = ({ active }) => {
     e.preventDefault();
     dispatch(updateUserInformation(name,email,phoneNumber,password));
   }
-  const handleImage = (e) => {
-    e.preventDefault();
+  const handleImage = async (e) => {
+    const file = e.target.file[0];
+    setAvatar(file);
+
+    const formData = new FormData();
+
+    formData.append("image", e.target.files[0])
+    await axios
+    .put(`${server}/user/update-avatar`, formData,{
+      headers:{
+        "Content-Type": "multipart/form-data",
+      },
+      withCredentials:true,
+    }).
+    then((response)=>{
+      window.location.reload();
+    })
+    .catch((error)=>{
+      toast.error(error);
+    })
+
+
   }
   useEffect(() => {
     if (error) {
@@ -59,7 +80,11 @@ const ProfileContent = ({ active }) => {
           <>
             <div className='flex justify-center w-full'>
               <div className='relative'>
-                <img src={`${backend_url}${user?.avatar}`} className='w-[35px] h-[35px] rounded-full' alt='' />
+                <img 
+                src={`${backend_url}${user?.avatar}`} 
+                
+                className="w-[150px] h-[150px] rounded-full object-cover border-[3px] border-[#3ad132]"
+                alt='' />
                 <div className='w-[30px] h-[30px] bg-[#e3e9ee] rounded-full flex items-center justify-center cursor-pointer absolute bottom-[5px] right-[5px]'>
                   <input
                     type='file'
