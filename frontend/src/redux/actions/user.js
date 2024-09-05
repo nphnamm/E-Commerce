@@ -76,7 +76,9 @@ export const updateUserInformation =
       dispatch({
         type: "updateUserInfoSuccess",
         payload: data.user,
+        
       });
+       toast.success("Updated Profile!")
     } catch (error) {
       dispatch({
         type: "updateUserInfoFailed",

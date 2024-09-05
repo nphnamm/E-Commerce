@@ -190,7 +190,8 @@ router.get("/logout", isAuthenticated, catchAsyncErrors(async(req,res,next)=>{
   }catch(err){
     return next(new ErrorHandler(err.message,500))
   }
-}))
+}));
+
 
 // update user info
 router.put(
@@ -212,7 +213,8 @@ router.put(
         return next(
           new ErrorHandler("Please provide the correct information", 400)
         );
-      
+      }
+
       user.name = name;
       user.email = email;
       user.phoneNumber = phoneNumber;
@@ -222,10 +224,15 @@ router.put(
       res.status(201).json({
         success: true,
         user,
+
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
     }
   })
 );
+
+
+
+
 module.exports = router;

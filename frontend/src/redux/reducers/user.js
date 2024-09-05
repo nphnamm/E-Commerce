@@ -17,17 +17,16 @@ export const userReducer = createReducer(initialState, {
     state.error = action.payload;
     state.isAuthenticated = false;
   },
-  // update user address
-  updateUserAddressRequest: (state) => {
-    state.addressloading = true;
+   // update user information
+   updateUserInfoRequest: (state) => {
+    state.loading = true;
   },
-  updateUserAddressSuccess: (state, action) => {
-    state.addressloading = false;
-    state.successMessage = action.payload.successMessage;
-    state.user = action.payload.user;
+  updateUserInfoSuccess: (state, action) => {
+    state.loading = false;
+    state.user = action.payload;
   },
-  updateUserAddressFailed: (state, action) => {
-    state.addressloading = false;
+  updateUserInfoFailed: (state, action) => {
+    state.loading = false;
     state.error = action.payload;
   },
 
