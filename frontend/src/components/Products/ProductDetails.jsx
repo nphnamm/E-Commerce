@@ -10,7 +10,7 @@ import styles from "../../styles/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProductsShop } from "../../redux/actions/product";
 import Ratings from "./Ratings";
-import { backend_url } from "../../server";
+import { backend_url, server } from "../../server";
 import { addToWishlist, removeFromWishlist } from "../../redux/actions/wishlist";
 import { toast } from "react-toastify";
 import { addTocart } from "../../redux/actions/cart";
@@ -154,7 +154,7 @@ const ProductDetails = ({ data }) => {
                       <AiFillHeart
                         size={30}
                         className="cursor-pointer"
-                        onClick={() => setClick(!click)}
+                        onClick={() => removeFromWishlistHandler(data)}
                         color={click ? "red" : "#333"}
                         title="Remove from wishlist"
                       />
@@ -162,7 +162,7 @@ const ProductDetails = ({ data }) => {
                       <AiOutlineHeart
                         size={30}
                         className="cursor-pointer"
-                        onClick={() => setClick(!click)}
+                        onClick={() => addToWishlistHandler(data)}
                         title="Add to wishlist"
                       />
                     )}
@@ -173,6 +173,7 @@ const ProductDetails = ({ data }) => {
 
                 <div
                   className={`${styles.button} mt-6 !rounded !h-11 flex items-center`}
+                  onClick={() => addToCartHandler(data._id)}
                 >
                   <span className="text-white flex items-center">
                     Add to cart <AiOutlineShoppingCart className="ml-1" />
@@ -181,8 +182,10 @@ const ProductDetails = ({ data }) => {
 
                 {/* //TODO: PRODUCT PRODUCER */}
                 <div className="flex items-center pt-8">
+                <Link to={`/shop/preview/${data?.shop._id}`}>
                   <img
-                    src={data.shop.avatar.url}
+
+                    src={`${backend_url}${data?.shop?.avatar}`}
                     alt=""
                     className="w-[50px] h-[50px] rounded-full mr-2"
                   />
@@ -202,6 +205,7 @@ const ProductDetails = ({ data }) => {
                       Send Message <AiOutlineMessage className="ml-1" />
                     </span>
                   </div>
+                  </Link>
                 </div>
               </div>
             </div>
