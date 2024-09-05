@@ -243,7 +243,7 @@ router.put(
       const existAvatarPath = `uploads/${existsUser.avatar}`;
       fs.unlinkSync(existAvatarPath);
       
-      const fileUrl = path.job(req.file.file);
+      const fileUrl = path.join(req.file.filename);
       const user = await User.findByIdAndUpdate(req.user.id,{
         avatar:fileUrl
       });

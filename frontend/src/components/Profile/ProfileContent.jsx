@@ -14,8 +14,7 @@ import {
   AiOutlineCamera,
   AiOutlineDelete,
 } from "react-icons/ai";
-import { updateUserInformation } from '../../redux/actions/user';
-import { server } from './../../server';
+import { loadUser, updateUserInformation } from '../../redux/actions/user';
 
 
 
@@ -30,30 +29,30 @@ const ProfileContent = ({ active }) => {
   const [address1, setAddress1] = useState();
   const [address2, setAddress2] = useState();
   const dispatch = useDispatch();
+  const [avatar, setAvatar] = useState();
+
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(updateUserInformation(name,email,phoneNumber,password));
   }
-  const handleImage = async (e) => {
-    const file = e.target.file[0];
+  const handleImage = async(e) => {
+    const file = e.target.files[0];
     setAvatar(file);
-
     const formData = new FormData();
 
-    formData.append("image", e.target.files[0])
-    await axios
-    .put(`${server}/user/update-avatar`, formData,{
+    formData.append("image",e.target.files[0]);
+
+    await axios.put(`${server}/user/update-avatar`,formData,{
       headers:{
         "Content-Type": "multipart/form-data",
       },
       withCredentials:true,
-    }).
-    then((response)=>{
-      window.location.reload();
     })
-    .catch((error)=>{
+    .then((response)=>{
+      window.location.reload()
+    }).catch((error)=>{
       toast.error(error);
     })
 
@@ -68,7 +67,7 @@ const ProfileContent = ({ active }) => {
       toast.success(successMessage);
       dispatch({ type: "clearMessages" });
     }
-  }, [error, successMessage]);
+  }, [error, successMessage,avatar]);
   console.log('success mes', successMessage);
   console.log('check avatar', user);
   return (
