@@ -2,15 +2,15 @@ const express = require("express");
 const router = express.Router();
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require('stripe')('sk_test_51PYKQtKvZ8GzQADcyjUg0RpQOM5MsxqM9jBjTzML6Yh7qeLUiOKbscvnjbTWQzgLI2EHlBnMSGe4nVmsSPvdriFW00KvZRCH83');
 router.post(
   "/process",
   catchAsyncErrors(async (req, res, next) => {
     const myPayment = await stripe.paymentIntents.create({
       amount: req.body.amount,
-      currency: "inr",
+      currency: "usd",
       metadata: {
-        company: "Becodemy",
+        company: "Shopii",
       },
     });
     res.status(200).json({

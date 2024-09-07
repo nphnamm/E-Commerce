@@ -18,7 +18,7 @@ import {
 } from "./Routes.js";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { server } from "./server.js";
 import Store from "./redux/store.js";
@@ -35,18 +35,27 @@ import {
   ShopDashboardPage,
   ShopAllEvents,
   ShopAllCoupouns,
-  ShopPreviewPage
+  ShopPreviewPage,
 } from "./routes/ShopRoutes.js";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute.js";
 import ShopHomePage from "./pages/Shop/ShopHomePage.jsx";
 import ShopAllProducts from "./pages/Shop/ShopAllProducts.jsx";
 import { getAllProducts } from "./redux/actions/product.js";
 import { getAllEvents, getAllEventsShop } from "./redux/actions/event.js";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 function App() {
   // console.log(
   // seller
   // )
+  const [stripeApikey, setStripeApiKey] = useState("");
+
+  async function getStripeApikey() {
+    const { data } = await axios.get(`${server}/payment/stripeapikey`);
+    console.log('data', data);
+    setStripeApiKey(data.stripeApikey);
+  }
   useEffect(() => {
     Store.dispatch(loadUser());
     Store.dispatch(loadSeller());
@@ -54,9 +63,24 @@ function App() {
     Store.dispatch(getAllProducts());
     Store.dispatch(getAllEventsShop());
     Store.dispatch(getAllEvents());
+    getStripeApikey();
   }, []);
   return (
     <BrowserRouter>
+      {stripeApikey && (
+        <Elements stripe={loadStripe(stripeApikey)}>
+          <Routes>
+            <Route
+              path="/payment"
+              element={
+                <ProtectedRoute>
+                  <PaymentPage />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </Elements>
+      )}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -71,14 +95,15 @@ function App() {
         <Route path="best-selling" element={<BestSellingPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/faq" element={<FAQPage />} />
-         <Route path="/checkout" element={
-          <ProtectedRoute>
-
-            <CheckoutPage />
-          </ProtectedRoute>
-          }/>
-        <Route path="/payment" element={<PaymentPage />} /> 
-       <Route path="/order/success/:id" element={<OrderSuccessPage />} /> 
+        <Route
+          path="/checkout"
+          element={
+            <ProtectedRoute>
+              <CheckoutPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/order/success" element={<OrderSuccessPage />} />
         <Route
           path="/profile"
           element={
