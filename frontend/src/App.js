@@ -12,6 +12,9 @@ import {
   EventsPage,
   FAQPage,
   ProductDetailsPage,
+  CheckoutPage,
+  PaymentPage,
+  OrderSuccessPage,
 } from "./Routes.js";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -68,14 +71,14 @@ function App() {
         <Route path="best-selling" element={<BestSellingPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/faq" element={<FAQPage />} />
-        {/* <Route path="/checkout" element={
+         <Route path="/checkout" element={
           <ProtectedRoute>
 
             <CheckoutPage />
           </ProtectedRoute>
-          }/> */}
-        {/* <Route path="/payment" element={<PaymentPage />} /> */}
-        {/* <Route path="/order/success/:id" element={<OrderSuccessPage />} />  */}
+          }/>
+        <Route path="/payment" element={<PaymentPage />} /> 
+       <Route path="/order/success/:id" element={<OrderSuccessPage />} /> 
         <Route
           path="/profile"
           element={
