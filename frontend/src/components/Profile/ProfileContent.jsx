@@ -16,6 +16,7 @@ import {
 } from "react-icons/ai";
 import { deleteUserAddress, loadUser, updateUserInformation, updatUserAddress } from '../../redux/actions/user';
 import { Country, State } from "country-state-city";
+import { getAllOrdersOfUser } from '../../redux/actions/order';
 
 
 
@@ -207,19 +208,13 @@ const ProfileContent = ({ active }) => {
   )
 }
 const AllOrders = () => {
-  const orders = [
-    {
-      _id: "7463hvbfbhfbrtr28820221",
-      orderItems: [
-        {
-          name: "Iphone 14 promax",
-        },
-      ],
-      totalPrice: 120,
-      orderStatus: "Processing",
-    }
+  const { user } = useSelector((state) => state.user);
+  const { orders } = useSelector((state) => state.order);
+  const dispatch = useDispatch();
 
-  ];
+  useEffect(() => {
+    dispatch(getAllOrdersOfUser(user._id));
+  }, []);
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
@@ -275,9 +270,9 @@ const AllOrders = () => {
   orders && orders.forEach((item) => {
     row.push({
       id: item._id,
-      itemsQty: item.orderItems.length,
+      itemsQty: item.cart.length,
       total: "US$" + item.totalPrice,
-      status: item.orderStatus,
+      status: item.status,
 
     });
   });
