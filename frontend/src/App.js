@@ -15,7 +15,8 @@ import {
   CheckoutPage,
   PaymentPage,
   OrderSuccessPage,
-  OrderDetailsPage
+  OrderDetailsPage,
+  TrackOrderPage
 } from "./Routes.js";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -121,6 +122,15 @@ function App() {
           element={
             <ProtectedRoute>
               <OrderDetailsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/user/track/order/:id"
+          element={
+            <ProtectedRoute>
+              <TrackOrderPage />
             </ProtectedRoute>
           }
         />
