@@ -4,22 +4,23 @@ import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
 import { MdBorderClear } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { getAllOrdersOfShop } from "../../redux/actions/order";
+import { getAllProductsShop } from "../../redux/actions/product";
 import { Button } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
-import { productData } from "../../static/data";
-import Store from "../../redux/store";
-import { loadSeller } from "../../redux/actions/user";
 
 const DashboardHero = () => {
   const dispatch = useDispatch();
+  const { orders } = useSelector((state) => state.order);
   const { seller } = useSelector((state) => state.seller);
+  const { products } = useSelector((state) => state.products);
 
-
-  
   useEffect(() => {
-    Store.dispatch(loadSeller())
+     dispatch(getAllOrdersOfShop(seller._id));
+     dispatch(getAllProductsShop(seller._id));
   }, [dispatch]);
-  console.log('check seller', seller);
+
+  const availableBalance = seller?.availableBalance.toFixed(2);
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
@@ -71,19 +72,7 @@ const DashboardHero = () => {
       },
     },
   ];
-  const orders = [
-    {
-      _id: "7463hvbfbhfbrtr28820221",
-      orderItems: [
-        {
-          name: "Iphone 14 promax",
-        },
-      ],
-      totalPrice: 120,
-      orderStatus: "Processing",
-    }
 
-  ];
   const row = [];
 
   orders && orders.forEach((item) => {
@@ -112,7 +101,7 @@ const DashboardHero = () => {
               <span className="text-[16px]">(with 10% service charge)</span>
             </h3>
           </div>
-          <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">$100</h5>
+          <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">${availableBalance}</h5>
           <Link to="/dashboard-withdraw-money">
             <h5 className="pt-4 pl-[2] text-[#077f9c]">Withdraw Money</h5>
           </Link>
@@ -146,7 +135,7 @@ const DashboardHero = () => {
               All Products
             </h3>
           </div>
-          <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">{productData && productData.length}</h5>
+          <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">{products && products.length}</h5>
           <Link to="/dashboard-products">
             <h5 className="pt-4 pl-2 text-[#077f9c]">View Products</h5>
           </Link>

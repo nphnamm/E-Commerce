@@ -357,9 +357,9 @@ const AllRefundOrders = () =>{
   eligibleOrders && eligibleOrders.forEach((item) => {
     row.push({
       id: item._id,
-      itemsQty: item.orderItems.length,
+      itemsQty: item.cart.length,
       total: "US$" + item.totalPrice,
-      status: item.orderStatus,
+      status: item.status,
 
     });
   });

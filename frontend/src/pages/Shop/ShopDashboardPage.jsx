@@ -11,7 +11,7 @@ const ShopDashboardPage = () => {
             <div className="w-[80px] 800px:w-[330px]">
               <DashboardSideBar active={1} />
             </div>
-            {/* <DashboardHero /> */}
+            <DashboardHero /> 
           </div>
         </div>
   );
