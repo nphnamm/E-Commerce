@@ -39,9 +39,18 @@ const ProductDetails = ({ data }) => {
       setCount(count - 1);
     }
   };
-  const totalReviewsLength = 0;
+  const totalReviewsLength =  products &&
+  products.reduce((acc, product) => acc + product.reviews.length, 0);;
 
-  const totalRatings = 0;
+
+
+
+  const totalRatings =  products &&
+  products.reduce(
+    (acc, product) =>
+      acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
+    0
+  );
   const incrementCount = () => {
     setCount(count + 1);
   };
@@ -75,7 +84,7 @@ const ProductDetails = ({ data }) => {
   useEffect(() => {
     dispatch(getAllProductsShop(data && data?.shop._id));
   }, [data]);
-
+  console.log('product detail', data);
   return (
     <div className="bg-white">
       {data ? (
@@ -291,7 +300,7 @@ const ProductDetailsInfo = ({
             data?.reviews?.map((item, index) => (
               <div className="w-full flex my-2">
                 <img
-                  src={`${item.user.avatar?.url}`}
+                  src={`${backend_url}${item.user.avatar}`}
                   alt=""
                   className="w-[50px] h-[50px] rounded-full"
                 />
@@ -320,13 +329,13 @@ const ProductDetailsInfo = ({
            
             <div className="flex items-center">
               <img
-                src={data?.shop?.shop_avatar?.url}
+                src={`${backend_url}${data?.shop?.avatar}`}
                 className="w-[50px] h-[50px] rounded-full"
                 alt=""
               />
               <div className="pl-3">
                 <h3 className={`${styles.shop_name}`}>{data.shop.name}</h3>
-                <h5 className="pb-3 text-[15px]">(4/5) Ratings</h5>
+                <h5 className="pb-3 text-[15px]">({averageRating}/5) Ratings</h5>
               </div>
             </div>
             </Link>
