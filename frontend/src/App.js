@@ -15,6 +15,7 @@ import {
   CheckoutPage,
   PaymentPage,
   OrderSuccessPage,
+  OrderDetailsPage
 } from "./Routes.js";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -37,7 +38,7 @@ import {
   ShopAllCoupouns,
   ShopPreviewPage,
   ShopAllOrders,
-
+  ShopOrderDetails,
 } from "./routes/ShopRoutes.js";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute.js";
 import ShopHomePage from "./pages/Shop/ShopHomePage.jsx";
@@ -55,7 +56,7 @@ function App() {
 
   async function getStripeApikey() {
     const { data } = await axios.get(`${server}/payment/stripeapikey`);
-    console.log('data', data);
+    console.log("data", data);
     setStripeApiKey(data.stripeApikey);
   }
   useEffect(() => {
@@ -114,7 +115,16 @@ function App() {
             </ProtectedRoute>
           }
         />
-         {/* shop Routes */}
+
+        <Route
+          path="/user/order/:id"
+          element={
+            <ProtectedRoute>
+              <OrderDetailsPage />
+            </ProtectedRoute>
+          }
+        />
+        {/* shop Routes */}
         <Route path="/shop-create" element={<ShopCreatePage />} />
         <Route path="/shop-login" element={<ShopLoginPage />} />
         <Route
@@ -173,11 +183,19 @@ function App() {
             </SellerProtectedRoute>
           }
         />
-          <Route
+        <Route
           path="/dashboard-orders"
           element={
             <SellerProtectedRoute>
               <ShopAllOrders />
+            </SellerProtectedRoute>
+          }
+        />
+        <Route
+          path="/order/:id"
+          element={
+            <SellerProtectedRoute>
+              <ShopOrderDetails />
             </SellerProtectedRoute>
           }
         />
