@@ -108,10 +108,9 @@ function Header({ activeHeading }) {
             ) : null}
           </div>
           <div className={`${styles.button}`}>
-            <Link to="/shop-create">
+          <Link to={`${isSeller ? "/dashboard" : "/shop-create"}`}>
               <h1 className="text-[#fff] flex items-center">
-                Become Seller <IoIosArrowForward className="" ml-1 />
-              </h1>
+              {isSeller ? "Go Dashboard" : "Become Seller"}{" "}              </h1>
             </Link>
           </div>
         </div>

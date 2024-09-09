@@ -114,6 +114,9 @@ router.put(
         order.deliveredAt = Date.now();
         order.paymentInfo.status = "Succeeded";
         const serviceCharge = order.totalPrice * .10;
+        order.cart.forEach(async (o) => {
+          await updateOrder(o._id, o.qty);
+        });
         await updateSellerInfo(order.totalPrice - serviceCharge);
       }
 
@@ -136,7 +139,7 @@ router.put(
       async function updateSellerInfo(amount) {
         const seller = await Shop.findById(req.seller.id);
         
-        seller.availableBalance = amount;
+        seller.availableBalance += amount;
 
         await seller.save();
       }

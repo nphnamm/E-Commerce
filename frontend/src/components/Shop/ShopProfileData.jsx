@@ -17,7 +17,7 @@ const ShopProfileData = ({ isOwner }) => {
     dispatch(getAllEventsShop(id));
   }, [dispatch]);
   
-  console.log('check products', products);
+  console.log('check seller', products);
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
