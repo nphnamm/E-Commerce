@@ -30,12 +30,14 @@ import ShopCreatePage from "./pages/ShopCreate.jsx";
 import SellerActivationPage from "./pages/SellerActivationPage.jsx";
 import ShopLoginPage from "./pages/ShopLoginPage.jsx";
 import {
-  ShopCreateEvents,
-  ShopCreateProduct,
   ShopDashboardPage,
+  ShopCreateProduct,
+  ShopCreateEvents,
   ShopAllEvents,
   ShopAllCoupouns,
   ShopPreviewPage,
+  ShopAllOrders,
+
 } from "./routes/ShopRoutes.js";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute.js";
 import ShopHomePage from "./pages/Shop/ShopHomePage.jsx";
@@ -112,6 +114,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+         {/* shop Routes */}
         <Route path="/shop-create" element={<ShopCreatePage />} />
         <Route path="/shop-login" element={<ShopLoginPage />} />
         <Route
@@ -167,6 +170,14 @@ function App() {
           element={
             <SellerProtectedRoute>
               <ShopAllCoupouns />
+            </SellerProtectedRoute>
+          }
+        />
+          <Route
+          path="/dashboard-orders"
+          element={
+            <SellerProtectedRoute>
+              <ShopAllOrders />
             </SellerProtectedRoute>
           }
         />
