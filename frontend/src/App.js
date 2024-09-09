@@ -40,7 +40,9 @@ import {
   ShopPreviewPage,
   ShopAllOrders,
   ShopOrderDetails,
-  ShopAllRefunds 
+  ShopAllRefunds,
+  ShopSettingsPage 
+
 } from "./routes/ShopRoutes.js";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute.js";
 import ShopHomePage from "./pages/Shop/ShopHomePage.jsx";
@@ -143,6 +145,14 @@ function App() {
           element={
             <SellerProtectedRoute>
               <ShopHomePage />
+            </SellerProtectedRoute>
+          }
+        />
+          <Route
+          path="/settings"
+          element={
+            <SellerProtectedRoute>
+              <ShopSettingsPage />
             </SellerProtectedRoute>
           }
         />
