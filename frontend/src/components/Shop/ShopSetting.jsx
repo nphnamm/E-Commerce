@@ -21,30 +21,28 @@ const ShopSettings = () => {
   const dispatch = useDispatch();
 
   const handleImage = async (e) => {
-    const reader = new FileReader();
+    
+    e.preventDefault()
+    const file = e.target.files[0];
+    setAvatar(file);
+    const formData = new FormData();;
 
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setAvatar(reader.result);
-        axios
-          .put(
-            `${server}/shop/update-shop-avatar`,
-            { avatar: reader.result },
-            {
-              withCredentials: true,
-            }
-          )
-          .then((res) => {
-            dispatch(loadSeller());
-            toast.success("Avatar updated successfully!");
-          })
-          .catch((error) => {
-            toast.error(error.response.data.message);
-          });
-      }
-    };
+    formData.append("image",e.target.files[0]);
 
-    reader.readAsDataURL(e.target.files[0]);
+    await axios.put(`${server}/shop/update-shop-avatar`,formData,{
+      headers:{
+          "Content-Type": "multipart/form-data"
+      },
+      withCredentials:true
+    }).then((res)=>{
+      
+      dispatch(loadSeller())
+      toast.success("Avatar updated Successfully");
+    }).catch((error)=>{
+      toast.error(error.response.data.message);
+    })
+
+  
   };
 
   const updateHandler = async (e) => {

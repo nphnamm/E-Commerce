@@ -41,8 +41,8 @@ import {
   ShopAllOrders,
   ShopOrderDetails,
   ShopAllRefunds,
-  ShopSettingsPage 
-
+  ShopSettingsPage,
+  ShopWithDrawMoneyPage
 } from "./routes/ShopRoutes.js";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute.js";
 import ShopHomePage from "./pages/Shop/ShopHomePage.jsx";
@@ -217,6 +217,14 @@ function App() {
           element={
             <SellerProtectedRoute>
               <ShopAllRefunds />
+            </SellerProtectedRoute>
+          }
+        />
+           <Route
+          path="/dashboard-withdraw-money"
+          element={
+            <SellerProtectedRoute>
+              <ShopWithDrawMoneyPage />
             </SellerProtectedRoute>
           }
         />
