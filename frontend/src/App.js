@@ -42,7 +42,8 @@ import {
   ShopOrderDetails,
   ShopAllRefunds,
   ShopSettingsPage,
-  ShopWithDrawMoneyPage
+  ShopWithDrawMoneyPage,
+  ShopInboxPage
 } from "./routes/ShopRoutes.js";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute.js";
 import ShopHomePage from "./pages/Shop/ShopHomePage.jsx";
@@ -225,6 +226,14 @@ function App() {
           element={
             <SellerProtectedRoute>
               <ShopWithDrawMoneyPage />
+            </SellerProtectedRoute>
+          }
+        />
+          <Route
+          path="/dashboard-messages"
+          element={
+            <SellerProtectedRoute>
+              <ShopInboxPage />
             </SellerProtectedRoute>
           }
         />

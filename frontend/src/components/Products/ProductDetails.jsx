@@ -14,6 +14,7 @@ import { backend_url, server } from "../../server";
 import { addToWishlist, removeFromWishlist } from "../../redux/actions/wishlist";
 import { toast } from "react-toastify";
 import { addTocart } from "../../redux/actions/cart";
+import axios from "axios";
 
 const ProductDetails = ({ data }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
@@ -27,13 +28,12 @@ const ProductDetails = ({ data }) => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllProductsShop(data && data?.shop._id));
+  }, [data]);
 
 
-
-  const handleMessageSubmit = () => {
-    navigate("/inbox?conversation=507ebjver88ehfd");
-  };
-
+ 
   const decrementCount = () => {
     if (count > 1) {
       setCount(count - 1);
@@ -81,9 +81,27 @@ const ProductDetails = ({ data }) => {
       }
     }
   };
-  useEffect(() => {
-    dispatch(getAllProductsShop(data && data?.shop._id));
-  }, [data]);
+  const handleMessageSubmit = async () =>{
+    if(isAuthenticated){
+      const groupTitle = data._id + user._id;
+      const userId = user._id;
+      const sellerId = data.shop._id;
+      await axios.post(`${server}/conversation/create-new-conversation`,{
+        groupTitle,
+        userId,
+        sellerId
+      }).
+      then((res)=>{
+        navigate(`/inbox?${res.data.conversation._id}`)
+
+      }).
+      catch((error)=>{
+        toast.error(error.response.data.message);
+      })
+    }else{
+      toast.error("Please login to create a conversation")
+    }
+  }
   console.log('product detail', data);
   return (
     <div className="bg-white">
