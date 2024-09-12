@@ -1,5 +1,5 @@
-import AdminDashboardPage from "../pages/AdminDashboardPage";
 
+import AdminDashboardPage from './../pages/AdminDashboardPage';
 export {
   AdminDashboardPage,
 

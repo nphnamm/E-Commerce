@@ -53,6 +53,8 @@ import { getAllProducts } from "./redux/actions/product.js";
 import { getAllEvents, getAllEventsShop } from "./redux/actions/event.js";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import ProtectedAdminRoute from "./routes/ProtectedAdminRouter.js";
+import { AdminDashboardPage } from "./routes/AdminRoutes.js";
 
 function App() {
   // console.log(
@@ -252,6 +254,16 @@ function App() {
             <SellerProtectedRoute>
               <ShopOrderDetails />
             </SellerProtectedRoute>
+          }
+        />
+           {/* Admin Routes */}
+
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedAdminRoute>
+              <AdminDashboardPage />
+            </ProtectedAdminRoute>
           }
         />
       </Routes>
