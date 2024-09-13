@@ -58,6 +58,9 @@ import {
   AdminDashboardPage,
   AdminDashboardUsers,
   AdminDashboardSellers,
+  AdminDashboardOrders,
+  AdminDashboardProducts,
+  AdminDashboardEvents,
 } from "./routes/AdminRoutes.js";
 
 function App() {
@@ -286,7 +289,33 @@ function App() {
             </ProtectedAdminRoute>
           }
         />
+        <Route
+          path="/admin-orders"
+          element={
+            <ProtectedAdminRoute>
+              <AdminDashboardOrders />
+            </ProtectedAdminRoute>
+          }
+        />
+        <Route
+          path="/admin-products"
+          element={
+            <ProtectedAdminRoute>
+              <AdminDashboardProducts />
+            </ProtectedAdminRoute>
+          }
+        />
+
+        <Route
+          path="/admin-events"
+          element={
+            <ProtectedAdminRoute>
+              <AdminDashboardEvents />
+            </ProtectedAdminRoute>
+          }
+        />
       </Routes>
+
       <ToastContainer
         position="bottom-center"
         autoClose={5000}

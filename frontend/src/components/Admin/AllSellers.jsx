@@ -8,8 +8,8 @@ import { RxCross1 } from "react-icons/rx";
 import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
-import { getAllSellers } from "../../redux/actions/sellers";
 import { Link } from "react-router-dom";
+import { getAllSellers } from "../../redux/actions/sellers";
 
 const AllSellers = () => {
   const dispatch = useDispatch();
@@ -107,7 +107,7 @@ const AllSellers = () => {
         id: item._id,
         name: item?.name,
         email: item?.email,
-        joinedAt: item.createdAt.slice(0, 10),
+        joinedAt: item.createAt.slice(0, 10),
         address: item.address,
       });
     });

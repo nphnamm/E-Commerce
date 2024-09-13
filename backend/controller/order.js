@@ -9,49 +9,48 @@ const ErrorHandler = require("../utils/ErrorHandler");
 
 // create new order
 router.post(
-    "/create-order",
-    catchAsyncErrors(async (req, res, next) => {
-      try {
-        const { cart, shippingAddress, user, totalPrice, paymentInfo } = req.body;
-  
-        //   group cart items by shopId
-        const shopItemsMap = new Map();
-  
-        for (const item of cart) {
-          const shopId = item.shopId;
-          if (!shopItemsMap.has(shopId)) {
-            shopItemsMap.set(shopId, []);
-          }
-          shopItemsMap.get(shopId).push(item);
-        }
-        console.log('item map ', shopItemsMap);
-        
-  
-        // create an order for each shop
-        const orders = [];
-  
-        for (const [shopId, items] of shopItemsMap) {
-          const order = await Order.create({
-            cart: items,
-            shippingAddress,
-            user,
-            totalPrice,
-            paymentInfo,
-          });
-          orders.push(order);
-        }
-  
-        res.status(201).json({
-          success: true,
-          orders,
-        });
-      } catch (error) {
-        return next(new ErrorHandler(error.message, 500));
-      }
-    })
-  );
+  "/create-order",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const { cart, shippingAddress, user, totalPrice, paymentInfo } = req.body;
 
-  // get all orders of user
+      //   group cart items by shopId
+      const shopItemsMap = new Map();
+
+      for (const item of cart) {
+        const shopId = item.shopId;
+        if (!shopItemsMap.has(shopId)) {
+          shopItemsMap.set(shopId, []);
+        }
+        shopItemsMap.get(shopId).push(item);
+      }
+      console.log("item map ", shopItemsMap);
+
+      // create an order for each shop
+      const orders = [];
+
+      for (const [shopId, items] of shopItemsMap) {
+        const order = await Order.create({
+          cart: items,
+          shippingAddress,
+          user,
+          totalPrice,
+          paymentInfo,
+        });
+        orders.push(order);
+      }
+
+      res.status(201).json({
+        success: true,
+        orders,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
+// get all orders of user
 router.get(
   "/get-all-orders/:userId",
   catchAsyncErrors(async (req, res, next) => {
@@ -113,7 +112,7 @@ router.put(
       if (req.body.status === "Delivered") {
         order.deliveredAt = Date.now();
         order.paymentInfo.status = "Succeeded";
-        const serviceCharge = order.totalPrice * .10;
+        const serviceCharge = order.totalPrice * 0.1;
         order.cart.forEach(async (o) => {
           await updateOrder(o._id, o.qty);
         });
@@ -138,7 +137,7 @@ router.put(
 
       async function updateSellerInfo(amount) {
         const seller = await Shop.findById(req.seller.id);
-        
+
         seller.availableBalance += amount;
 
         await seller.save();
@@ -209,6 +208,27 @@ router.put(
 
         await product.save({ validateBeforeSave: false });
       }
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
+// all orders --- for admin
+router.get(
+  "/admin-all-orders",
+  isAuthenticated,
+  isAdmin("Admin"),
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const orders = await Order.find().sort({
+        deliveredAt: -1,
+        createdAt: -1,
+      });
+      res.status(201).json({
+        success: true,
+        orders,
+      });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
     }

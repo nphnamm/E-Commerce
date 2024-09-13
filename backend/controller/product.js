@@ -3,56 +3,58 @@ const cactchAsyncErrors = require("../middleware/catchAsyncErrors");
 const router = express.Router();
 const Product = require("../model/product");
 const Shop = require("../model/shop");
-const {upload} = require("../multer");
+const { upload } = require("../multer");
 const ErrorHandler = require("../utils/ErrorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-const { isAuthenticated, isSeller } = require("../middleware/auth");
+const { isAuthenticated, isSeller, isAdmin } = require("../middleware/auth");
 const fs = require("fs");
 const Order = require("../model/order");
 
 // create product
-router.post("/create-product",upload.array("images"), catchAsyncErrors(async(req,res,next)=>{
-    try{
-        const shopId = req.body.shopId;
-        const shop = await Shop.findById(shopId);
-        if(!shop){
-            return next(new ErrorHandler("Shop Id is invalid!", 400));
-
-        }else{
-            const files = req.files;
-            console.log('files', files);
-            const imageUrls = files.map((file)=> `${file.filename}`);
-            const productData = req.body;
-            productData.images = imageUrls
-            productData.shop = shop;
-            const product = await Product.create(productData);
-            res.status(201).json({
-                success: true,
-                product,
-            })
-        }
-
-    }catch(error){
-        console.log('error',error);
-         return next(new ErrorHandler(error,400))
+router.post(
+  "/create-product",
+  upload.array("images"),
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const shopId = req.body.shopId;
+      const shop = await Shop.findById(shopId);
+      if (!shop) {
+        return next(new ErrorHandler("Shop Id is invalid!", 400));
+      } else {
+        const files = req.files;
+        console.log("files", files);
+        const imageUrls = files.map((file) => `${file.filename}`);
+        const productData = req.body;
+        productData.images = imageUrls;
+        productData.shop = shop;
+        const product = await Product.create(productData);
+        res.status(201).json({
+          success: true,
+          product,
+        });
+      }
+    } catch (error) {
+      console.log("error", error);
+      return next(new ErrorHandler(error, 400));
     }
-}))
+  })
+);
 
 // get all products of a shop
 router.get(
-    "/get-all-products-shop/:id",
-    catchAsyncErrors(async (req, res, next) => {
-      try {
-        const products = await Product.find({ shopId: req.params.id });
-        // console.log('check product', products);
-        res.status(201).json({
-          success: true,
-          products,
-        });
-      } catch (error) {
-        return next(new ErrorHandler(error, 400));
-      }
-    })
+  "/get-all-products-shop/:id",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const products = await Product.find({ shopId: req.params.id });
+      // console.log('check product', products);
+      res.status(201).json({
+        success: true,
+        products,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
 );
 // delete product of a shop
 router.delete(
@@ -62,24 +64,23 @@ router.delete(
     try {
       const productId = req.params.id;
       const productData = await Product.findById(productId);
-      
-      console.log('product data', productData)
+
+      console.log("product data", productData);
 
       if (!productData) {
         return next(new ErrorHandler("Product is not found with this id", 404));
-      }    
+      }
 
-      productData.images.forEach((imageUrl)=>{
+      productData.images.forEach((imageUrl) => {
         const filename = imageUrl;
         const filePath = `uploads/${filename}`;
         fs.unlink(filePath, (err) => {
-            if(err){
-              console.log(err);
-            }
-        })
-      })
+          if (err) {
+            console.log(err);
+          }
+        });
+      });
       const product = await Product.findByIdAndDelete(productId);
-
 
       res.status(201).json({
         success: true,
@@ -107,23 +108,24 @@ router.get(
   })
 );
 // log out user
-router.get("/logout", isAuthenticated, catchAsyncErrors(async(req,res,next)=>{
-  try{
-      res.cookie("seller_token", null,{
+router.get(
+  "/logout",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      res.cookie("seller_token", null, {
         expires: new Date(Date.now()),
         httpOnly: true,
       });
       res.status(201).json({
-        success:true,
-        message: "Logged Out Successfully !"
-      })
-
-  }catch(err){
-    return next(new ErrorHandler(err.message,500))
-  }
-  
-}));
-
+        success: true,
+        message: "Logged Out Successfully !",
+      });
+    } catch (err) {
+      return next(new ErrorHandler(err.message, 500));
+    }
+  })
+);
 
 // review for a product
 router.put(
@@ -182,7 +184,24 @@ router.put(
   })
 );
 
-
+// all products --- for admin
+router.get(
+  "/admin-all-products",
+  isAuthenticated,
+  isAdmin("Admin"),
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const products = await Product.find().sort({
+        createdAt: -1,
+      });
+      res.status(201).json({
+        success: true,
+        products,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
 
 module.exports = router;
-
