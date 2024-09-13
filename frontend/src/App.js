@@ -17,7 +17,7 @@ import {
   OrderSuccessPage,
   OrderDetailsPage,
   TrackOrderPage,
-  UserInbox
+  UserInbox,
 } from "./Routes.js";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -44,7 +44,7 @@ import {
   ShopAllRefunds,
   ShopSettingsPage,
   ShopWithDrawMoneyPage,
-  ShopInboxPage
+  ShopInboxPage,
 } from "./routes/ShopRoutes.js";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute.js";
 import ShopHomePage from "./pages/Shop/ShopHomePage.jsx";
@@ -54,7 +54,10 @@ import { getAllEvents, getAllEventsShop } from "./redux/actions/event.js";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import ProtectedAdminRoute from "./routes/ProtectedAdminRouter.js";
-import { AdminDashboardPage } from "./routes/AdminRoutes.js";
+import {
+  AdminDashboardPage,
+  AdminDashboardUsers,
+} from "./routes/AdminRoutes.js";
 
 function App() {
   // console.log(
@@ -123,7 +126,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-         <Route
+        <Route
           path="/inbox"
           element={
             <ProtectedRoute>
@@ -160,7 +163,7 @@ function App() {
             </SellerProtectedRoute>
           }
         />
-          <Route
+        <Route
           path="/settings"
           element={
             <SellerProtectedRoute>
@@ -232,7 +235,7 @@ function App() {
             </SellerProtectedRoute>
           }
         />
-           <Route
+        <Route
           path="/dashboard-withdraw-money"
           element={
             <SellerProtectedRoute>
@@ -240,7 +243,7 @@ function App() {
             </SellerProtectedRoute>
           }
         />
-          <Route
+        <Route
           path="/dashboard-messages"
           element={
             <SellerProtectedRoute>
@@ -256,13 +259,21 @@ function App() {
             </SellerProtectedRoute>
           }
         />
-           {/* Admin Routes */}
+        {/* Admin Routes */}
 
         <Route
           path="/admin/dashboard"
           element={
             <ProtectedAdminRoute>
               <AdminDashboardPage />
+            </ProtectedAdminRoute>
+          }
+        />
+        <Route
+          path="/admin-users"
+          element={
+            <ProtectedAdminRoute>
+              <AdminDashboardUsers />
             </ProtectedAdminRoute>
           }
         />
