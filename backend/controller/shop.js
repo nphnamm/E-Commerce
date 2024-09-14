@@ -13,29 +13,35 @@ const sendShopToken = require("../utils/shopToken");
 
 router.post(
   "/create-shop",
-  upload.single("file"),
   catchAsyncErrors(async (req, res, next) => {
     try {
       const { email } = req.body;
       const sellerEmail = await shop.findOne({ email });
       if (sellerEmail) {
-        const filename = req.file.filename;
-        const filePath = `uploads/${filename}`;
-        fs.unlink(filePath, (err) => {
-          if (err) {
-            console.log(err);
-            res.status(500).json({ message: "Error deleting file" });
-          }
-        });
+        // const filename = req.file.filename;
+        // const filePath = `uploads/${filename}`;
+        // fs.unlink(filePath, (err) => {
+        //   if (err) {
+        //     console.log(err);
+        //     res.status(500).json({ message: "Error deleting file" });
+        //   }
+        // });
+
         return next(new ErrorHandler("Shop already exists", 400));
       }
-      const filename = req.file.filename;
-      const fileUrl = path.join(filename);
+      const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+        folder: "avatars",
+      });
+      // const filename = req.file.filename;
+      // const fileUrl = path.join(filename);
       const seller = {
         name: req.body.name,
         email: email,
         password: req.body.password,
-        avatar: fileUrl,
+        avatar: {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        },
         address: req.body.address,
         phoneNumber: req.body.phoneNumber,
         zipCode: req.body.zipCode,
@@ -208,21 +214,31 @@ router.get(
 router.put(
   "/update-shop-avatar",
   isSeller,
-  upload.single("image"),
   catchAsyncErrors(async (req, res, next) => {
     try {
       let existsSeller = await Shop.findById(req.seller._id);
-      const existAvatarPath = `uploads/${existsSeller.avatar}`;
-      fs.unlinkSync(existAvatarPath);
+      // const existAvatarPath = `uploads/${existsSeller.avatar}`;
+      // fs.unlinkSync(existAvatarPath);
 
-      const fileUrl = path.join(req.file.filename);
-      const seller = await Shop.findByIdAndUpdate(req.seller._id, {
-        avatar: fileUrl,
+      // const fileUrl = path.join(req.file.filename);
+      // const seller = await Shop.findByIdAndUpdate(req.seller._id, {
+      //   avatar: fileUrl,
+      // });
+      const imageId = existsSeller.avatar.public_id;
+      await cloudinary.v2.uploader.destroy(imageId);
+      const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+        folder: "avatars",
+        width: 150,
       });
+      existsSeller.avatar = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      };
+      await existsSeller.save();
 
       res.status(200).json({
         success: true,
-        seller,
+        seller: existsSeller,
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
