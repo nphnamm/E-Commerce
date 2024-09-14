@@ -98,7 +98,7 @@ const WithdrawMoney = () => {
         });
     }
   };
-
+  console.log("withdraw", withdrawAmount);
   const availableBalance = seller?.availableBalance.toFixed(2);
 
   return (

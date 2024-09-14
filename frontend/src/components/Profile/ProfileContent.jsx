@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { backend_url, server } from '../../server'
-import { useDispatch, useSelector } from 'react-redux'
-import styles from '../../styles/styles'
+import React, { useEffect, useState } from "react";
+import { backend_url, server } from "../../server";
+import { useDispatch, useSelector } from "react-redux";
+import styles from "../../styles/styles";
 import { DataGrid } from "@material-ui/data-grid";
 import { Button } from "@material-ui/core";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { MdTrackChanges } from "react-icons/md";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -14,11 +14,14 @@ import {
   AiOutlineCamera,
   AiOutlineDelete,
 } from "react-icons/ai";
-import { deleteUserAddress, loadUser, updateUserInformation, updatUserAddress } from '../../redux/actions/user';
+import {
+  deleteUserAddress,
+  loadUser,
+  updateUserInformation,
+  updatUserAddress,
+} from "../../redux/actions/user";
 import { Country, State } from "country-state-city";
-import { getAllOrdersOfUser } from '../../redux/actions/order';
-
-
+import { getAllOrdersOfUser } from "../../redux/actions/order";
 
 const ProfileContent = ({ active }) => {
   const { user, error, successMessage } = useSelector((state) => state.user);
@@ -33,33 +36,31 @@ const ProfileContent = ({ active }) => {
   const dispatch = useDispatch();
   const [avatar, setAvatar] = useState();
 
-
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateUserInformation(name,email,phoneNumber,password));
-  }
-  const handleImage = async(e) => {
+    dispatch(updateUserInformation(name, email, phoneNumber, password));
+  };
+  const handleImage = async (e) => {
     const file = e.target.files[0];
     setAvatar(file);
     const formData = new FormData();
 
-    formData.append("image",e.target.files[0]);
+    formData.append("image", e.target.files[0]);
 
-    await axios.put(`${server}/user/update-avatar`,formData,{
-      headers:{
-        "Content-Type": "multipart/form-data",
-      },
-      withCredentials:true,
-    })
-    .then((response)=>{
-      window.location.reload()
-    }).catch((error)=>{
-      toast.error(error);
-    })
-
-
-  }
+    await axios
+      .put(`${server}/user/update-avatar`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        window.location.reload();
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -69,75 +70,73 @@ const ProfileContent = ({ active }) => {
       toast.success(successMessage);
       dispatch({ type: "clearMessages" });
     }
-  }, [error, successMessage,avatar]);
-  console.log('success mes', successMessage);
-  console.log('check avatar', user);
+  }, [error, successMessage, avatar]);
+  console.log("success mes", successMessage);
+  console.log("check avatar", user);
   return (
-    <div className='w-full'>
-
+    <div className="w-full">
       {/* Profile Page */}
-      {active === 1 &&
-        (
-          <>
-            <div className='flex justify-center w-full'>
-              <div className='relative'>
-                <img 
-                src={`${backend_url}${user?.avatar}`} 
-                
+      {active === 1 && (
+        <>
+          <div className="flex justify-center w-full">
+            <div className="relative">
+              <img
+                src={user?.avatar?.url}
                 className="w-[150px] h-[150px] rounded-full object-cover border-[3px] border-[#3ad132]"
-                alt='' />
-                <div className='w-[30px] h-[30px] bg-[#e3e9ee] rounded-full flex items-center justify-center cursor-pointer absolute bottom-[5px] right-[5px]'>
-                  <input
-                    type='file'
-                    id='image'
-                    className='hidden'
-                    onChange={handleImage}
-                  />
-                  <label htmlFor='image'>
-                    <AiOutlineCamera />
-                  </label>
-                </div>
+                alt=""
+              />
+              <div className="w-[30px] h-[30px] bg-[#e3e9ee] rounded-full flex items-center justify-center cursor-pointer absolute bottom-[5px] right-[5px]">
+                <input
+                  type="file"
+                  id="image"
+                  className="hidden"
+                  onChange={handleImage}
+                />
+                <label htmlFor="image">
+                  <AiOutlineCamera />
+                </label>
               </div>
             </div>
-            <br />
-            <br />
-            <div className="w-full px-5">
-              <form onSubmit={handleSubmit} aria-required={true}>
-                <div className="w-full 800px:flex block pb-3">
-                  <div className=" w-[100%] 800px:w-[50%]">
-                    <label className="block pb-2">Full Name</label>
-                    <input
-                      type="text"
-                      className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
-                      required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </div>
-                  <div className=" w-[100%] 800px:w-[50%]">
-                    <label className="block pb-2">Email Address</label>
-                    <input
-                      type="text"
-                      className={`${styles.input} !w-[95%] mb-1 800px:mb-0`}
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </div>
+          </div>
+          <br />
+          <br />
+          <div className="w-full px-5">
+            <form onSubmit={handleSubmit} aria-required={true}>
+              <div className="w-full 800px:flex block pb-3">
+                <div className=" w-[100%] 800px:w-[50%]">
+                  <label className="block pb-2">Full Name</label>
+                  <input
+                    type="text"
+                    className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
                 </div>
-                <div className="w-full 800px:flex block pb-3">
-                  <div className="w-[100%] 800px:w-[50%]">
-                    <label className="block pb-2">Phone Number</label>
-                    <input
-                      type="text"
-                      className={`${styles.input} !w-[95%]`}
-                      required
-                      value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
-                    />
-                  </div>
+                <div className=" w-[100%] 800px:w-[50%]">
+                  <label className="block pb-2">Email Address</label>
+                  <input
+                    type="text"
+                    className={`${styles.input} !w-[95%] mb-1 800px:mb-0`}
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="w-full 800px:flex block pb-3">
+                <div className="w-[100%] 800px:w-[50%]">
+                  <label className="block pb-2">Phone Number</label>
+                  <input
+                    type="text"
+                    className={`${styles.input} !w-[95%]`}
+                    required
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                </div>
 
-                  <div className=" w-[100%] 800px:w-[50%]">
+                <div className=" w-[100%] 800px:w-[50%]">
                   <label className="block pb-2">Enter your password</label>
                   <input
                     type="password"
@@ -147,51 +146,42 @@ const ProfileContent = ({ active }) => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                </div>
-              
-                <input
-                  className={`w-[250px] h-[40px] border border-[#3a24db] text-center text-[#3a24db] rounded-[3px] mt-8 cursor-pointer`}
-                  required
-                  value="Update"
-                  type="submit"
-                />
-              </form>
-            </div>
-          </>
+              </div>
 
-
-        )}
-
+              <input
+                className={`w-[250px] h-[40px] border border-[#3a24db] text-center text-[#3a24db] rounded-[3px] mt-8 cursor-pointer`}
+                required
+                value="Update"
+                type="submit"
+              />
+            </form>
+          </div>
+        </>
+      )}
 
       {/* Order Page  */}
-      {
-        active === 2 && (
-          <div>
-            <AllOrders />
-          </div>
-        )
-      }
-
+      {active === 2 && (
+        <div>
+          <AllOrders />
+        </div>
+      )}
 
       {/*  Refund Page  */}
-      {
-        active === 3 && (
-          <div>
-            <AllRefundOrders />
-          </div>
-        )
-      }
-      
-      
+      {active === 3 && (
+        <div>
+          <AllRefundOrders />
+        </div>
+      )}
+
       {/* Track order */}
-        {active === 5 && (
+      {active === 5 && (
         <div>
           <TrackOrder />
         </div>
       )}
 
-       {/* Change Password */}
-       {active === 6 && (
+      {/* Change Password */}
+      {active === 6 && (
         <div>
           <ChangePassword />
         </div>
@@ -203,10 +193,9 @@ const ProfileContent = ({ active }) => {
           <Address />
         </div>
       )}
-
     </div>
-  )
-}
+  );
+};
 const AllOrders = () => {
   const { user } = useSelector((state) => state.user);
   const { orders } = useSelector((state) => state.order);
@@ -267,17 +256,17 @@ const AllOrders = () => {
     },
   ];
   const row = [];
-  orders && orders.forEach((item) => {
-    row.push({
-      id: item._id,
-      itemsQty: item.cart.length,
-      total: "US$" + item.totalPrice,
-      status: item.status,
-
+  orders &&
+    orders.forEach((item) => {
+      row.push({
+        id: item._id,
+        itemsQty: item.cart.length,
+        total: "US$" + item.totalPrice,
+        status: item.status,
+      });
     });
-  });
   return (
-    <div className='pl-8 pt-1'>
+    <div className="pl-8 pt-1">
       <DataGrid
         rows={row}
         columns={columns}
@@ -286,11 +275,9 @@ const AllOrders = () => {
         disableSelectionOnClick
       />
     </div>
-  )
-
-}
-const AllRefundOrders = () =>{
-
+  );
+};
+const AllRefundOrders = () => {
   const { user } = useSelector((state) => state.user);
   const { orders } = useSelector((state) => state.order);
   const dispatch = useDispatch();
@@ -299,7 +286,7 @@ const AllRefundOrders = () =>{
     dispatch(getAllOrdersOfUser(user._id));
   }, []);
   const eligibleOrders =
-  orders && orders.filter((item) => item.status === "Processing refund");
+    orders && orders.filter((item) => item.status === "Processing refund");
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
@@ -354,17 +341,17 @@ const AllRefundOrders = () =>{
 
   const row = [];
 
-  eligibleOrders && eligibleOrders.forEach((item) => {
-    row.push({
-      id: item._id,
-      itemsQty: item.cart.length,
-      total: "US$" + item.totalPrice,
-      status: item.status,
-
+  eligibleOrders &&
+    eligibleOrders.forEach((item) => {
+      row.push({
+        id: item._id,
+        itemsQty: item.cart.length,
+        total: "US$" + item.totalPrice,
+        status: item.status,
+      });
     });
-  });
   return (
-    <div className='pl-8 pt-1'>
+    <div className="pl-8 pt-1">
       <DataGrid
         rows={row}
         columns={columns}
@@ -372,12 +359,9 @@ const AllRefundOrders = () =>{
         autoHeight
         disabledSelectionOnclick
       />
-
     </div>
-  )
-
-
-}
+  );
+};
 
 const TrackOrder = () => {
   const { user } = useSelector((state) => state.user);
@@ -440,14 +424,15 @@ const TrackOrder = () => {
 
   const row = [];
 
-  orders && orders.forEach((item) => {
-    row.push({
-      id: item._id,
-      itemsQty: item.cart.length,
-      total: "US$ " + item.totalPrice,
-      status: item.status,
+  orders &&
+    orders.forEach((item) => {
+      row.push({
+        id: item._id,
+        itemsQty: item.cart.length,
+        total: "US$ " + item.totalPrice,
+        status: item.status,
+      });
     });
-  });
 
   return (
     <div className="pl-8 pt-1">
@@ -586,12 +571,11 @@ const Address = () => {
       setZipCode(null);
       setAddressType("");
     }
-    
   };
 
   const handleDelete = (item) => {
     const id = item._id;
-      dispatch(deleteUserAddress(id));
+    dispatch(deleteUserAddress(id));
   };
 
   return (
@@ -633,7 +617,7 @@ const Address = () => {
                           >
                             {item.name}
                           </option>
-                        ))} 
+                        ))}
                     </select>
                   </div>
 
@@ -649,7 +633,7 @@ const Address = () => {
                       <option value="" className="block border pb-2">
                         choose your city
                       </option>
-                     {State &&
+                      {State &&
                         State.getStatesOfCountry(country).map((item) => (
                           <option
                             className="block pb-2"
@@ -658,7 +642,7 @@ const Address = () => {
                           >
                             {item.name}
                           </option>
-                        ))} 
+                        ))}
                     </select>
                   </div>
 
@@ -783,5 +767,4 @@ const Address = () => {
   );
 };
 
-
-export default ProfileContent
+export default ProfileContent;

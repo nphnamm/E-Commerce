@@ -35,13 +35,12 @@ function Header({ activeHeading }) {
   const [openWishlist, setOpenWishlist] = useState(false);
   const [open, setOpen] = useState(false);
 
-
   const handleSearchChange = (e) => {
     const term = e.target.value;
     setSearchTerm(term);
     const filteredProducts =
-    allProducts &&
-    allProducts.filter((product) =>
+      allProducts &&
+      allProducts.filter((product) =>
         product.name.toLowerCase().includes(term.toLowerCase())
       );
     setSearchData(filteredProducts);
@@ -108,9 +107,10 @@ function Header({ activeHeading }) {
             ) : null}
           </div>
           <div className={`${styles.button}`}>
-          <Link to={`${isSeller ? "/dashboard" : "/shop-create"}`}>
+            <Link to={`${isSeller ? "/dashboard" : "/shop-create"}`}>
               <h1 className="text-[#fff] flex items-center">
-              {isSeller ? "Go Dashboard" : "Become Seller"}{" "}              </h1>
+                {isSeller ? "Go Dashboard" : "Become Seller"}{" "}
+              </h1>
             </Link>
           </div>
         </div>
@@ -200,7 +200,7 @@ function Header({ activeHeading }) {
                 {isAuthenticated ? (
                   <Link to="/profile">
                     <img
-                      src={`${backend_url}${user.avatar}`}
+                      src={user.avatar?.url}
                       className="w-[35px] h-[35px] rounded-full"
                       alt=""
                     />
@@ -323,8 +323,8 @@ function Header({ activeHeading }) {
                   <div>
                     <Link to="/profile">
                       <img
-                      src={`${backend_url}${user.avatar}`}
-                      alt=""
+                        src={user.avatar?.url}
+                        alt=""
                         className="w-[60px] h-[60px] rounded-full border-[3px] border-[#0eae88]"
                       />
                     </Link>
@@ -346,7 +346,6 @@ function Header({ activeHeading }) {
                   </>
                 )}
               </div>
-
             </div>
           </div>
         )}

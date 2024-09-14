@@ -6,6 +6,6 @@ function are properly handled and passed to the next error-handling middleware.
 */
 
 module.exports = (theFunc) => (req, res, next) => {
-  console.log(req);
+  // console.log(req);
   Promise.resolve(theFunc(req, res, next)).catch(next);
 };

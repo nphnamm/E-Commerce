@@ -11,7 +11,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllProductsShop } from "../../redux/actions/product";
 import Ratings from "./Ratings";
 import { backend_url, server } from "../../server";
-import { addToWishlist, removeFromWishlist } from "../../redux/actions/wishlist";
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "../../redux/actions/wishlist";
 import { toast } from "react-toastify";
 import { addTocart } from "../../redux/actions/cart";
 import axios from "axios";
@@ -32,25 +35,22 @@ const ProductDetails = ({ data }) => {
     dispatch(getAllProductsShop(data && data?.shop._id));
   }, [data]);
 
-
- 
   const decrementCount = () => {
     if (count > 1) {
       setCount(count - 1);
     }
   };
-  const totalReviewsLength =  products &&
-  products.reduce((acc, product) => acc + product.reviews.length, 0);;
+  const totalReviewsLength =
+    products &&
+    products.reduce((acc, product) => acc + product.reviews.length, 0);
 
-
-
-
-  const totalRatings =  products &&
-  products.reduce(
-    (acc, product) =>
-      acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
-    0
-  );
+  const totalRatings =
+    products &&
+    products.reduce(
+      (acc, product) =>
+        acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
+      0
+    );
   const incrementCount = () => {
     setCount(count + 1);
   };
@@ -81,28 +81,28 @@ const ProductDetails = ({ data }) => {
       }
     }
   };
-  const handleMessageSubmit = async () =>{
-    if(isAuthenticated){
+  const handleMessageSubmit = async () => {
+    if (isAuthenticated) {
       const groupTitle = data._id + user._id;
       const userId = user._id;
       const sellerId = data.shop._id;
-      await axios.post(`${server}/conversation/create-new-conversation`,{
-        groupTitle,
-        userId,
-        sellerId
-      }).
-      then((res)=>{
-        navigate(`/inbox?${res.data.conversation._id}`)
-
-      }).
-      catch((error)=>{
-        toast.error(error.response.data.message);
-      })
-    }else{
-      toast.error("Please login to create a conversation")
+      await axios
+        .post(`${server}/conversation/create-new-conversation`, {
+          groupTitle,
+          userId,
+          sellerId,
+        })
+        .then((res) => {
+          navigate(`/inbox?${res.data.conversation._id}`);
+        })
+        .catch((error) => {
+          toast.error(error.response.data.message);
+        });
+    } else {
+      toast.error("Please login to create a conversation");
     }
-  }
-  console.log('product detail', data);
+  };
+  console.log("product detail", data);
   return (
     <div className="bg-white">
       {data ? (
@@ -110,9 +110,11 @@ const ProductDetails = ({ data }) => {
           <div className="w-full py-5">
             <div className="block w-full 800px:flex">
               <div className="w-full 800px:w-[50%]">
-                <img 
-            src={`${backend_url}${data?.images[0]}`}
-            alt="" className="w-[80%]" />
+                <img
+                  src={`${backend_url}${data?.images[0]}`}
+                  alt=""
+                  className="w-[80%]"
+                />
 
                 <div className="w-full flex">
                   {data &&
@@ -209,29 +211,28 @@ const ProductDetails = ({ data }) => {
 
                 {/* //TODO: PRODUCT PRODUCER */}
                 <div className="flex items-center pt-8">
-                <Link to={`/shop/preview/${data?.shop._id}`}>
-                  <img
-
-                    src={`${backend_url}${data?.shop?.avatar}`}
-                    alt=""
-                    className="w-[50px] h-[50px] rounded-full mr-2"
-                  />
-                  <div className="pr-8">
-                    <h3 className={`${styles.shop_name} pb-1 pt-1`}>
-                      {data.shop.name}
-                    </h3>
-                    <h5 className="pb-3 text-[15px]">
-                      {data.shop.ratings} Ratings
-                    </h5>
-                  </div>
-                  <div
-                    className={`${styles.button} bg-[#6443d1] mt-1 !rounded !h-11`}
-                    onClick={handleMessageSubmit}
-                  >
-                    <span className="text-white flex items-center">
-                      Send Message <AiOutlineMessage className="ml-1" />
-                    </span>
-                  </div>
+                  <Link to={`/shop/preview/${data?.shop._id}`}>
+                    <img
+                      src={`${backend_url}${data?.shop?.avatar}`}
+                      alt=""
+                      className="w-[50px] h-[50px] rounded-full mr-2"
+                    />
+                    <div className="pr-8">
+                      <h3 className={`${styles.shop_name} pb-1 pt-1`}>
+                        {data.shop.name}
+                      </h3>
+                      <h5 className="pb-3 text-[15px]">
+                        {data.shop.ratings} Ratings
+                      </h5>
+                    </div>
+                    <div
+                      className={`${styles.button} bg-[#6443d1] mt-1 !rounded !h-11`}
+                      onClick={handleMessageSubmit}
+                    >
+                      <span className="text-white flex items-center">
+                        Send Message <AiOutlineMessage className="ml-1" />
+                      </span>
+                    </div>
                   </Link>
                 </div>
               </div>
@@ -318,7 +319,7 @@ const ProductDetailsInfo = ({
             data?.reviews?.map((item, index) => (
               <div className="w-full flex my-2">
                 <img
-                  src={`${backend_url}${item.user.avatar}`}
+                  src={item.user.avatar}
                   alt=""
                   className="w-[50px] h-[50px] rounded-full"
                 />
@@ -343,19 +344,19 @@ const ProductDetailsInfo = ({
         <div className="w-full block 800px:flex p-5">
           <div className="w-full 800px:w-[50%]">
             <Link to={`/shop/preview/${data.shop._id}`}>
-            
-           
-            <div className="flex items-center">
-              <img
-                src={`${backend_url}${data?.shop?.avatar}`}
-                className="w-[50px] h-[50px] rounded-full"
-                alt=""
-              />
-              <div className="pl-3">
-                <h3 className={`${styles.shop_name}`}>{data.shop.name}</h3>
-                <h5 className="pb-3 text-[15px]">({averageRating}/5) Ratings</h5>
+              <div className="flex items-center">
+                <img
+                  src={`${backend_url}${data?.shop?.avatar}`}
+                  className="w-[50px] h-[50px] rounded-full"
+                  alt=""
+                />
+                <div className="pl-3">
+                  <h3 className={`${styles.shop_name}`}>{data.shop.name}</h3>
+                  <h5 className="pb-3 text-[15px]">
+                    ({averageRating}/5) Ratings
+                  </h5>
+                </div>
               </div>
-            </div>
             </Link>
             <p className="pt-2">{data.shop.description}</p>
           </div>
