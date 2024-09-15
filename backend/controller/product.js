@@ -9,11 +9,11 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const { isAuthenticated, isSeller, isAdmin } = require("../middleware/auth");
 const fs = require("fs");
 const Order = require("../model/order");
+const cloudinary = require("cloudinary");
 
 // create product
 router.post(
   "/create-product",
-  upload.array("images"),
   catchAsyncErrors(async (req, res, next) => {
     try {
       const shopId = req.body.shopId;
@@ -21,11 +21,37 @@ router.post(
       if (!shop) {
         return next(new ErrorHandler("Shop Id is invalid!", 400));
       } else {
-        const files = req.files;
-        console.log("files", files);
-        const imageUrls = files.map((file) => `${file.filename}`);
+        // const files = req.files;
+        // console.log("files", files);
+        // const imageUrls = files.map((file) => `${file.filename}`);
+        // const productData = req.body;
+        // productData.images = imageUrls;
+        // productData.shop = shop;
+        // const product = await Product.create(productData);
+        // res.status(201).json({
+        //   success: true,
+        //   product,
+        // });
+        let images = [];
+        if (typeof req.body.images === "array") {
+          images.push(req.body.images);
+        } else {
+          images = req.body.images;
+        }
+        const imagesLinks = [];
+
+        for (let i = 0; i < images.length; i++) {
+          const result = await cloudinary.v2.uploader.upload(images[i], {
+            folder: "products",
+          });
+
+          imagesLinks.push({
+            public_id: result.public_id,
+            url: result.secure_url,
+          });
+        }
         const productData = req.body;
-        productData.images = imageUrls;
+        productData.images = imagesLinks;
         productData.shop = shop;
         const product = await Product.create(productData);
         res.status(201).json({

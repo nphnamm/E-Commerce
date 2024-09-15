@@ -1,51 +1,73 @@
 import axios from "axios";
 import { server } from "../../server";
 
-// create product 
-export const createProduct = (newForm)=> async (dispatch)=>{
-    try{
-        dispatch({
-            type:"productCreateRequest",
-        });
-        const config = {headers :{"Content-Type":"multipart/form-data"}};
-  
-        const {data }= await axios.post(`${server }/product/create-product`,newForm, config);
-
-        dispatch({
-            type:"productCreateSuccess",
-            payload:data.product
-        })
-    }catch(error){
-        dispatch({
-            type:"productCreateFail",
-            payload: error.response.data.message
-        })
-    }
-    
-}
-
-//get all products of a shop 
-// get All Products of a shop
-export const getAllProductsShop = (id) => async (dispatch) => {
+// create product
+export const createProduct =
+  (
+    name,
+    description,
+    category,
+    tags,
+    originalPrice,
+    discountPrice,
+    stock,
+    shopId,
+    images
+  ) =>
+  async (dispatch) => {
     try {
       dispatch({
-        type: "getAllProductsShopRequest",
+        type: "productCreateRequest",
       });
-  
-      const { data } = await axios.get(
-        `${server}/product/get-all-products-shop/${id}`
+      // const config = {headers :{"Content-Type":"multipart/form-data"}};
+
+      // const {data }= await axios.post(`${server }/product/create-product`,newForm, config);
+      const { data } = await axios.post(
+        `${server}/product/create-product`,
+        name,
+        description,
+        category,
+        tags,
+        originalPrice,
+        discountPrice,
+        stock,
+        shopId,
+        images
       );
-      console.log('check data', data);
       dispatch({
-        type: "getAllProductsShopSuccess",
-        payload: data.products,
+        type: "productCreateSuccess",
+        payload: data.product,
       });
     } catch (error) {
       dispatch({
-        type: "getAllProductsShopFailed",
+        type: "productCreateFail",
         payload: error.response.data.message,
       });
     }
+  };
+
+//get all products of a shop
+// get All Products of a shop
+export const getAllProductsShop = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "getAllProductsShopRequest",
+    });
+
+    const { data } = await axios.get(
+      `${server}/product/get-all-products-shop/${id}`
+    );
+    console.log("check data", data);
+    dispatch({
+      type: "getAllProductsShopSuccess",
+      payload: data.products,
+    });
+  } catch (error) {
+    dispatch({
+      type: "getAllProductsShopFailed",
+      payload: error.response.data.message,
+    });
+  }
 };
 
 // delete product of a shop
@@ -73,7 +95,7 @@ export const deleteProduct = (id) => async (dispatch) => {
     });
   }
 };
-  
+
 // get all products
 export const getAllProducts = () => async (dispatch) => {
   try {

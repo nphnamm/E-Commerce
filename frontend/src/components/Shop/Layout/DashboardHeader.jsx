@@ -9,7 +9,7 @@ import { backend_url } from "../../../server";
 
 const DashboardHeader = () => {
   const { seller } = useSelector((state) => state.seller);
-//   console.log('seller', seller);
+  //   console.log('seller', seller);
   return (
     <div className="w-full h-[80px] bg-white shadow sticky top-0 left-0 z-30 flex items-center justify-between px-4">
       <div>
@@ -55,7 +55,7 @@ const DashboardHeader = () => {
           </Link>
           <Link to={`/shop/${seller?._id}`}>
             <img
-              src={`${backend_url}${seller?.avatar}`}
+              src={seller?.avatar?.url}
               alt=""
               className="w-[50px] h-[50px] rounded-full object-cover"
             />

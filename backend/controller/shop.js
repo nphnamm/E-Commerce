@@ -225,10 +225,14 @@ router.put(
       // const seller = await Shop.findByIdAndUpdate(req.seller._id, {
       //   avatar: fileUrl,
       // });
-      const imageId = existsSeller.avatar.public_id;
-      await cloudinary.v2.uploader.destroy(imageId);
+      if (existsSeller.avatar?.public_id && existsSeller.avatar?.url) {
+        const imageId = existsSeller.avatar.public_id;
+        await cloudinary.v2.uploader.destroy(imageId);
+      }
+
       const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
         folder: "avatars",
+        width: 150,
       });
       existsSeller.avatar = {
         public_id: myCloud.public_id,

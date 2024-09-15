@@ -259,8 +259,10 @@ router.put(
       //   avatar: fileUrl,
       // });
       if (req.body.avatar !== "") {
-        const imageId = existsUser.avatar.public_id;
-        await cloudinary.v2.uploader.destroy(imageId);
+        if (existsUser.avatar?.public_id && existsUser.avatar?.url) {
+          const imageId = existsUser.avatar.public_id;
+          await cloudinary.v2.uploader.destroy(imageId);
+        }
         const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
           folder: "avatars",
           width: 150,

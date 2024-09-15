@@ -8,7 +8,7 @@ import { categoriesData } from "../../static/data";
 
 function CreateProduct() {
   const { seller } = useSelector((state) => state.seller);
-  const { isLoading,success, error } = useSelector((state) => state.products);
+  const { isLoading, success, error } = useSelector((state) => state.products);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -30,15 +30,15 @@ function CreateProduct() {
       navigate("/dashboard");
       window.location.reload();
     }
-  }, [dispatch,error,success,images]);
+  }, [dispatch, error, success, images]);
 
   const handleImageChange = (e) => {
-    e.preventDefault();
-    let files = Array.from(e.target.files);
-    setImages((prevImages) => [...prevImages, ...files]);
+    // e.preventDefault();
+    // let files = Array.from(e.target.files);
+
+    // setImages((prevImages) => [...prevImages, ...files]);
     // const reader = new FileReader();
     // reader.readAsDataURL(files);
-
 
     // console.log('check file', files);
     // // setImages([]);
@@ -53,14 +53,55 @@ function CreateProduct() {
     //   };
     //   reader.readAsDataURL(file);
     // });
+    const files = Array.from(e.target.files);
+
+    // setImages([]);
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImages((old) => [...old, reader.result]);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // const newForm = new FormData();
+    // console.log('check',images);
+    // images.forEach((image) => {
+    //   newForm.append("images", image);
+    // });
+    // newForm.append("name", name);
+    // newForm.append("description", description);
+    // newForm.append("category", category);
+    // newForm.append("tags", tags);
+    // newForm.append("originalPrice", originalPrice);
+    // newForm.append("discountPrice", discountPrice);
+    // newForm.append("stock", stock);
+    // newForm.append("shopId", seller._id);
+    // // dispatch(
+    // //   createProduct({
+    // //     name,
+    // //     description,
+    // //     category,
+    // //     tags,
+    // //     originalPrice,
+    // //     discountPrice,
+    // //     stock,
+    // //     shopId: seller._id,
+    // //     images,
+    // //   })
+    // // );
+    // dispatch(createProduct(newForm));
     const newForm = new FormData();
-    console.log('check',images);
+
     images.forEach((image) => {
-      newForm.append("images", image);
+      newForm.set("images", image);
     });
     newForm.append("name", name);
     newForm.append("description", description);
@@ -70,22 +111,21 @@ function CreateProduct() {
     newForm.append("discountPrice", discountPrice);
     newForm.append("stock", stock);
     newForm.append("shopId", seller._id);
-    // dispatch(
-    //   createProduct({
-    //     name,
-    //     description,
-    //     category,
-    //     tags,
-    //     originalPrice,
-    //     discountPrice,
-    //     stock,
-    //     shopId: seller._id,
-    //     images,
-    //   })
-    // );
-    dispatch(createProduct(newForm));
+    dispatch(
+      createProduct({
+        name,
+        description,
+        category,
+        tags,
+        originalPrice,
+        discountPrice,
+        stock,
+        shopId: seller._id,
+        images,
+      })
+    );
   };
-  console.log('check images', images);
+  console.log("check images", images);
 
   return (
     <div className="w-[90%] 800px:w-[50%] bg-white shadow h-[80vh] rounded-[4px] p-3 overflow-y-scroll">
@@ -211,7 +251,7 @@ function CreateProduct() {
             {images &&
               images.map((i) => (
                 <img
-                  src={URL.createObjectURL(i)}
+                  src={i}
                   key={i}
                   alt=""
                   className="h-[120px] w-[120px] object-cover m-2"
@@ -227,7 +267,6 @@ function CreateProduct() {
             />
           </div>
         </div>
-
       </form>
     </div>
   );
