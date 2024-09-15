@@ -63,7 +63,7 @@ const ProductCard = ({ data, isEvent }) => {
   };
   const d = data.name;
   const product_name = d.replace(/\s+/g, "-");
-  // console.log('product name', data);
+  console.log("product from db  ", data);
   return (
     //TODO: Full width is 253
     <>
@@ -73,7 +73,7 @@ const ProductCard = ({ data, isEvent }) => {
         {/* //TODO: Use object-contain to keep the image size the same even if the screen is resized. */}
         <Link to={`/product/${data?._id}`}>
           <img
-            src={`${backend_url}${data?.images[0]}`}
+            src={data?.images[0]?.url}
             onError={() =>
               setImgSrc(
                 "https://www.fs-code.com/storage/blogs/404-error-1633957800.jpg"

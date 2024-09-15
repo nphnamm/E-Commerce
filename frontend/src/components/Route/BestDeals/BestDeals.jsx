@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../../styles/styles";
-import { productData } from "../../../static/data";
 import { useSelector } from "react-redux";
 import ProductCard from "../ProductCard/ProductCard";
 const BestDeals = () => {
@@ -8,10 +7,10 @@ const BestDeals = () => {
   const { allProducts } = useSelector((state) => state.products);
   useEffect(() => {
     const allProductsData = allProducts ? [...allProducts] : [];
-    const sortedData = allProductsData?.sort((a,b) => b.sold_out - a.sold_out); 
+    const sortedData = allProductsData?.sort((a, b) => b.sold_out - a.sold_out);
     const firstFive = sortedData && sortedData.slice(0, 5);
     setData(firstFive);
-  }, [allProducts]);
+  }, []);
   // console.log('product card', productData);
   return (
     //TODO: if max screen is 1385 when use styles section then screen is 1269 and each div is 253
