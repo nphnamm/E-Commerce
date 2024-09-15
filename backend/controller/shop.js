@@ -10,6 +10,7 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const { upload } = require("../multer");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const sendShopToken = require("../utils/shopToken");
+const cloudinary = require("cloudinary");
 
 router.post(
   "/create-shop",
@@ -228,7 +229,6 @@ router.put(
       await cloudinary.v2.uploader.destroy(imageId);
       const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
         folder: "avatars",
-        width: 150,
       });
       existsSeller.avatar = {
         public_id: myCloud.public_id,

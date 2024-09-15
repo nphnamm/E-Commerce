@@ -18,9 +18,9 @@ const ShopProfileData = ({ isOwner }) => {
     dispatch(getAllProductsShop(id));
     dispatch(getAllEventsShop(id));
   }, [dispatch]);
-  
+
   const allReviews =
-  products && products.map((product) => product.reviews).flat();
+    products && products.map((product) => product.reviews).flat();
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
@@ -95,13 +95,13 @@ const ShopProfileData = ({ isOwner }) => {
           )}
         </div>
       )}
-        {active === 3 && (
+      {active === 3 && (
         <div className="w-full">
           {allReviews &&
             allReviews.map((item, index) => (
               <div className="w-full flex my-4">
                 <img
-                  src={`${backend_url}${item.user.avatar}`}
+                  src={item?.user?.avatar}
                   className="w-[50px] h-[50px] rounded-full"
                   alt=""
                 />
@@ -111,7 +111,9 @@ const ShopProfileData = ({ isOwner }) => {
                     <Ratings rating={item.rating} />
                   </div>
                   <p className="font-[400] text-[#000000a7]">{item?.comment}</p>
-                  <p className="text-[#000000a7] text-[14px]">{item?.createdAt}</p>
+                  <p className="text-[#000000a7] text-[14px]">
+                    {item?.createdAt}
+                  </p>
                 </div>
               </div>
             ))}

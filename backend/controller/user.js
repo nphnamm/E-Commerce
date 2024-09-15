@@ -274,9 +274,10 @@ router.put(
 
       res.status(200).json({
         success: true,
-        user,
+        user: existsUser,
       });
     } catch (error) {
+      console.log("log", error);
       return next(new ErrorHandler(error.message, 500));
     }
   })
