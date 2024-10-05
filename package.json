@@ -7,7 +7,7 @@
     "node": "18.x"
   },
   "scripts": {
-    "start": "node backend/server.js",
+    "start": "nodemon backend/server.js",
     "dev": "nodemon backend/server.js"
   },
   "author": "",

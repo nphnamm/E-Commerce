@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createProduct } from "../../redux/actions/product";
 import { categoriesData } from "../../static/data";
-
+import { sizeData } from "../../static/data";
 function CreateProduct() {
   const { seller } = useSelector((state) => state.seller);
   const { isLoading, success, error } = useSelector((state) => state.products);
@@ -16,6 +16,8 @@ function CreateProduct() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
+  const [size, setSize] = useState("");
+
   const [tags, setTags] = useState("");
   const [originalPrice, setOriginalPrice] = useState();
   const [discountPrice, setDiscountPrice] = useState();
@@ -106,6 +108,8 @@ function CreateProduct() {
     newForm.append("name", name);
     newForm.append("description", description);
     newForm.append("category", category);
+    newForm.append("size", size);
+
     newForm.append("tags", tags);
     newForm.append("originalPrice", originalPrice);
     newForm.append("discountPrice", discountPrice);
@@ -185,6 +189,25 @@ function CreateProduct() {
             <option value="Choose a category">Choose a category</option>
             {categoriesData &&
               categoriesData.map((i) => (
+                <option value={i.title} key={i.title}>
+                  {i.title}
+                </option>
+              ))}
+          </select>
+        </div>
+        <br />
+        <div>
+          <label className="pb-2">
+            Size <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full mt-2 border h-[35px] rounded-[5px]"
+            value={size}
+            onChange={(e) => setSize(e.target.value)}
+          >
+            <option value="Choose a size">Choose a size</option>
+            {sizeData &&
+              sizeData.map((i) => (
                 <option value={i.title} key={i.title}>
                   {i.title}
                 </option>

@@ -18,6 +18,7 @@ import {
 import { toast } from "react-toastify";
 import { addTocart } from "../../redux/actions/cart";
 import axios from "axios";
+import { sizeData } from "../../static/data";
 
 const ProductDetails = ({ data }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
@@ -27,6 +28,8 @@ const ProductDetails = ({ data }) => {
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(0);
+  const [selectedSize, setSelectedSize] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -56,6 +59,9 @@ const ProductDetails = ({ data }) => {
   const addToWishlistHandler = (data) => {
     setClick(!click);
     dispatch(addToWishlist(data));
+  };
+  const handleSizeClick = (size) => {
+    setSelectedSize(size);
   };
 
   const addToCartHandler = (id) => {
@@ -156,6 +162,34 @@ const ProductDetails = ({ data }) => {
                   <h3 className={`${styles.price}`}>
                     {data.originalPrice ? data.originalPrice + "$" : null}
                   </h3>
+                </div>
+
+                {/* selected size */}
+                <div className="container mt-4">
+                  <h5>Select Size</h5>
+                  <div className="flex justify-content-start">
+                    {sizeData.map((size) => (
+                      <div
+                        key={size.id}
+                        className={`p-3 m-1 border ${
+                          selectedSize === size.title
+                            ? "border-primary"
+                            : "border-secondary"
+                        }`}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleSizeClick(size.title)}
+                      >
+                        {size.title}
+                      </div>
+                    ))}
+                  </div>
+                  {selectedSize && (
+                    <div className="mt-3">
+                      <p>
+                        You selected: <strong>{selectedSize}</strong>
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex items-center mt-12 justify-between pr-3">

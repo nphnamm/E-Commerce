@@ -66,6 +66,64 @@ router.post(
   })
 );
 
+//update product
+router.put(
+  "/update-product/:id",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const shopId = req.body.shopId;
+      const shop = await Shop.findById(shopId);
+      if (!shop) {
+        return next(new ErrorHandler("Shop Id is invalid!", 400));
+      } else {
+        // const files = req.files;
+        // console.log("files", files);
+        // const imageUrls = files.map((file) => `${file.filename}`);
+        // const productData = req.body;
+        // productData.images = imageUrls;
+        // productData.shop = shop;
+        // const product = await Product.create(productData);
+        // res.status(201).json({
+        //   success: true,
+        //   product,
+        // });
+        let images = [];
+        if (typeof req.body.images === "array") {
+          images.push(req.body.images);
+        } else {
+          images = req.body.images;
+        }
+        const imagesLinks = [];
+
+        for (let i = 0; i < images.length; i++) {
+          const result = await cloudinary.v2.uploader.upload(images[i], {
+            folder: "products",
+          });
+
+          imagesLinks.push({
+            public_id: result.public_id,
+            url: result.secure_url,
+          });
+        }
+        const productData = req.body;
+        productData.images = imagesLinks;
+        productData.shop = shop;
+        const product = await Product.findByIdAndUpdate(
+          req.params.id,
+          productData
+        );
+        res.status(201).json({
+          success: true,
+          product,
+        });
+      }
+    } catch (error) {
+      console.log("error", error);
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
 // get all products of a shop
 router.get(
   "/get-all-products-shop/:id",
@@ -82,6 +140,31 @@ router.get(
     }
   })
 );
+//get product by Id
+router.get(
+  "/get-product/:id",
+  isSeller,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const productId = req.params.id;
+      const productData = await Product.findById(productId);
+
+      console.log("product data", productData);
+
+      if (!productData) {
+        return next(new ErrorHandler("Product is not found with this id", 404));
+      }
+
+      res.status(201).json({
+        product: productData,
+        success: true,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
 // delete product of a shop
 router.delete(
   "/delete-shop-product/:id",

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct, getAllProductsShop } from "../../redux/actions/product";
-import { AiOutlineDelete, AiOutlineEye } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineEye, AiFillEdit } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
@@ -11,12 +11,15 @@ function AllProducts() {
   const { products, isLoading } = useSelector((state) => state.products);
   const { seller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
-  console.log('check seller', seller);
+  console.log("check seller", seller);
 
   const handleDelete = (id) => {
-    console.log('check id',id);
+    console.log("check id", id);
     dispatch(deleteProduct(id));
-     window.location.reload();
+    window.location.reload();
+  };
+  const handleUpdate = (id) => {
+    console.log("check id", id);
   };
   useEffect(() => {
     dispatch(getAllProductsShop(seller._id));
@@ -81,6 +84,23 @@ function AllProducts() {
           <>
             <Button onClick={() => handleDelete(params.id)}>
               <AiOutlineDelete size={20} />
+            </Button>
+          </>
+        );
+      },
+    },
+    {
+      field: "Edit",
+      flex: 0.8,
+      minWidth: 120,
+      headerName: "",
+      type: "number",
+      sortable: false,
+      renderCell: (params) => {
+        return (
+          <>
+            <Button onClick={() => handleUpdate(params.id)}>
+              <AiFillEdit size={20} />
             </Button>
           </>
         );

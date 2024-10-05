@@ -36,6 +36,7 @@ export const loadSeller = () => async (dispatch) => {
     const { data } = await axios.get(`${server}/shop/getSeller`, {
       withCredentials: true,
     });
+    
 
     dispatch({
       type: "LoadSellerSuccess",
