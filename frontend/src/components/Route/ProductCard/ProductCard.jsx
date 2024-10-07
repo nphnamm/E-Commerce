@@ -63,7 +63,7 @@ const ProductCard = ({ data, isEvent }) => {
   };
   const d = data.name;
   const product_name = d.replace(/\s+/g, "-");
-  console.log("product from db  ", data);
+  // console.log("product from db  ", data);
   return (
     //TODO: Full width is 253
     <>
@@ -110,7 +110,7 @@ const ProductCard = ({ data, isEvent }) => {
                 $
               </h5>
               <h4 className={`${styles.price}`}>
-                {data.originalPrice ? data.originalPrice + " $" : null}
+                {data.originalPrice ? data.originalPrice + "VNĐ" : null}
               </h4>
             </div>
             <span className="font-[400] text-[17px] text-[#68d284]">

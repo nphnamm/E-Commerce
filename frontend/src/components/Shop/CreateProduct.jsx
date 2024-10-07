@@ -120,6 +120,7 @@ function CreateProduct() {
         name,
         description,
         category,
+        size,
         tags,
         originalPrice,
         discountPrice,

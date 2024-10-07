@@ -210,6 +210,39 @@ export const sizeData = [
   },
 ];
 
+//storage Data
+export const storageData = [
+  {
+    id: 1,
+    title: "16GB",
+  },
+  {
+    id: 2,
+    title: "32GB",
+  },
+  {
+    id: 3,
+    title: "64GB",
+  },
+  {
+    id: 4,
+    title: "128GB",
+  },
+  {
+    id: 5,
+    title: "256GB",
+  },
+  {
+    id: 6,
+    title: "512GB",
+  },
+  {
+    id: 7,
+    title: "1TB",
+  },
+];
+
+
 // categories data
 export const categoriesData = [
   {

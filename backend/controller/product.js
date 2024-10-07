@@ -164,6 +164,28 @@ router.get(
     }
   })
 );
+router.get(
+  "/get-product-by-type",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const tags = req.query.tags;
+      const products = await Product.find({ tags: tags });
+
+      // console.log("product data", productData);
+
+      // if (!productData) {
+      //   return next(new ErrorHandler("Product is not found with this id", 404));
+      // }
+
+      res.status(201).json({
+        products: products,
+        success: true,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
 
 // delete product of a shop
 router.delete(

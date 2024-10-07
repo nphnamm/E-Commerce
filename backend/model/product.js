@@ -13,6 +13,9 @@ const productShema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter your product category!"],
   },
+  storage:{
+    type: String,
+  },
   size: {
     type: String,
   },

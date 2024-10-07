@@ -81,7 +81,7 @@ const Cart = ({ setOpenCart }) => {
                   className={`h-[45px] flex items-center justify-center w-[100%] bg-[#e44343] rounded-[5px]`}
                 >
                   <h1 className="text-[#fff] text-[18px] font-[600]">
-                    Checkout Now (USD${totalPrice})
+                    Checkout Now ({totalPrice}VNĐ)
                   </h1>
                 </div>
               </Link>
@@ -96,6 +96,7 @@ const Cart = ({ setOpenCart }) => {
 const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
   const [value, setValue] = useState(data.qty);
   const totalPrice = data.discountPrice * value;
+  const [editedName, setEditedName] = useState("");
   const increment = (data) => {
     if (data.stock < value) {
       toast.error("Product stock limited");
@@ -110,6 +111,14 @@ const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
     const updateCartData = { ...data, qty: value === 1 ? 1 : value - 1 };
     quantityChangeHandler(updateCartData);
   };
+  function truncateText(text, maxLength) {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + "...";
+    } else {
+      return text;
+    }
+  }
+
   return (
     <div className="border-b p-4">
       <div className="w-full flex items-center">
@@ -134,7 +143,9 @@ const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
           className="w-[130px] h-min ml-2 mr-2 rounded-[5px]"
         />
         <div className="pl-[5px]">
-          <h1>{data.name}</h1>
+          <h1>{data.name.substring(0, 20) + "..."}</h1>
+          <h2>{data.size}</h2>
+
           <h4 className="font-[400] text-[15px] text-[#00000082">
             ${data.discountPrice} * {value}
           </h4>

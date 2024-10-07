@@ -46,6 +46,29 @@ export const createProduct =
     }
   };
 
+// get Product for update
+export const getProductForUpdate = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "getProductsForUpdateRequest",
+    });
+
+    const { data } = await axios.get(`${server}/product/get-product/${id}`, {
+      withCredentials: true,
+    });
+    console.log("check data", data);
+    dispatch({
+      type: "getProductsForUpdateSuccess",
+      payload: data.product,
+    });
+  } catch (error) {
+    dispatch({
+      type: "getProductsForUpdateFail",
+      payload: error.response.data.message,
+    });
+  }
+};
+
 //get all products of a shop
 // get All Products of a shop
 export const getAllProductsShop = (id) => async (dispatch) => {

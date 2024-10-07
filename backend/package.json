@@ -2,13 +2,13 @@
   "name": "e-commerce-fullstack",
   "version": "1.0.0",
   "description": "",
-  "main": "backend/server.js",
+  "main": "server.js",
   "engines": {
     "node": "18.x"
   },
   "scripts": {
-    "start": "nodemon backend/server.js",
-    "dev": "nodemon backend/server.js"
+    "start": "nodemon server.js",
+    "dev": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
