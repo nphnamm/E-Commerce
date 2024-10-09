@@ -8,7 +8,6 @@ import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
 
-
 function Checkout() {
   const { user } = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
@@ -323,7 +322,8 @@ const CartData = ({
       <div className="flex justify-between border-b pb-3">
         <h3 className="text-[16px] font-[400] text-[#000000a4]">Discount:</h3>
         <h5 className="text-[18px] font-[600]">
-          - {discountPercentenge ? "$" + discountPercentenge.toString() : null}
+          -{" "}
+          {discountPercentenge ? "VNĐ" + discountPercentenge.toString() : null}
         </h5>
       </div>
       <h5 className="text-[18px] font-[600] text-end pt-3">${totalPrice}</h5>

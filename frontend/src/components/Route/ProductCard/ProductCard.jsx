@@ -105,12 +105,22 @@ const ProductCard = ({ data, isEvent }) => {
             <div className="flex">
               <h5 className={`${styles.productDiscountPrice}`}>
                 {data.originalPrice === 0
-                  ? data.originalPrice
-                  : data.discountPrice}
-                $
+                  ? parseInt(data.originalPrice).toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })
+                  : parseInt(data.discountPrice).toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
               </h5>
               <h4 className={`${styles.price}`}>
-                {data.originalPrice ? data.originalPrice + "VNĐ" : null}
+                {data.originalPrice
+                  ? parseInt(data.originalPrice).toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })
+                  : null}
               </h4>
             </div>
             <span className="font-[400] text-[17px] text-[#68d284]">

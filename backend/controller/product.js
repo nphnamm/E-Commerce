@@ -17,6 +17,7 @@ router.post(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const shopId = req.body.shopId;
+      console.log(req.body.images);
       const shop = await Shop.findById(shopId);
       if (!shop) {
         return next(new ErrorHandler("Shop Id is invalid!", 400));
@@ -39,16 +40,16 @@ router.post(
           images = req.body.images;
         }
         const imagesLinks = [];
-
         for (let i = 0; i < images.length; i++) {
-          const result = await cloudinary.v2.uploader.upload(images[i], {
-            folder: "products",
-          });
-
-          imagesLinks.push({
-            public_id: result.public_id,
-            url: result.secure_url,
-          });
+          if (typeof images[i] === "string") {
+            const result = await cloudinary.v2.uploader.upload(images[i], {
+              folder: "products",
+            });
+            imagesLinks.push({
+              public_id: result.public_id,
+              url: result.secure_url,
+            });
+          }
         }
         const productData = req.body;
         productData.images = imagesLinks;
@@ -68,10 +69,16 @@ router.post(
 
 //update product
 router.put(
-  "/update-product/:id",
+  "/update-product",
   catchAsyncErrors(async (req, res, next) => {
     try {
+      // const productId = req.body.id;
+      // const product = await Product.findById(productId)
       const shopId = req.body.shopId;
+      // console.log(req.body.images[0]);
+      console.log(req.body.shopId);
+      // console.log(req.body.storage);
+
       const shop = await Shop.findById(shopId);
       if (!shop) {
         return next(new ErrorHandler("Shop Id is invalid!", 400));
@@ -88,6 +95,7 @@ router.put(
         //   product,
         // });
         let images = [];
+
         if (typeof req.body.images === "array") {
           images.push(req.body.images);
         } else {
@@ -96,20 +104,23 @@ router.put(
         const imagesLinks = [];
 
         for (let i = 0; i < images.length; i++) {
-          const result = await cloudinary.v2.uploader.upload(images[i], {
-            folder: "products",
-          });
-
-          imagesLinks.push({
-            public_id: result.public_id,
-            url: result.secure_url,
-          });
+          if (typeof images[i] === "string") {
+            const result = await cloudinary.v2.uploader.upload(images[i], {
+              folder: "products",
+            });
+            imagesLinks.push({
+              public_id: result.public_id,
+              url: result.secure_url,
+            });
+          } else {
+            imagesLinks.push(images[i]);
+          }
         }
         const productData = req.body;
         productData.images = imagesLinks;
         productData.shop = shop;
         const product = await Product.findByIdAndUpdate(
-          req.params.id,
+          req.body.id,
           productData
         );
         res.status(201).json({

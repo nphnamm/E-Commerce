@@ -46,6 +46,57 @@ export const createProduct =
     }
   };
 
+// create product
+export const updateProduct =
+  ({
+    id,
+    name,
+    description,
+    category,
+    size,
+    storage,
+    tags,
+    originalPrice,
+    discountPrice,
+    stock,
+    shopId,
+    images,
+  }) =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: "productUpdateRequest",
+      });
+      // const config = {headers :{"Content-Type":"multipart/form-data"}};
+      console.log("id", id, name, description, shopId, images);
+      // const {data }= await axios.post(`${server }/product/create-product`,newForm, config);
+
+      const { data } = await axios.put(`${server}/product/update-product`, {
+        id,
+        name,
+        description,
+        category,
+        tags,
+        size,
+        storage,
+        originalPrice,
+        discountPrice,
+        stock,
+        shopId,
+        images,
+      });
+      dispatch({
+        type: "productUpdateSuccess",
+        payload: data.product,
+      });
+    } catch (error) {
+      dispatch({
+        type: "productUpdateFail",
+        payload: error.response.data.message,
+      });
+    }
+  };
+
 // get Product for update
 export const getProductForUpdate = (id) => async (dispatch) => {
   try {

@@ -17,6 +17,7 @@ function CreateProduct() {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [size, setSize] = useState("");
+  const [storage, setStorage] = useState("");
 
   const [tags, setTags] = useState("");
   const [originalPrice, setOriginalPrice] = useState();
