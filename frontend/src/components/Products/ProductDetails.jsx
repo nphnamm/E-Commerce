@@ -171,38 +171,44 @@ const ProductDetails = ({ data, collection }) => {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-white ">
       {data ? (
-        <div className={`${styles.section} w-[90%] 800px:w-[80%]`}>
-          <div className="w-full py-5">
-            <div className="block w-full 800px:flex">
-              <div className="w-full 800px:w-[50%]">
-                <img
-                  src={`${data && data.images[select]?.url}`}
-                  alt=""
-                  className="w-[80%]"
-                />
-                <div className="w-full flex">
+        <div className={`${styles.section} w-[90%] 800px:w-[80%] `}>
+          <div className="w-full py-5 min-h-[520px]">
+            <div className="block w-full 800px:flex gap-16 ">
+              <div className="flex w-full 800px:w-[50%] 800px:gap-x-2.5 800px:max-h-130 800px:min-h-130">
+                <div className="flex gap-2.5 flex-col min-w-[120px] max-w-[120px]">
                   {data &&
                     data.images.map((i, index) => (
-                      <div
-                        className={`${
-                          select === 0 ? "border" : "null"
-                        } cursor-pointer`}
-                      >
-                        <img
-                          src={`${i?.url}`}
-                          alt=""
-                          className="h-[200px] overflow-hidden mr-3 mt-3"
-                          onClick={() => setSelect(index)}
-                        />
-                      </div>
+                      <img
+                        src={`${i?.url}`}
+                        alt=""
+                        className="min-w-30 max-h-30 max-w-30 min-h-30 object-cover border border-slate-400 border-5 "
+                        onClick={() => setSelect(index)}
+                      />
                     ))}
-                  <div
-                    className={`${
-                      select === 1 ? "border" : "null"
-                    } cursor-pointer`}
-                  ></div>
+                </div>
+
+                <div className="relative max-w-[520px] min-w-[520px] max-h-[520px] min-h-[520px]">
+                  <img
+                    src={`${data && data.images[select]?.url}`}
+                    alt=""
+                    className="max-w-[520px] min-w-[520px] max-h-[520px] min-h-[520px] bg-slate-400 pointer-events-none object-cover"
+                  />
+                  <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-between w-11/12">
+                    <button
+                      onClick={prevImg}
+                      className="bg-white border-none flex rounded-full p-3.5 outline-none"
+                    >
+                      <GoChevronLeft size={18} />
+                    </button>
+                    <button
+                      onClick={nextImg}
+                      className="bg-white border-none flex rounded-full p-3.5 outline-none"
+                    >
+                      <GoChevronRight size={18} />
+                    </button>
+                  </div>
                 </div>
               </div>
               <div className="w-full 800px:w-[50%] pt-5">
@@ -354,6 +360,7 @@ const ProductDetails = ({ data, collection }) => {
               </div>
             </div>
           </div>
+
           <ProductDetailsInfo
             data={data}
             products={products}
@@ -364,201 +371,6 @@ const ProductDetails = ({ data, collection }) => {
           <br />
         </div>
       ) : null}
-
-      <>
-        <div className="bg-white">
-          {data ? (
-            <div className={`${styles.section} w-[90%] 800px:w-[80%]`}>
-              <div className="w-full py-5 800px:flex gap-x-16 ">
-                <div className="flex w-full 800px:w-[50%] 800px:gap-x-2.5">
-                  <div className="flex gap-2.5 flex-col min-w-[120px] max-w-[120px]">
-                    {data &&
-                      data.images.map((i, index) => (
-                        <img
-                          src={`${i?.url}`}
-                          alt=""
-                          className="min-w-30 max-h-30 max-w-30 min-h-30 object-cover border border-slate-400 border-5 "
-                          onClick={() => setSelect(index)}
-                        />
-                      ))}
-                  </div>
-
-                  <div className="relative ">
-                    <img
-                      src={`${data && data.images[select]?.url}`}
-                      alt=""
-                      className="max-w-130 min-w-130 max-h-130 min-h-130 bg-slate-400 pointer-events-none object-cover"
-                    />
-                    <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-between w-11/12">
-                      <button
-                        onClick={prevImg}
-                        className="bg-white border-none flex rounded-full p-3.5 outline-none"
-                      >
-                        <GoChevronLeft size={18} />
-                      </button>
-                      <button
-                        onClick={nextImg}
-                        className="bg-white border-none flex rounded-full p-3.5 outline-none"
-                      >
-                        <GoChevronRight size={18} />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-full 800px:w-[50%] pt-5">
-                  <h1 className={`${styles.productTitle}`}>{data.name}</h1>
-                  <p>{data.description}</p>
-                  <div className="flex pt-3">
-                    <h4 className={`${styles.productDiscountPrice}`}>
-                      {data.discountPrice}$
-                    </h4>
-                    <h3 className={`${styles.price}`}>
-                      {data.originalPrice ? data.originalPrice + "VNĐ" : null}
-                    </h3>
-                  </div>
-
-                  {/* selected size */}
-                  {data?.size && (
-                    <div className="container mt-4">
-                      <h5>Select Size</h5>
-                      <div className="flex justify-content-start">
-                        {sizesData?.map((size) => (
-                          <div
-                            // key={size.id}
-                            className={`p-3 m-1 border ${
-                              selectedSize === size?.size
-                                ? "border-primary"
-                                : "border-secondary"
-                            }`}
-                            style={{ cursor: "pointer" }}
-                            onClick={() =>
-                              handleSizeClick(size?.size, size?.id)
-                            }
-                          >
-                            {size?.size}
-                          </div>
-                        ))}
-                      </div>
-                      {selectedSize && (
-                        <div className="mt-3">
-                          <p>
-                            You selected: <strong>{selectedSize}</strong>
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  {/* selected size */}
-                  {data?.storage && (
-                    <div className="container mt-4">
-                      <h5>Select Storage</h5>
-                      <div className="flex justify-content-start">
-                        {storagesData?.map((storage) => (
-                          <div
-                            // key={size.id}
-                            className={`p-3 m-1 border ${
-                              selectedStorage === storage?.storage
-                                ? "border-primary"
-                                : "border-secondary"
-                            }`}
-                            style={{ cursor: "pointer" }}
-                            onClick={() =>
-                              handleSizeClick(storage?.storage, storage?.id)
-                            }
-                          >
-                            {storage?.storage}
-                          </div>
-                        ))}
-                      </div>
-                      {selectedSize && (
-                        <div className="mt-3">
-                          <p>
-                            You selected: <strong>{selectedSize}</strong>
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  <div className="flex items-center mt-12 justify-between pr-3">
-                    <div>
-                      <button
-                        className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
-                        onClick={decrementCount}
-                      >
-                        -
-                      </button>
-                      <span className="bg-gray-200 text-gray-800 font-medium px-4 py-[11px]">
-                        {count}
-                      </span>
-                      <button
-                        className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
-                        onClick={incrementCount}
-                      >
-                        +
-                      </button>
-                    </div>
-                    <div>
-                      {click ? (
-                        <AiFillHeart
-                          size={30}
-                          className="cursor-pointer"
-                          onClick={() => removeFromWishlistHandler()}
-                          color={click ? "red" : "#333"}
-                          title="Remove from wishlist"
-                        />
-                      ) : (
-                        <AiOutlineHeart
-                          size={30}
-                          className="cursor-pointer"
-                          onClick={() => addToWishlistHandler()}
-                          color={click ? "red" : "#333"}
-                          title="Add to wishlist"
-                        />
-                      )}
-                    </div>
-                  </div>
-                  <div
-                    className={`${styles.button} !mt-6 !rounded !h-11 flex items-center`}
-                    onClick={() => addToCartHandler()}
-                  >
-                    <span className="text-white flex items-center">
-                      Add to cart <AiOutlineShoppingCart className="ml-1" />
-                    </span>
-                  </div>
-                  <div className="flex items-center pt-8">
-                    <Link to={`/shop/preview/${data?.shop._id}`}>
-                      <img
-                        src={`${data?.shop?.avatar?.url}`}
-                        alt=""
-                        className="w-[50px] h-[50px] rounded-full mr-2"
-                      />
-                    </Link>
-                    <div className="pr-8">
-                      <Link to={`/shop/preview/${data?.shop._id}`}>
-                        <h3 className={`${styles.shop_name} pb-1 pt-1`}>
-                          {data.shop.name}
-                        </h3>
-                      </Link>
-                      <h5 className="pb-3 text-[15px]">
-                        ({averageRating}/5) Ratings
-                      </h5>
-                    </div>
-                    <div
-                      className={`${styles.button} bg-[#6443d1] mt-4 !rounded !h-11`}
-                      onClick={handleMessageSubmit}
-                    >
-                      <span className="text-white flex items-center">
-                        Send Message <AiOutlineMessage className="ml-1" />
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : null}
-        </div>
-      </>
     </div>
   );
 };
