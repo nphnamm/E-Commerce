@@ -6,6 +6,9 @@ import {
   AiOutlineMessage,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
+
+import { GoChevronLeft } from "react-icons/go";
+import { GoChevronRight } from "react-icons/go";
 import styles from "../../styles/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProductsShop } from "../../redux/actions/product";
@@ -18,7 +21,7 @@ import {
 import { toast } from "react-toastify";
 import { addTocart } from "../../redux/actions/cart";
 import axios from "axios";
-import { sizeData } from "../../static/data";
+import { sizeData, storageData } from "../../static/data";
 
 const ProductDetails = ({ data, collection }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
@@ -29,13 +32,17 @@ const ProductDetails = ({ data, collection }) => {
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
+  const [selectedStorage, setSelectedStorage] = useState("");
+
   const [sizesData, setSizesData] = useState([]);
+  const [storagesData, setStoragesData] = useState([]);
+
   const [selectedId, setSelectedId] = useState("");
 
   const [selectedProduct, setSelectedProduct] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // console.log("data id", data?.name);
+  console.log("data id", data);
   useEffect(() => {
     dispatch(getAllProductsShop(data && data?.shop._id));
 
@@ -46,15 +53,25 @@ const ProductDetails = ({ data, collection }) => {
     }
   }, [data, wishlist, sizesData]);
   useEffect(() => {
-    const result = collection.map((collection) => ({
+    const resultSize = collection.map((collection) => ({
       id: collection._id,
       size: collection.size,
     }));
-    // console.log("new object", result);
-    setSizesData(result);
-  }, [collection, selectedId]);
+    const resultStorage = collection.map((collection) => ({
+      id: collection?._id,
+      storage: collection?.storage,
+    }));
+    const filteredArray = resultStorage.filter(
+      (obj) => obj.storage !== null && obj.storage !== undefined
+    );
 
-  // console.log("collection in detail", collection);
+    setStoragesData(filteredArray);
+    // console.log("new object", result);
+    setSizesData(resultSize);
+  }, [collection, selectedId]);
+  console.log("collection", collection);
+
+  console.log("storages", storagesData);
   const incrementCount = () => {
     setCount(count + 1);
   };
@@ -64,7 +81,13 @@ const ProductDetails = ({ data, collection }) => {
       setCount(count - 1);
     }
   };
+  const prevImg = () => {
+    setSelect(select === 0 ? data.images.length - 1 : select - 1);
+  };
 
+  const nextImg = () => {
+    setSelect(select === data.images.length - 1 ? 0 : select + 1);
+  };
   const removeFromWishlistHandler = () => {
     const filteredProduct = collection.find(
       (collection) => collection._id === selectedId
@@ -195,32 +218,65 @@ const ProductDetails = ({ data, collection }) => {
                 </div>
 
                 {/* selected size */}
-                <div className="container mt-4">
-                  <h5>Select Size</h5>
-                  <div className="flex justify-content-start">
-                    {sizesData?.map((size) => (
-                      <div
-                        // key={size.id}
-                        className={`p-3 m-1 border ${
-                          selectedSize === size?.size
-                            ? "border-primary"
-                            : "border-secondary"
-                        }`}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => handleSizeClick(size?.size, size?.id)}
-                      >
-                        {size?.size}
-                      </div>
-                    ))}
-                  </div>
-                  {selectedSize && (
-                    <div className="mt-3">
-                      <p>
-                        You selected: <strong>{selectedSize}</strong>
-                      </p>
+                {data?.size && (
+                  <div className="container mt-4">
+                    <h5>Select Size</h5>
+                    <div className="flex justify-content-start">
+                      {sizesData?.map((size) => (
+                        <div
+                          // key={size.id}
+                          className={`p-3 m-1 border ${
+                            selectedSize === size?.size
+                              ? "border-primary"
+                              : "border-secondary"
+                          }`}
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleSizeClick(size?.size, size?.id)}
+                        >
+                          {size?.size}
+                        </div>
+                      ))}
                     </div>
-                  )}
-                </div>
+                    {selectedSize && (
+                      <div className="mt-3">
+                        <p>
+                          You selected: <strong>{selectedSize}</strong>
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {/* selected size */}
+                {data?.storage && (
+                  <div className="container mt-4">
+                    <h5>Select Storage</h5>
+                    <div className="flex justify-content-start">
+                      {storagesData?.map((storage) => (
+                        <div
+                          // key={size.id}
+                          className={`p-3 m-1 border ${
+                            selectedStorage === storage?.storage
+                              ? "border-primary"
+                              : "border-secondary"
+                          }`}
+                          style={{ cursor: "pointer" }}
+                          onClick={() =>
+                            handleSizeClick(storage?.storage, storage?.id)
+                          }
+                        >
+                          {storage?.storage}
+                        </div>
+                      ))}
+                    </div>
+                    {selectedSize && (
+                      <div className="mt-3">
+                        <p>
+                          You selected: <strong>{selectedSize}</strong>
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 <div className="flex items-center mt-12 justify-between pr-3">
                   <div>
@@ -308,6 +364,201 @@ const ProductDetails = ({ data, collection }) => {
           <br />
         </div>
       ) : null}
+
+      <>
+        <div className="bg-white">
+          {data ? (
+            <div className={`${styles.section} w-[90%] 800px:w-[80%]`}>
+              <div className="w-full py-5 800px:flex gap-x-16 ">
+                <div className="flex w-full 800px:w-[50%] 800px:gap-x-2.5">
+                  <div className="flex gap-2.5 flex-col min-w-[120px] max-w-[120px]">
+                    {data &&
+                      data.images.map((i, index) => (
+                        <img
+                          src={`${i?.url}`}
+                          alt=""
+                          className="min-w-30 max-h-30 max-w-30 min-h-30 object-cover border border-slate-400 border-5 "
+                          onClick={() => setSelect(index)}
+                        />
+                      ))}
+                  </div>
+
+                  <div className="relative ">
+                    <img
+                      src={`${data && data.images[select]?.url}`}
+                      alt=""
+                      className="max-w-130 min-w-130 max-h-130 min-h-130 bg-slate-400 pointer-events-none object-cover"
+                    />
+                    <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-between w-11/12">
+                      <button
+                        onClick={prevImg}
+                        className="bg-white border-none flex rounded-full p-3.5 outline-none"
+                      >
+                        <GoChevronLeft size={18} />
+                      </button>
+                      <button
+                        onClick={nextImg}
+                        className="bg-white border-none flex rounded-full p-3.5 outline-none"
+                      >
+                        <GoChevronRight size={18} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="w-full 800px:w-[50%] pt-5">
+                  <h1 className={`${styles.productTitle}`}>{data.name}</h1>
+                  <p>{data.description}</p>
+                  <div className="flex pt-3">
+                    <h4 className={`${styles.productDiscountPrice}`}>
+                      {data.discountPrice}$
+                    </h4>
+                    <h3 className={`${styles.price}`}>
+                      {data.originalPrice ? data.originalPrice + "VNĐ" : null}
+                    </h3>
+                  </div>
+
+                  {/* selected size */}
+                  {data?.size && (
+                    <div className="container mt-4">
+                      <h5>Select Size</h5>
+                      <div className="flex justify-content-start">
+                        {sizesData?.map((size) => (
+                          <div
+                            // key={size.id}
+                            className={`p-3 m-1 border ${
+                              selectedSize === size?.size
+                                ? "border-primary"
+                                : "border-secondary"
+                            }`}
+                            style={{ cursor: "pointer" }}
+                            onClick={() =>
+                              handleSizeClick(size?.size, size?.id)
+                            }
+                          >
+                            {size?.size}
+                          </div>
+                        ))}
+                      </div>
+                      {selectedSize && (
+                        <div className="mt-3">
+                          <p>
+                            You selected: <strong>{selectedSize}</strong>
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {/* selected size */}
+                  {data?.storage && (
+                    <div className="container mt-4">
+                      <h5>Select Storage</h5>
+                      <div className="flex justify-content-start">
+                        {storagesData?.map((storage) => (
+                          <div
+                            // key={size.id}
+                            className={`p-3 m-1 border ${
+                              selectedStorage === storage?.storage
+                                ? "border-primary"
+                                : "border-secondary"
+                            }`}
+                            style={{ cursor: "pointer" }}
+                            onClick={() =>
+                              handleSizeClick(storage?.storage, storage?.id)
+                            }
+                          >
+                            {storage?.storage}
+                          </div>
+                        ))}
+                      </div>
+                      {selectedSize && (
+                        <div className="mt-3">
+                          <p>
+                            You selected: <strong>{selectedSize}</strong>
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="flex items-center mt-12 justify-between pr-3">
+                    <div>
+                      <button
+                        className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
+                        onClick={decrementCount}
+                      >
+                        -
+                      </button>
+                      <span className="bg-gray-200 text-gray-800 font-medium px-4 py-[11px]">
+                        {count}
+                      </span>
+                      <button
+                        className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
+                        onClick={incrementCount}
+                      >
+                        +
+                      </button>
+                    </div>
+                    <div>
+                      {click ? (
+                        <AiFillHeart
+                          size={30}
+                          className="cursor-pointer"
+                          onClick={() => removeFromWishlistHandler()}
+                          color={click ? "red" : "#333"}
+                          title="Remove from wishlist"
+                        />
+                      ) : (
+                        <AiOutlineHeart
+                          size={30}
+                          className="cursor-pointer"
+                          onClick={() => addToWishlistHandler()}
+                          color={click ? "red" : "#333"}
+                          title="Add to wishlist"
+                        />
+                      )}
+                    </div>
+                  </div>
+                  <div
+                    className={`${styles.button} !mt-6 !rounded !h-11 flex items-center`}
+                    onClick={() => addToCartHandler()}
+                  >
+                    <span className="text-white flex items-center">
+                      Add to cart <AiOutlineShoppingCart className="ml-1" />
+                    </span>
+                  </div>
+                  <div className="flex items-center pt-8">
+                    <Link to={`/shop/preview/${data?.shop._id}`}>
+                      <img
+                        src={`${data?.shop?.avatar?.url}`}
+                        alt=""
+                        className="w-[50px] h-[50px] rounded-full mr-2"
+                      />
+                    </Link>
+                    <div className="pr-8">
+                      <Link to={`/shop/preview/${data?.shop._id}`}>
+                        <h3 className={`${styles.shop_name} pb-1 pt-1`}>
+                          {data.shop.name}
+                        </h3>
+                      </Link>
+                      <h5 className="pb-3 text-[15px]">
+                        ({averageRating}/5) Ratings
+                      </h5>
+                    </div>
+                    <div
+                      className={`${styles.button} bg-[#6443d1] mt-4 !rounded !h-11`}
+                      onClick={handleMessageSubmit}
+                    >
+                      <span className="text-white flex items-center">
+                        Send Message <AiOutlineMessage className="ml-1" />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </>
     </div>
   );
 };
