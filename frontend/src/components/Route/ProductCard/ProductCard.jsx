@@ -187,16 +187,24 @@ const ProductCard = ({ data, isEvent }) => {
                   Add to cart
                 </h4>
               </div>
-              <div className="card-body text-center">
-                <h4 className="card-title text-uppercase">{data?.name}</h4>
-                <p className="card-text">{}</p>
-                <div className="d-flex justify-content-between align-items-center">
-                  <div className="text-muted">⭐⭐⭐⭐⭐ (5 reviews)</div>
-                  <button className="btn btn-outline-secondary btn-sm">
-                    Wishlist
-                  </button>
+              {/* Product Information */}
+              <div className="flex flex-col gap-2.5 mt-4 text-center ">
+                <div className="flex justify-between flex-row mt-2.5">
+                  <p className="text-gray-500 text-sm">{data?.category}</p>
+                  <p className="text-gray-500 text-sm">Wishlist</p>
+                </div>
+                <Link to="product">
+                  <h5 className="font-bold text-base text-left">{data.name}</h5>
+                </Link>
+
+                <p className="text-left">${data.discountPrice}</p>
+                <div className="flex gap-2.5  flew-row items-start mt-2.5 ">
+                  <span className="text-gray-500 text-sm">⭐⭐⭐⭐⭐</span>
+                  <span className="text-gray-500 text-sm">(5 reviews)</span>
                 </div>
               </div>
+
+              {/* Rating and Reviews */}
             </div>
           </div>
 

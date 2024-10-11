@@ -40,7 +40,7 @@ function Hero() {
           </Link>
         </div>
       </div>
-      <Slider />
+      {/* <Slider /> */}
     </>
   );
 }
