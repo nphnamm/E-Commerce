@@ -59,8 +59,8 @@ function Header({ activeHeading }) {
   });
   return (
     <>
-      <div className={`${styles.section}`}>
-        <div className="hidden 800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between">
+      <div className={`${styles.section} `}>
+        <div className="hidden 800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between ">
           <div>
             <Link to="/">
               <img
@@ -74,7 +74,7 @@ function Header({ activeHeading }) {
                       // ! use relative class to customize the position of elements in the search box
   
                   */}
-          <div className="w-[50%] relative  ">
+          <div className="w-[50%] relative">
             <input
               type="text"
               placeholder="Search for products, brands and more"
@@ -87,7 +87,7 @@ function Header({ activeHeading }) {
               className="absolute right-2 top-1.5 cursor-pointer" //! right-2 = 0.5rem = 8px ; top-1.5 = 0.375rem = 6px /
             />
             {searchData && searchData.length !== 0 ? (
-              <div className="absolute min-h-[30vh] min-w-full bg-slate-50 shadow-sm-2 z-[9] p-4 hover:">
+              <div className="absolute min-h-[30vh] min-w-full bg-slate-50 shadow-sm-2 z-[1000] p-4 hover:">
                 {searchData &&
                   searchData.map((i, index) => {
                     return (
