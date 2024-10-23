@@ -242,7 +242,6 @@ export const storageData = [
   },
 ];
 
-
 // categories data
 export const categoriesData = [
   {
