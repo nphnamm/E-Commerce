@@ -6,9 +6,6 @@ import {
   AiOutlineMessage,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
-
-import { GoChevronLeft } from "react-icons/go";
-import { GoChevronRight } from "react-icons/go";
 import styles from "../../styles/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProductsShop } from "../../redux/actions/product";
@@ -21,9 +18,9 @@ import {
 import { toast } from "react-toastify";
 import { addTocart } from "../../redux/actions/cart";
 import axios from "axios";
-import { sizeData, storageData } from "../../static/data";
+import { sizeData } from "../../static/data";
 
-const ProductDetails = ({ data, collection }) => {
+const ProductDetails = ({ data }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
   const { cart } = useSelector((state) => state.cart);
   const { user, isAuthenticated } = useSelector((state) => state.user);
@@ -32,17 +29,10 @@ const ProductDetails = ({ data, collection }) => {
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
-  const [selectedStorage, setSelectedStorage] = useState("");
-
   const [sizesData, setSizesData] = useState([]);
-  const [storagesData, setStoragesData] = useState([]);
-
-  const [selectedId, setSelectedId] = useState("");
-
-  const [selectedProduct, setSelectedProduct] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log("data id", data);
+  console.log("data id", data?.name);
   useEffect(() => {
     dispatch(getAllProductsShop(data && data?.shop._id));
 
@@ -51,27 +41,23 @@ const ProductDetails = ({ data, collection }) => {
     } else {
       setClick(false);
     }
-  }, [data, wishlist, sizesData]);
+  }, [data, wishlist]);
   useEffect(() => {
-    const resultSize = collection.map((collection) => ({
-      id: collection._id,
-      size: collection.size,
-    }));
-    const resultStorage = collection.map((collection) => ({
-      id: collection?._id,
-      storage: collection?.storage,
-    }));
-    const filteredArray = resultStorage.filter(
-      (obj) => obj.storage !== null && obj.storage !== undefined
-    );
-
-    setStoragesData(filteredArray);
-    // console.log("new object", result);
-    setSizesData(resultSize);
-  }, [collection, selectedId]);
-  console.log("collection", collection);
-
-  console.log("storages", storagesData);
+    // axios
+    //   .get(`${server}/product/get-product-by-type`, {
+    //     params: {
+    //       tags: data?.tags,
+    //     },
+    //     withCredentials: true, // Include credentials (cookies, auth tokens)
+    //   })
+    //   .then((res) => {
+    //     // console.log("res data", res.data);
+    //     // toast.success(res.data.message);
+    //     setSizesData(res.data.sizes);
+    //     console.log("set size", sizesData);
+    //   });
+  }, []);
+  // console.log("data tags", data?.tags);
   const incrementCount = () => {
     setCount(count + 1);
   };
@@ -81,51 +67,29 @@ const ProductDetails = ({ data, collection }) => {
       setCount(count - 1);
     }
   };
-  const prevImg = () => {
-    setSelect(select === 0 ? data.images.length - 1 : select - 1);
-  };
 
-  const nextImg = () => {
-    setSelect(select === data.images.length - 1 ? 0 : select + 1);
-  };
-  const removeFromWishlistHandler = () => {
-    const filteredProduct = collection.find(
-      (collection) => collection._id === selectedId
-    );
-    console.log("product", filteredProduct);
-
+  const removeFromWishlistHandler = (data) => {
     setClick(!click);
-    dispatch(removeFromWishlist(filteredProduct));
+    dispatch(removeFromWishlist(data));
   };
 
-  const addToWishlistHandler = () => {
-    const filteredProduct = collection.find(
-      (collection) => collection._id === selectedId
-    );
-    console.log("data", data);
-    console.log("product", filteredProduct);
+  const addToWishlistHandler = (data) => {
     setClick(!click);
-    dispatch(addToWishlist(filteredProduct));
+    dispatch(addToWishlist(data));
   };
-  const handleSizeClick = (size, id) => {
-    setSelectedId(id);
-    console.log("selected id", selectedId);
+  const handleSizeClick = (size) => {
     setSelectedSize(size);
   };
 
-  const addToCartHandler = () => {
-    console.log("");
-    const isItemExists = cart && cart.find((i) => i._id === selectedId);
+  const addToCartHandler = (id) => {
+    const isItemExists = cart && cart.find((i) => i._id === id);
     if (isItemExists) {
       toast.error("Item already in cart!");
     } else {
       if (data.stock < 1) {
         toast.error("Product stock limited!");
       } else {
-        const filteredProduct = collection.find(
-          (collection) => collection._id === selectedId
-        );
-        const cartData = { ...filteredProduct, qty: count };
+        const cartData = { ...data, qty: count };
         dispatch(addTocart(cartData));
         toast.success("Item added to cart successfully!");
       }
@@ -171,44 +135,38 @@ const ProductDetails = ({ data, collection }) => {
   };
 
   return (
-    <div className="bg-white ">
+    <div className="bg-white">
       {data ? (
-        <div className={`${styles.section} w-[90%] 800px:w-[80%] `}>
-          <div className="w-full py-5 min-h-[520px]">
-            <div className="block w-full 800px:flex gap-16 ">
-              <div className="flex w-full 800px:w-[50%] 800px:gap-x-2.5 800px:max-h-130 800px:min-h-130">
-                <div className="flex gap-2.5 flex-col min-w-[120px] max-w-[120px]">
+        <div className={`${styles.section} w-[90%] 800px:w-[80%]`}>
+          <div className="w-full py-5">
+            <div className="block w-full 800px:flex">
+              <div className="w-full 800px:w-[50%]">
+                <img
+                  src={`${data && data.images[select]?.url}`}
+                  alt=""
+                  className="w-[80%]"
+                />
+                <div className="w-full flex">
                   {data &&
                     data.images.map((i, index) => (
-                      <img
-                        src={`${i?.url}`}
-                        alt=""
-                        className="min-w-30 max-h-30 max-w-30 min-h-30 object-cover border border-slate-400 border-5 "
-                        onClick={() => setSelect(index)}
-                      />
+                      <div
+                        className={`${
+                          select === 0 ? "border" : "null"
+                        } cursor-pointer`}
+                      >
+                        <img
+                          src={`${i?.url}`}
+                          alt=""
+                          className="h-[200px] overflow-hidden mr-3 mt-3"
+                          onClick={() => setSelect(index)}
+                        />
+                      </div>
                     ))}
-                </div>
-
-                <div className="relative max-w-[520px] min-w-[520px] max-h-[520px] min-h-[520px]">
-                  <img
-                    src={`${data && data.images[select]?.url}`}
-                    alt=""
-                    className="max-w-[520px] min-w-[520px] max-h-[520px] min-h-[520px] bg-slate-400 pointer-events-none object-cover"
-                  />
-                  <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-between w-11/12">
-                    <button
-                      onClick={prevImg}
-                      className="bg-white border-none flex rounded-full p-3.5 outline-none"
-                    >
-                      <GoChevronLeft size={18} />
-                    </button>
-                    <button
-                      onClick={nextImg}
-                      className="bg-white border-none flex rounded-full p-3.5 outline-none"
-                    >
-                      <GoChevronRight size={18} />
-                    </button>
-                  </div>
+                  <div
+                    className={`${
+                      select === 1 ? "border" : "null"
+                    } cursor-pointer`}
+                  ></div>
                 </div>
               </div>
               <div className="w-full 800px:w-[50%] pt-5">
@@ -219,70 +177,37 @@ const ProductDetails = ({ data, collection }) => {
                     {data.discountPrice}$
                   </h4>
                   <h3 className={`${styles.price}`}>
-                    {data.originalPrice ? data.originalPrice + "VNĐ" : null}
+                    {data.originalPrice ? data.originalPrice + "$" : null}
                   </h3>
                 </div>
 
                 {/* selected size */}
-                {data?.size && (
-                  <div className="container mt-4">
-                    <h5>Select Size</h5>
-                    <div className="flex justify-content-start">
-                      {sizesData?.map((size) => (
-                        <div
-                          // key={size.id}
-                          className={`p-3 m-1 border ${
-                            selectedSize === size?.size
-                              ? "border-primary"
-                              : "border-secondary"
-                          }`}
-                          style={{ cursor: "pointer" }}
-                          onClick={() => handleSizeClick(size?.size, size?.id)}
-                        >
-                          {size?.size}
-                        </div>
-                      ))}
-                    </div>
-                    {selectedSize && (
-                      <div className="mt-3">
-                        <p>
-                          You selected: <strong>{selectedSize}</strong>
-                        </p>
+                <div className="container mt-4">
+                  <h5>Select Size</h5>
+                  <div className="flex justify-content-start">
+                    {sizesData.map((size) => (
+                      <div
+                        // key={size.id}
+                        className={`p-3 m-1 border ${
+                          selectedSize === size.size
+                            ? "border-primary"
+                            : "border-secondary"
+                        }`}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleSizeClick(size.size)}
+                      >
+                        {size.size}
                       </div>
-                    )}
+                    ))}
                   </div>
-                )}
-                {/* selected size */}
-                {data?.storage && (
-                  <div className="container mt-4">
-                    <h5>Select Storage</h5>
-                    <div className="flex justify-content-start">
-                      {storagesData?.map((storage) => (
-                        <div
-                          // key={size.id}
-                          className={`p-3 m-1 border ${
-                            selectedStorage === storage?.storage
-                              ? "border-primary"
-                              : "border-secondary"
-                          }`}
-                          style={{ cursor: "pointer" }}
-                          onClick={() =>
-                            handleSizeClick(storage?.storage, storage?.id)
-                          }
-                        >
-                          {storage?.storage}
-                        </div>
-                      ))}
+                  {selectedSize && (
+                    <div className="mt-3">
+                      <p>
+                        You selected: <strong>{selectedSize}</strong>
+                      </p>
                     </div>
-                    {selectedSize && (
-                      <div className="mt-3">
-                        <p>
-                          You selected: <strong>{selectedSize}</strong>
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                )}
+                  )}
+                </div>
 
                 <div className="flex items-center mt-12 justify-between pr-3">
                   <div>
@@ -307,7 +232,7 @@ const ProductDetails = ({ data, collection }) => {
                       <AiFillHeart
                         size={30}
                         className="cursor-pointer"
-                        onClick={() => removeFromWishlistHandler()}
+                        onClick={() => removeFromWishlistHandler(data)}
                         color={click ? "red" : "#333"}
                         title="Remove from wishlist"
                       />
@@ -315,7 +240,7 @@ const ProductDetails = ({ data, collection }) => {
                       <AiOutlineHeart
                         size={30}
                         className="cursor-pointer"
-                        onClick={() => addToWishlistHandler()}
+                        onClick={() => addToWishlistHandler(data)}
                         color={click ? "red" : "#333"}
                         title="Add to wishlist"
                       />
@@ -324,7 +249,7 @@ const ProductDetails = ({ data, collection }) => {
                 </div>
                 <div
                   className={`${styles.button} !mt-6 !rounded !h-11 flex items-center`}
-                  onClick={() => addToCartHandler()}
+                  onClick={() => addToCartHandler(data._id)}
                 >
                   <span className="text-white flex items-center">
                     Add to cart <AiOutlineShoppingCart className="ml-1" />
@@ -360,7 +285,6 @@ const ProductDetails = ({ data, collection }) => {
               </div>
             </div>
           </div>
-
           <ProductDetailsInfo
             data={data}
             products={products}
