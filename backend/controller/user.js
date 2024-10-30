@@ -32,7 +32,7 @@ router.post("/create-user", async (req, res, next) => {
       //     res.status(500).json({ message: "Error deleting file" });
       //   }
       // });
-      return res.status(400).json({ message: "User already exists" });
+       res.status(400).json({ message: "User already exists" });
       // return next(new ErrorHandler("User already exists", 400));
     }
     const myCloud = await cloudinary.v2.uploader.upload(avatar, {
@@ -50,10 +50,11 @@ router.post("/create-user", async (req, res, next) => {
         url: myCloud.secure_url,
       },
     };
+    // console.log('user',user);
     const activationToken = createActivationToken(user);
     const activationUrl = `http://localhost:3000/activation/${activationToken}`;
 
-    console.log("check", activationUrl);
+    // console.log("check", activationUrl);
     try {
       await sendMail({
         email: user.email,
@@ -65,7 +66,7 @@ router.post("/create-user", async (req, res, next) => {
         message: `please check your email: ${user.email} to activate your account`,
       });
     } catch (error) {
-      console.log("Error", error);
+      // console.log("Error", error);
       return next(new ErrorHandler(error.message, 500));
     }
 
@@ -77,7 +78,7 @@ router.post("/create-user", async (req, res, next) => {
 
     // })
   } catch (error) {
-    console.log("error 1", error);
+    // console.log("error 1", error);
     return next(new ErrorHandler(error.message, 500));
   }
 });
@@ -97,13 +98,13 @@ router.post(
         activation_token,
         process.env.ACTIVATION_SECRET
       );
-      console.log("check secret", process.env.ACTIVATION_SECRET);
+      // console.log("check secret", process.env.ACTIVATION_SECRET);
       if (!newUser) {
         return next(new ErrorHandler("Invalid Activation Link", 400));
       }
-      console.log("check user", newUser);
+      // console.log("check user", newUser);
 
-      console.log("check activation", activation_token);
+      // console.log("check activation", activation_token);
 
       const { name, email, password, avatar } = newUser;
 
@@ -118,10 +119,11 @@ router.post(
         avatar,
         password,
       });
-      console.log("check activation", user);
+      // console.log("check activation", user);
       sendToken(user, 201, res);
     } catch (error) {
-      return next(new ErrorHandler(error.message, 500));
+      // console.log(error);
+      return next(new ErrorHandler(error.message, 400));
     }
   })
 );
@@ -279,7 +281,7 @@ router.put(
         user: existsUser,
       });
     } catch (error) {
-      console.log("log", error);
+      // console.log("log", error);
       return next(new ErrorHandler(error.message, 500));
     }
   })
