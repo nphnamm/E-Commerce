@@ -7,12 +7,14 @@ import FeaturedProduct from '../components/Route/FeaturedProduct/FeaturedProduct
 import Events from '../components/Events/Events'
 import Sponsored from '../components/Route/Sponsored'
 import Footer from '../components/Layout/Footer'
+import Slider from '../components/Route/Slider/Slider'
 
 function HomePage() {
   return (
     <div>
       <Header activeHeading={1}/> 
-      <Hero/>      
+      <Slider />
+      {/* <Hero/>       */}
       <Categories/> 
       <BestDeals/>
       <Events/>

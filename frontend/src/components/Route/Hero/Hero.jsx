@@ -11,7 +11,7 @@ function Hero() {
     // TODO: attribute: display:flex, items-center to align item follow vertical
     <>
       <div
-        className={` min-h-[70vh] 800px:min-h-[80vh] w-full bg-no-repeat ${styles.normalFlex}`}
+        className={`min-h-[70vh] 800px:min-h-[80vh] w-100% bg-no-repeat ${styles.normalFlex}`}
         style={{
           backgroundImage:
             "url(https://themes.rslahmed.dev/rafcart/assets/images/banner-2.jpg)",
@@ -19,7 +19,7 @@ function Hero() {
       >
         {/* */}
 
-        <div className={`${styles.section} w-[90%] 800px:w-[60%] border-2`}>
+        <div className={`${styles.section} w-[90%] 800px:w-[60%]`}>
           <h1
             className={`text-[35px] leading-[1.2] 800px:text-[60px] text-[#3d3a3a] font-[600] capitalize`}
           >

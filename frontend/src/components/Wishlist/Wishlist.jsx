@@ -97,15 +97,18 @@ const CartSingle = ({ data, removeFromWishlistHandler, addToCartHandler }) => {
           className="w-[130px] h-min ml-2 mr-2 rounded-[5px]"
         />
 
-        <div className="pl-[5px]">
+        <div className="pl-[5px] w-[208px]">
           <h1>{data.name.substring(0, 25) + "..."}</h1>
           <h2>{data.size}</h2>
 
           <h4 className="font-[600] pt-3 800px:pt-[3px] text-[17px] text-[#d02222] font-Roboto">
-            US${totalPrice}
+          {parseInt(data.discountPrice).toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })}          
           </h4>
         </div>
-        <div>
+        <div className="flex-end">
           <BsCartPlus
             size={20}
             className="cursor-pointer"

@@ -81,7 +81,10 @@ const Cart = ({ setOpenCart }) => {
                   className={`h-[45px] flex items-center justify-center w-[100%] bg-[#e44343] rounded-[5px]`}
                 >
                   <h1 className="text-[#fff] text-[18px] font-[600]">
-                    Checkout Now ({totalPrice}VNĐ)
+                    Checkout Now ({parseInt(totalPrice).toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })})
                   </h1>
                 </div>
               </Link>
@@ -147,10 +150,18 @@ const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
           <h2>{data.size}</h2>
 
           <h4 className="font-[400] text-[15px] text-[#00000082">
-            ${data.discountPrice} * {value}
+          {data.discountPrice
+                      ? parseInt(data.discountPrice).toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })
+                      : null} * {value}
           </h4>
           <h4 className="font-[600] text-[17px] pt-[3px] text-[#d02222] font-Roboto">
-            {totalPrice} VNĐ
+            {parseInt(totalPrice).toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })} 
           </h4>
         </div>
         <RxCross1
