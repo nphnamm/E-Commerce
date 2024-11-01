@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createProduct } from "../../redux/actions/product";
-import { categoriesData } from "../../static/data";
+import { categoriesData, storageData } from "../../static/data";
 import { sizeData } from "../../static/data";
 function CreateProduct() {
   const { seller } = useSelector((state) => state.seller);
@@ -23,6 +23,7 @@ function CreateProduct() {
   const [originalPrice, setOriginalPrice] = useState();
   const [discountPrice, setDiscountPrice] = useState();
   const [stock, setStock] = useState();
+  
 
   useEffect(() => {
     if (error) {
@@ -126,6 +127,8 @@ function CreateProduct() {
         originalPrice,
         discountPrice,
         stock,
+        storage,
+
         shopId: seller._id,
         images,
       })
@@ -168,7 +171,9 @@ function CreateProduct() {
         </div>
         <br />
         <div>
-          <label className="pb-2">Tags</label>
+          <label className="pb-2">
+            Tags <span className="text-red-500">*</span>
+            </label>
           <input
             type="text"
             name="tags"
@@ -200,7 +205,7 @@ function CreateProduct() {
         <br />
         <div>
           <label className="pb-2">
-            Size <span className="text-red-500">*</span>
+            Size 
           </label>
           <select
             className="w-full mt-2 border h-[35px] rounded-[5px]"
@@ -218,7 +223,29 @@ function CreateProduct() {
         </div>
         <br />
         <div>
-          <label className="pb-2">Original Price</label>
+                <label className="pb-2">
+                  Storage 
+                </label>
+                <select
+                  className="w-full mt-2 border h-[35px] rounded-[5px]"
+                  value={storage}
+                  onChange={(e) => setStorage(e.target.value)}
+                >
+                  <option value="Choose a size">Choose a storage</option>
+                  {storageData &&
+                    storageData.map((i) => (
+                      <option value={i.title} key={i.title}>
+                        {i.title}
+                      </option>
+                    ))}
+                </select>
+              </div>
+              <br />
+        <div>
+          <label className="pb-2">
+            Original Price <span className="text-red-500">*</span>
+            
+            </label>
           <input
             type="number"
             name="price"

@@ -73,13 +73,16 @@ const AllProducts = () => {
   ];
 
   const row = [];
-
+  console.log('data',data)
   data &&
     data.forEach((item) => {
       row.push({
         id: item._id,
         name: item.name,
-        price: item.discountPrice + "VNĐ",
+        price: parseInt(item.discountPrice).toLocaleString("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }),
         Stock: item.stock,
         sold: item?.sold_out,
       });

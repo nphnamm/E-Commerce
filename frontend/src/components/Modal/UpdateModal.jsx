@@ -103,7 +103,6 @@ function UpdateModal({ open, setOpen, data }) {
     newForm.append("description", data?.description);
     newForm.append("category", data?.category);
     newForm.append("size", data?.size);
-
     newForm.append("tags", data?.tags);
     newForm.append("originalPrice", data?.originalPrice);
     newForm.append("discountPrice", data?.discountPrice);

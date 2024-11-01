@@ -20,7 +20,7 @@ import { addTocart } from "../../redux/actions/cart";
 import axios from "axios";
 import { sizeData } from "../../static/data";
 
-const ProductDetails = ({ data }) => {
+const ProductDetails = ({ data,sizesData }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
   const { cart } = useSelector((state) => state.cart);
   const { user, isAuthenticated } = useSelector((state) => state.user);
@@ -29,33 +29,25 @@ const ProductDetails = ({ data }) => {
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
-  const [sizesData, setSizesData] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   console.log("data id", data?.name);
   useEffect(() => {
-    dispatch(getAllProductsShop(data && data?.shop._id));
 
     if (wishlist && wishlist.find((i) => i._id === data?._id)) {
       setClick(true);
     } else {
       setClick(false);
     }
+
+    // setSizesData(filterdSize)
+
   }, [data, wishlist]);
   useEffect(() => {
-    // axios
-    //   .get(`${server}/product/get-product-by-type`, {
-    //     params: {
-    //       tags: data?.tags,
-    //     },
-    //     withCredentials: true, // Include credentials (cookies, auth tokens)
-    //   })
-    //   .then((res) => {
-    //     // console.log("res data", res.data);
-    //     // toast.success(res.data.message);
-    //     setSizesData(res.data.sizes);
-    //     console.log("set size", sizesData);
-    //   });
+    // const filteredData = data.filter(obj => obj.tags === data.tags);
+    dispatch(getAllProductsShop(data && data?.shop._id));
+    console.log('size',sizesData)
+
   }, []);
   // console.log("data tags", data?.tags);
   const incrementCount = () => {
@@ -136,7 +128,7 @@ const ProductDetails = ({ data }) => {
 
   return (
     <div className="bg-white">
-      {data ? (
+      {(data && sizesData)? (
         <div className={`${styles.section} w-[90%] 800px:w-[80%]`}>
           <div className="w-full py-5">
             <div className="block w-full 800px:flex">
@@ -174,10 +166,17 @@ const ProductDetails = ({ data }) => {
                 <p>{data.description}</p>
                 <div className="flex pt-3">
                   <h4 className={`${styles.productDiscountPrice}`}>
-                    {data.discountPrice}$
+                  {parseInt(data.discountPrice).toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
                   </h4>
                   <h3 className={`${styles.price}`}>
-                    {data.originalPrice ? data.originalPrice + "$" : null}
+                    {data.originalPrice ? parseInt(data.originalPrice).toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        }) : null}
+                    
                   </h3>
                 </div>
 

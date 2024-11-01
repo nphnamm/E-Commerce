@@ -75,7 +75,10 @@ const AllOrders = () => {
       row.push({
         id: item._id,
         itemsQty: item.cart.length,
-        total: "US$ " + item.totalPrice,
+        total: parseInt(item.totalPrice).toLocaleString("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }),
         status: item.status,
       });
     });
