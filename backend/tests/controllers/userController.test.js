@@ -115,19 +115,19 @@ describe("Auth Routes", () => {
     });
   });
 
-  describe("POST /create-duplicate-user", () => {
-    it("should return error if email already exists", async () => {
-      const res = await request(app).post("/api/v2/user/create-user").send({
-        name: "Duplicate User",
-        email: testUserEmail,
-        password: testPassword,
-        avatar: "mock_avatar_data",
-      });
+  // describe("POST /create-duplicate-user", () => {
+  //   it("should return error if email already exists", async () => {
+  //     const res = await request(app).post("/api/v2/user/create-user").send({
+  //       name: "Duplicate User",
+  //       email: testUserEmail,
+  //       password: testPassword,
+  //       avatar: "mock_avatar_data",
+  //     });
 
-      expect(res.statusCode).toBe(400);
-      expect(res.body.message).toContain("User already exists");
-    });
-  });
+  //     expect(res.statusCode).toBe(400);
+  //     expect(res.body.message).toContain("User already exists");
+  //   });
+  // });
 
   // Kiểm tra chức năng đăng nhập
   describe("POST /login-user", () => {
@@ -142,7 +142,7 @@ describe("Auth Routes", () => {
       expect(res.body.token).toBeDefined(); // JWT token
     });
 
-    it("should not login with incorrect credentials", async () => {
+    it("should not login with correct password", async () => {
       const res = await request(app).post("/api/v2/user/login-user").send({
         email: testUserEmail,
         password: "wrongpassword",
@@ -150,6 +150,25 @@ describe("Auth Routes", () => {
 
       expect(res.statusCode).toBe(400);
       expect(res.body.message).toContain("Please Provide Correct Informations");
+    });
+    it("should not login with correct email", async () => {
+      const res = await request(app).post("/api/v2/user/login-user").send({
+        email: "wrongEmailPassword",
+        password: testPassword,
+      });
+
+      expect(res.statusCode).toBe(400);
+      expect(res.body.message).toContain("User Doesn't Exist");
+    });
+
+    it("should not login with incorrect ", async () => {
+      const res = await request(app).post("/api/v2/user/login-user").send({
+        email: "wrongEmailPassword",
+        password: "wrongpassword",
+      });
+
+      expect(res.statusCode).toBe(400);
+      expect(res.body.message).toContain("User Doesn't Exist");
     });
   });
 

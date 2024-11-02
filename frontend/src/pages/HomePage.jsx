@@ -8,6 +8,7 @@ import Events from '../components/Events/Events'
 import Sponsored from '../components/Route/Sponsored'
 import Footer from '../components/Layout/Footer'
 import Slider from '../components/Route/Slider/Slider'
+import Category from '../components/Route/Category/Category'
 
 function HomePage() {
   return (
@@ -15,7 +16,8 @@ function HomePage() {
       <Header activeHeading={1}/> 
       <Slider />
       {/* <Hero/>       */}
-      <Categories/> 
+      {/* <Categories/>  */}
+      <Category/>
       <BestDeals/>
       <Events/>
       <FeaturedProduct/>

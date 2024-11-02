@@ -18,7 +18,7 @@ const Footer = () => {
       {/* //TODO: The above Part, if the application is on mobile screen, the items will have a maximum width.
       //TODO: otherwise if it is on a large screen of 768px, the items will have the flex attribute. */}
 
-      <div className="md:flex md:justify-between md:items-center sm:px-12 px-4 bg-[#342ac8] py-7">
+      <div className="md:flex md:justify-between md:items-center sm:px-12 px-4 bg-[#1868d5] py-7">
         {/* //TODO: if the application is on mobile screen, the h1 tag will have a width attribute according to the content, but 
         //TODO: on screens larger than 768px, it will have a size that takes up 2/5 of the width of the surrounding div tag.  */}
 

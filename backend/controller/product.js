@@ -83,6 +83,8 @@ router.put(
       if (!shop) {
         return next(new ErrorHandler("Shop Id is invalid!", 400));
       } else {
+        const productData = req.body;
+
         // const files = req.files;
         // console.log("files", files);
         // const imageUrls = files.map((file) => `${file.filename}`);
@@ -94,30 +96,34 @@ router.put(
         //   success: true,
         //   product,
         // });
-        let images = [];
 
-        if (typeof req.body.images === "array") {
-          images.push(req.body.images);
-        } else {
-          images = req.body.images;
-        }
-        const imagesLinks = [];
+        if(req.body.images){
+          let images = [];
 
-        for (let i = 0; i < images.length; i++) {
-          if (typeof images[i] === "string") {
-            const result = await cloudinary.v2.uploader.upload(images[i], {
-              folder: "products",
-            });
-            imagesLinks.push({
-              public_id: result.public_id,
-              url: result.secure_url,
-            });
+          if (typeof req.body.images === "array") {
+            images.push(req.body.images);
           } else {
-            imagesLinks.push(images[i]);
+            images = req.body.images;
           }
+          const imagesLinks = [];
+  
+          for (let i = 0; i < images.length; i++) {
+            if (typeof images[i] === "string") {
+              const result = await cloudinary.v2.uploader.upload(images[i], {
+                folder: "products",
+              });
+              imagesLinks.push({
+                public_id: result.public_id,
+                url: result.secure_url,
+              });
+            } else {
+              imagesLinks.push(images[i]);
+            }
+          }
+          productData.images = imagesLinks;
+
         }
-        const productData = req.body;
-        productData.images = imagesLinks;
+
         productData.shop = shop;
         const product = await Product.findByIdAndUpdate(
           req.body.id,
@@ -128,6 +134,63 @@ router.put(
           product,
         });
       }
+    } catch (error) {
+      console.log("error", error);
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
+router.patch(
+  "/list",
+  catchAsyncErrors(async (req, res) => {
+    try {
+      const { filter = "{}", pageNum = 1, pageSize = 10, sort = [] } = req.body;
+      const parsedFilter = JSON.parse(filter);
+      const filters = {};
+
+      // Xử lý các điều kiện lọc từ parsedFilter
+      if (parsedFilter.startDate && parsedFilter.endDate) {
+        filters.createdAt = {
+          $gte: new Date(parsedFilter.startDate),
+          $lte: new Date(parsedFilter.endDate),
+        };
+      }
+      if (parsedFilter.keyword) {
+        filters.name = { $regex: parsedFilter.keyword, $options: "i" };
+      }
+      if (parsedFilter.statuses) {
+        filters.status = { $in: parsedFilter.statuses };
+      }
+
+      // Phân trang
+      const limit = parseInt(pageSize, 10);
+      const page = parseInt(pageNum, 10);
+      const skip = (page - 1) * limit;
+
+      // Sắp xếp
+      const sortOptions = {};
+      sort.forEach((sortField) => {
+        const key = Object.keys(sortField)[0];
+        sortOptions[key] = sortField[key] === "asc" ? 1 : -1;
+      });
+
+      // Truy vấn dữ liệu từ MongoDB với bộ lọc, phân trang và sắp xếp
+      const products = await Product.find(filters)
+        .limit(limit)
+        .skip(skip)
+        .sort(sortOptions);
+
+      // Tổng số sản phẩm thỏa mãn bộ lọc
+      const totalItems = await Product.countDocuments(filters);
+
+      // Trả về kết quả
+      res.json({
+        totalItems,
+        totalPages: Math.ceil(totalItems / limit),
+        currentPage: page,
+        products,
+      });
     } catch (error) {
       console.log("error", error);
       return next(new ErrorHandler(error, 400));

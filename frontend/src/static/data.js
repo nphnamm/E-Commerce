@@ -290,7 +290,6 @@ export const categoriesData = [
     id: 6,
     title: "Gifts",
     icon:'Gift',
-
     subTitle: "",
     image_Url:
       "https://securecdn.pymnts.com/wp-content/uploads/2014/11/Gifts-Photo-700x489.jpg",
@@ -325,6 +324,134 @@ export const categoriesData = [
     title: "Others",
     icon:'Other',
 
+    subTitle: "",
+    image_Url:
+      "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
+  },
+  {
+    id: 11,
+    title: "Sofa",
+    icon:'Sofa',
+    subTitle: "",
+    image_Url:
+      "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
+  },
+  {
+    id: 12,
+    title: "TV Cabinet",
+    icon:'Television',
+    subTitle: "",
+    image_Url:
+      "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
+  },
+  {
+    id: 13,
+    title: "Dining",
+    icon:'Dining',
+    subTitle: "",
+    image_Url:
+      "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
+  },
+  {
+    id: 14,
+    title: "Wordrobe",
+    icon:'Wordrobe',
+    subTitle: "",
+    image_Url:
+      "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
+  },
+  {
+    id: 15,
+    title: "Bed",
+    icon:'Bed',
+    subTitle: "",
+    image_Url:
+      "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
+  },
+  {
+    id: 16,
+    title: "Dressing Table",
+    icon:'DressignTable',
+    subTitle: "",
+    image_Url:
+      "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
+  },
+  {
+    id: 17,
+    title: "Door",
+    icon:'Door',
+    subTitle: "",
+    image_Url:
+      "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
+  },
+  {
+    id: 18,
+    title: "Divan",
+    icon:'Divan',
+    subTitle: "",
+    image_Url:
+      "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
+  },
+  {
+    id: 19,
+    title: "Kitchen",
+    icon:'Kitchen',
+    subTitle: "",
+    image_Url:
+      "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
+  },
+  {
+    id: 20,
+    title: "Lamp",
+    icon:'Lamp',
+    subTitle: "",
+    image_Url:
+      "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
+  },
+  {
+    id: 21,
+    title: "Office",
+    icon:'Office',
+    subTitle: "",
+    image_Url:
+      "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
+  },
+  {
+    id: 22,
+    title: "Reading Table",
+    icon:'ReadingTable',
+    subTitle: "",
+    image_Url:
+      "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
+  },
+  {
+    id: 23,
+    title: "Matress",
+    icon:'Mattress',
+    subTitle: "",
+    image_Url:
+      "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
+  },
+  {
+    id: 23,
+    title: "Chest Drawers",
+    icon:'Television',
+    subTitle: "",
+    image_Url:
+      "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
+  },
+  {
+    id: 24,
+    title: "Windows",
+    icon:'Windows',
+    subTitle: "",
+    image_Url:
+      "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",
+  },
+  {
+    id: 25,
+    title: "Miscellaneous",
+    icon:'Miscellaneous',
     subTitle: "",
     image_Url:
       "https://searchspring.com/wp-content/uploads/2022/10/Hero-Image-Platform-Others-2.png",

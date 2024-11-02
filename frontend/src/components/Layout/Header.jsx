@@ -75,17 +75,30 @@ function Header({ activeHeading }) {
   
                   */}
           <div className="w-[50%] relative">
-            <input
-              type="text"
-              placeholder="Search for products, brands and more"
-              className="h-[40px] w-full px-2 border-[#3957db] border-[2px] rounded-md"
-              onChange={handleSearchChange}
-              value={searchTerm}
-            />
-            <AiOutlineSearch
-              size={30}
-              className="absolute right-2 top-1.5 cursor-pointer" //! right-2 = 0.5rem = 8px ; top-1.5 = 0.375rem = 6px /
-            />
+            <div className={`w-full h-full flex items-center justify-between`}>
+              <div className="w-[100%]">
+                <form action="#" className="h-full">
+                  <input
+                    type="text"
+                    className="search-input pl-5 h-[48px] w-full border border-qgray-border bg-white flex-1"
+                    placeholder="Search Product..."
+                    onChange={handleSearchChange}
+                    value={searchTerm}
+                  />
+                </form>
+              </div>
+
+              <div className="h-[48px]">
+                <button
+                  className="w-[93px] h-full text-sm font-600
+                bg-[#1868d5] text-white"
+                  type="button"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+
             {searchData && searchData.length !== 0 ? (
               <div className="absolute min-h-[30vh] min-w-full bg-slate-50 shadow-sm-2 z-[1000] p-4 hover:">
                 {searchData &&
@@ -119,7 +132,7 @@ function Header({ activeHeading }) {
       <div
         className={`${
           active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
-        } transition hidden 800px:flex items-center justify-between w-full bg-[#3321c8] h-[70px]`}
+        } transition hidden 800px:flex items-center justify-between w-full bg-[#1868d5] h-[70px]`}
       >
         <div
           className={`${styles.section} relative ${styles.normalFlex} justify-between`}
@@ -151,8 +164,6 @@ function Header({ activeHeading }) {
           <div className={`${styles.normalFlex}`}>
             <Navbar active={activeHeading} />
           </div>
-
-
 
           <div className="flex">
             <div className={`${styles.normalFlex}`}>

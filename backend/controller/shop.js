@@ -17,7 +17,7 @@ router.post(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const { email } = req.body;
-      const sellerEmail = await shop.findOne({ email });
+      const sellerEmail = await Shop.findOne({ email });
       if (sellerEmail) {
         // const filename = req.file.filename;
         // const filePath = `uploads/${filename}`;
@@ -50,6 +50,7 @@ router.post(
       const activationToken = createActivationToken(seller);
       const activationUrl = `http://localhost:3000/seller/activation/${activationToken}`;
       console.log("check", activationUrl);
+      
       try {
         await sendMail({
           email: seller.email,
@@ -59,6 +60,8 @@ router.post(
         res.status(201).json({
           success: true,
           message: `please check your email: ${seller.email} to activate your shop`,
+          activationToken
+
         });
       } catch (error) {
         console.log("Error", error);

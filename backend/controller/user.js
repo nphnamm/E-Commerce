@@ -32,8 +32,9 @@ router.post("/create-user", async (req, res, next) => {
       //     res.status(500).json({ message: "Error deleting file" });
       //   }
       // });
-       res.status(400).json({ message: "User already exists" });
-      // return next(new ErrorHandler("User already exists", 400));
+
+      //  res.status(400).json({ message: "User already exists" });
+       return next(new ErrorHandler("User already exists", 400));
     }
     const myCloud = await cloudinary.v2.uploader.upload(avatar, {
       folder: "avatars",
@@ -54,7 +55,7 @@ router.post("/create-user", async (req, res, next) => {
     const activationToken = createActivationToken(user);
     const activationUrl = `http://localhost:3000/activation/${activationToken}`;
 
-    // console.log("check", activationUrl);
+    console.log("check", activationUrl);
     try {
       await sendMail({
         email: user.email,
