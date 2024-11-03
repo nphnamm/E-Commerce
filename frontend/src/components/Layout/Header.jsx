@@ -26,6 +26,7 @@ function Header({ activeHeading }) {
   const { wishlist } = useSelector((state) => state.wishlist);
   const { cart } = useSelector((state) => state.cart);
   const { allProducts } = useSelector((state) => state.products);
+  const limitedCategoriesData = categoriesData.slice(0, 10);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState(null);
@@ -138,27 +139,38 @@ function Header({ activeHeading }) {
           className={`${styles.section} relative ${styles.normalFlex} justify-between`}
         >
           {/*Categories*/}
-          <div onClick={() => setDropDown(!dropDown)}>
-            <div className="relative h-[60px] mt-[10px] w-[270px] hidden 1000px:block">
-              <BiMenuAltLeft size={30} className="absolute top-3 left-2" />
-              <button
-                className={`h-[100%] w-full flex justify-between items-center pl-10 bg-white font-sans text-lg font-[500] select-none rounded-t-md`}
-              >
-                All categories
-              </button>
-              <IoIosArrowDown
-                size={20}
-                className="absolute right-2 top-4 cursor-auto"
-                onClick={() => setDropDown(!dropDown)}
-              />
-              {dropDown ? (
-                <DropDown
-                  categoriesData={categoriesData}
-                  setDropDown={setDropDown}
-                />
-              ) : null}
-            </div>
+
+          <div
+            onClick={() => setDropDown(!dropDown)}
+
+            className="relative h-[60px] mt-[10px] w-[270px] hidden 1000px:block"
+          >
+            <BiMenuAltLeft size={30} className="absolute top-3 left-2" />
+            <button className="h-full w-full flex justify-between items-center pl-10 bg-white font-sans text-lg font-medium select-none rounded-t-md">
+              All categories
+            </button>
+            <IoIosArrowDown
+              size={20}
+              className="absolute right-2 top-4 cursor-pointer"
+              onClick={() => setDropDown(!dropDown)}
+            />
+            {dropDown &&
+            <div
+            className="max-h-[500px]
+             overflow-hidden transition-transform duration-1000"
+
+          >
+            
+            <DropDown
+              categoriesData={limitedCategoriesData}
+              setDropDown={setDropDown}
+            />
           </div>
+            }
+
+          </div>
+
+          
 
           {/*nav items*/}
           <div className={`${styles.normalFlex}`}>

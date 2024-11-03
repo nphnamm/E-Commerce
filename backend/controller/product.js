@@ -3,13 +3,15 @@ const cactchAsyncErrors = require("../middleware/catchAsyncErrors");
 const router = express.Router();
 const Product = require("../model/product");
 const Shop = require("../model/shop");
-const { upload } = require("../multer");
+// const { upload } = require("../multer");
 const ErrorHandler = require("../utils/ErrorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const { isAuthenticated, isSeller, isAdmin } = require("../middleware/auth");
 const fs = require("fs");
 const Order = require("../model/order");
 const cloudinary = require("cloudinary");
+const multer = require("multer");
+const upload = multer();
 
 // create product
 router.post(
@@ -17,7 +19,7 @@ router.post(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const shopId = req.body.shopId;
-      console.log(req.body.images);
+      console.log("images", req.body);
       const shop = await Shop.findById(shopId);
       if (!shop) {
         return next(new ErrorHandler("Shop Id is invalid!", 400));
@@ -67,6 +69,73 @@ router.post(
   })
 );
 
+// create product
+router.post(
+  "/create-product-test",
+  upload.array("images"),
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const shopId = req.body.shopId;
+      console.log("images", req.files);
+      console.log("shop id", req.body.shopId);
+      let images = req.files;
+      const shop = await Shop.findById(shopId);
+      if (!shop) {
+        return next(new ErrorHandler("Shop Id is invalid!", 400));
+      } else {
+        // const files = req.files;
+        // console.log("files", files);
+        // const imageUrls = files.map((file) => `${file.filename}`);
+        // const productData = req.body;
+        // productData.images = imageUrls;
+        // productData.shop = shop;
+        // const product = await Product.create(productData);
+        // res.status(201).json({
+        //   success: true,
+        //   product,
+        // });
+        // let images = [];
+        // if (typeof req.file === "object") {
+        //   images.push(req.file);
+        // } else {
+        //   images.push(req.file);
+        // }
+        // if (typeof req.files === "array") {
+        //   images = req.files;
+        // }
+        const imagesLinks = [];
+        console.log(images);
+        for (let i = 0; i < images.length; i++) {
+          const imageBuffer = images[i].buffer;
+          const base64Image = `data:${
+            req.files[i].mimetype
+          };base64,${imageBuffer.toString("base64")}`;
+
+          const result = await cloudinary.v2.uploader.upload(base64Image, {
+            folder: "products",
+          });
+
+          imagesLinks.push({
+            public_id: result.public_id,
+            url: result.secure_url,
+          });
+        }
+        const productData = req.body;
+        productData.images = imagesLinks;
+        productData.shop = shop;
+        const product = await Product.create(productData);
+        res.status(201).json({
+          success: true,
+          product,
+        });
+      }
+    } catch (error) {
+      console.log("error", error);
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
 //update product
 router.put(
   "/update-product",
@@ -97,7 +166,7 @@ router.put(
         //   product,
         // });
 
-        if(req.body.images){
+        if (req.body.images) {
           let images = [];
 
           if (typeof req.body.images === "array") {
@@ -106,7 +175,7 @@ router.put(
             images = req.body.images;
           }
           const imagesLinks = [];
-  
+
           for (let i = 0; i < images.length; i++) {
             if (typeof images[i] === "string") {
               const result = await cloudinary.v2.uploader.upload(images[i], {
@@ -121,7 +190,6 @@ router.put(
             }
           }
           productData.images = imagesLinks;
-
         }
 
         productData.shop = shop;
