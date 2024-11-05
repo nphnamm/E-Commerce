@@ -62,6 +62,7 @@ import {
   AdminDashboardProducts,
   AdminDashboardEvents,
 } from "./routes/AdminRoutes.js";
+import SearchProductsPage from "./pages/Shop/SearchProductsPage.jsx";
 
 function App() {
   // console.log(
@@ -109,6 +110,7 @@ function App() {
         />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/product/:id" element={<ProductDetailsPage />} />
+        <Route path="search" element={<SearchProductsPage />} />
 
         <Route path="best-selling" element={<BestSellingPage />} />
         <Route path="/events" element={<EventsPage />} />

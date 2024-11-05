@@ -225,7 +225,7 @@ router.patch(
         };
       }
       if (parsedFilter.keyword) {
-        filters.name = { $regex: parsedFilter.keyword, $options: "i" };
+        filters.category = { $regex: parsedFilter.keyword, $options: "i" };
       }
       if (parsedFilter.statuses) {
         filters.status = { $in: parsedFilter.statuses };
