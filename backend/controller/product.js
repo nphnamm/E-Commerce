@@ -218,18 +218,33 @@ router.patch(
       const filters = {};
 
       // Xử lý các điều kiện lọc từ parsedFilter
-      if (parsedFilter.startDate && parsedFilter.endDate) {
-        filters.createdAt = {
-          $gte: new Date(parsedFilter.startDate),
-          $lte: new Date(parsedFilter.endDate),
+      if (parsedFilter.minPrice || parsedFilter.maxPrice) {
+        filters.discountPrice = {
+          $gte: parsedFilter.minPrice,
+          $lte: parsedFilter.maxPrice,
         };
       }
       if (parsedFilter.keyword) {
-        filters.category = { $regex: parsedFilter.keyword, $options: "i" };
+        filters.name = { $regex: parsedFilter.keyword, $options: "i" };
       }
-      if (parsedFilter.statuses) {
-        filters.status = { $in: parsedFilter.statuses };
+      if (parsedFilter.storage) {
+        filters.storage = { $regex: parsedFilter.storage, $options: "i" };
       }
+      if (parsedFilter.size) {
+        filters.size = { $regex: parsedFilter.size, $options: "i" };
+      }
+      if (parsedFilter.category) {
+        filters.category = { $in: parsedFilter.category };
+      }
+      if (parsedFilter.brand) {
+        const shops = await Shop.find({ name: parsedFilter.brand });
+        const shopIds = shops.map(shop => shop._id);
+
+        // Thêm điều kiện lọc `shop` vào `filters`
+        filters.shop = shops;
+      }
+      console.log('shop',filters.shop);
+
 
       // Phân trang
       const limit = parseInt(pageSize, 10);
@@ -245,19 +260,23 @@ router.patch(
 
       // Truy vấn dữ liệu từ MongoDB với bộ lọc, phân trang và sắp xếp
       const products = await Product.find(filters)
-        .limit(limit)
-        .skip(skip)
-        .sort(sortOptions);
+      .populate("shop") // Populate để lấy dữ liệu shop đầy đủ
+      .limit(limit)
+      .skip(skip)
+      .sort(sortOptions);
+      // console.log(products);
+      // Lọc ra các sản phẩm có `shop` hợp lệ (tức là `shop` có `name` trùng với `brand`)
+      const filteredProducts = products.filter(product => product.shop);
 
       // Tổng số sản phẩm thỏa mãn bộ lọc
-      const totalItems = await Product.countDocuments(filters);
+      const totalItems = filteredProducts.length;
 
       // Trả về kết quả
       res.json({
         totalItems,
         totalPages: Math.ceil(totalItems / limit),
         currentPage: page,
-        products,
+        products: filteredProducts,
       });
     } catch (error) {
       console.log("error", error);
