@@ -17,7 +17,7 @@ export default function ProductsFilter({
   return (
     <>
       <div
-        className={`filter-widget w-full fixed lg:relative left-0 top-0 h-screen z-10 lg:h-auto overflow-y-scroll lg:overflow-y-auto bg-white px-[30px] pt-[40px] ${
+        className={`filter-widget w-full fixed lg:relative left-0 top-0 h-screen z-5 lg:h-auto overflow-y-scroll lg:overflow-y-auto bg-white px-[30px] pt-[40px] ${
           className || ""
         }  ${filterToggle ? "block" : "hidden lg:block"}`}
       >

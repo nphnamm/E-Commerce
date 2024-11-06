@@ -11,6 +11,13 @@ import { ReactComponent as IconGift } from '../../static/Icons/Gift.svg';
 import { ReactComponent as IconPet } from '../../static/Icons/Pet.svg';
 import { ReactComponent as IconOther } from '../../static/Icons/Other.svg';
 import { ReactComponent as IconComputer } from '../../static/Icons/Computer.svg';
+import { ReactComponent as IconStar } from '../../static/Icons/Star.svg';
+import { ReactComponent as IconQuickView } from '../../static/Icons/QuickView.svg';
+import { ReactComponent as IconCompair } from '../../static/Icons/Compair.svg';
+import { ReactComponent as IconThinLove } from '../../static/Icons/ThinLove.svg';
+
+
+
 
 
 
@@ -26,7 +33,12 @@ const icons={
     Gift: IconGift,
     Pet: IconPet,
     Other: IconOther,
-    Computer: IconComputer
+    Computer: IconComputer,
+    Compair: IconCompair,
+    Star: IconStar,
+    QuickView: IconQuickView,
+    ThinLove: IconThinLove,
+
 }
 function Icon({ name, size , color = 'currentColor', ...props }) {
   // Lấy icon từ object dựa trên tên truyền vào

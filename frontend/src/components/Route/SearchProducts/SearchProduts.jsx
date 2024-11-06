@@ -1,10 +1,13 @@
 import { useState } from "react";
 import ProductsFilter from "./ProductsFilter";
 import "react-input-range/lib/css/index.css";
+import { useDispatch, useSelector } from "react-redux";
+import Banner3 from "../../../Assests/images/banner-3.png";
+import DataIteration from "./DataIteration";
+import ProductCardStyleOne from "./ProductCardStyleOne";
 
-import { productData } from "../../../static/data";
 
-export default function SearchProducts() {
+export default function SearchProducts({allProducts}) {
   const [filters, setFilter] = useState({
     mobileLaptop: false,
     gaming: false,
@@ -32,6 +35,8 @@ export default function SearchProducts() {
     sizeXXL: false,
     sizeFit: false,
   });
+  
+  console.log('all products',allProducts)
 
   const checkboxHandler = (e) => {
     const { name } = e.target;
@@ -48,11 +53,11 @@ export default function SearchProducts() {
   };
   const [filterToggle, setToggle] = useState(false);
 
-  const products = productData;
+  // const products = productData;
 
   return (
     <>
-        <div className="products-page-wrapper w-full p-16 bg-[#f8f8f8]">
+        <div className="products-page-wrapper w-full p-24 bg-[#f8f8f8]">
           <div className="container-x mx-auto">
             {/* <BreadcrumbCom /> */}
             <div className="w-full lg:flex lg:space-x-[30px]">
@@ -71,7 +76,7 @@ export default function SearchProducts() {
                 {/* ads */}
                 <div className="w-full hidden lg:block h-[295px]">
                   <img
-                    src={`${process.env.PUBLIC_URL}/assets/images/ads-5.png`}
+                    src={Banner3}
                     alt=""
                     className="w-full h-full object-contain"
                   />
@@ -127,18 +132,18 @@ export default function SearchProducts() {
                   </button>
                 </div>
                 <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1  xl:gap-[30px] gap-5 mb-[40px]">
-                  {/* <DataIteration datas={products} startLength={0} endLength={6}>
+                  <DataIteration datas={allProducts} startLength={0} endLength={3}>
                     {({ datas }) => (
                       <div data-aos="fade-up" key={datas.id}>
                         <ProductCardStyleOne datas={datas} />
                       </div>
                     )}
-                  </DataIteration> */}
+                  </DataIteration>
                 </div>
 
                 <div className="w-full h-[164px] overflow-hidden mb-[40px]">
                   <img
-                    src={`${process.env.PUBLIC_URL}/assets/images/ads-6.png`}
+                    src={Banner3}
                     alt=""
                     className="w-full h-full object-contain"
                   />
