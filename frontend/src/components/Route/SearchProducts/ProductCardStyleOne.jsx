@@ -2,7 +2,6 @@ import { useState } from "react";
 import Icon from "../../Icon/Icon";
 
 export default function ProductCardStyleOne({ datas, type }) {
-  console.log("card", datas.images[0].url);
   const [isHovered, setIsHovered] = useState(false);
 
   const available = (datas?.stock / (datas?.stock + datas?.sold_out)) * 100;

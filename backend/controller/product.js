@@ -228,13 +228,14 @@ router.patch(
         filters.name = { $regex: parsedFilter.keyword, $options: "i" };
       }
       if (parsedFilter.storage) {
-        filters.storage = { $regex: parsedFilter.storage, $options: "i" };
+        filters.storage = { $in: parsedFilter.storage };
       }
       if (parsedFilter.size) {
-        filters.size = { $regex: parsedFilter.size, $options: "i" };
+        filters.size = { $in: parsedFilter.size };
       }
       if (parsedFilter.category) {
         filters.category = { $in: parsedFilter.category };
+
       }
       if (parsedFilter.brand) {
         const shops = await Shop.find({ name: parsedFilter.brand });
@@ -243,7 +244,7 @@ router.patch(
         // Thêm điều kiện lọc `shop` vào `filters`
         filters.shop = shops;
       }
-      console.log('shop',filters.shop);
+      // console.log('shop',filters.shop);
 
 
       // Phân trang

@@ -254,7 +254,7 @@ export const categoriesData = [
   },
   {
     id: 2,
-    title: "cosmetics and body care",
+    title: "Cosmetics and body care",
     icon:'Comestic',
     subTitle: "",
     image_Url:
@@ -314,7 +314,6 @@ export const categoriesData = [
     id: 9,
     title: "Music and Gaming",
     icon:'Gaming',
-
     subTitle: "",
     image_Url:
       "https://static.vecteezy.com/system/resources/previews/011/996/555/original/3d-black-headphone-illustration-ecommerce-icon-png.png",
