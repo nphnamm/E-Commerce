@@ -258,7 +258,10 @@ router.patch(
         const key = Object.keys(sortField)[0];
         sortOptions[key] = sortField[key] === "asc" ? 1 : -1;
       });
-
+      const allProducts = await Product.find(filters)
+      .populate("shop")
+      .sort(sortOptions)
+      
       // Truy vấn dữ liệu từ MongoDB với bộ lọc, phân trang và sắp xếp
       const products = await Product.find(filters)
       .populate("shop") // Populate để lấy dữ liệu shop đầy đủ
@@ -274,6 +277,7 @@ router.patch(
 
       // Trả về kết quả
       res.json({
+        totalProducts:allProducts.length,
         totalItems,
         totalPages: Math.ceil(totalItems / limit),
         currentPage: page,

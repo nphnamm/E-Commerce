@@ -1,29 +1,31 @@
 import InputRange from "react-input-range";
 import "react-input-range/lib/css/index.css";
 
-import Checkbox from './../../Checkbox/Checkbox';
+import Checkbox from "./../../Checkbox/Checkbox";
 
 export default function ProductsFilter({
   selectedCategories,
-
-  handleCheckboxChange,
+  selectedBrands,
+  selectedSizes,
+  handleCheckboxCategoriesChange,
+  handleCheckboxBrandsChange,
   categories,
-  filters,
-  checkboxHandler,
+  brands,
+  sizes,
+  handleCheckboxSizesChange,
   volume,
   volumeHandler,
   storage,
   filterstorage,
   className,
-  filterToggle,
-  filterToggleHandler,
 }) {
+  console.log("brand", brands);
   return (
     <>
       <div
         className={`filter-widget w-full fixed lg:relative left-0 top-0 h-screen z-5 lg:h-auto overflow-y-scroll lg:overflow-y-auto bg-white px-[30px] pt-[40px] ${
           className || ""
-        }  ${filterToggle ? "block" : "hidden lg:block"}`}
+        } `}
       >
         <div className="filter-subject-item pb-10 border-b border-qgray-border">
           <div className="subject-title mb-[30px]">
@@ -33,16 +35,17 @@ export default function ProductsFilter({
           </div>
           <div className="filter-items">
             <ul>
-              { categories.map((category) => (
-                  <li className="item flex justify-between items-center mb-5">
+              {categories.map((category) => (
+                <li className="item flex justify-between items-center mb-5">
                   <div className="flex space-x-[14px] items-center">
                     <div>
                       <Checkbox
-                      
                         value={category.title}
-                        handleChange={() => handleCheckboxChange(category.title)}
+                        handleChange={() =>
+                          handleCheckboxCategoriesChange(category.title)
+                        }
                         checked={selectedCategories.includes(category.title)}
-                        />
+                      />
                     </div>
                     <div>
                       <label
@@ -75,7 +78,6 @@ export default function ProductsFilter({
                   </div>
                 </li>
               ))}
-        
             </ul>
           </div>
         </div>
@@ -86,14 +88,23 @@ export default function ProductsFilter({
           <div className="price-range mb-5">
             <InputRange
               draggableTrack
-              maxValue={1000}
+              maxValue={5000000}
               minValue={0}
               value={volume}
               onChange={volumeHandler}
             />
           </div>
           <p className="text-xs text-qblack font-400">
-            Price: ${volume.min} - ${volume.max}
+            Price:
+            {parseInt(volume.min).toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}{" "}
+            -{" "}
+            {parseInt(volume.max).toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}
           </p>
         </div>
         <div className="filter-subject-item pb-10 border-b border-qgray-border mt-10">
@@ -102,166 +113,29 @@ export default function ProductsFilter({
           </div>
           <div className="filter-items">
             <ul>
-              <li className="item flex justify-between items-center mb-5">
-                <div className="flex space-x-[14px] items-center">
-                  <div>
-                    <Checkbox
-                      id="apple"
-                      name="apple"
-                      handleChange={(e) => checkboxHandler(e)}
-                      checked={filters.apple}
-                    />
+              {brands.map((brand) => (
+                <li className="item flex justify-between items-center mb-5">
+                  <div className="flex space-x-[14px] items-center">
+                    <div>
+                      <Checkbox
+                        value={brand.title}
+                        handleChange={() =>
+                          handleCheckboxBrandsChange(brand.title)
+                        }
+                        checked={selectedBrands.includes(brand.title)}
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="apple"
+                        className="text-xs font-black font-400 capitalize"
+                      >
+                        {brand.title}
+                      </label>
+                    </div>
                   </div>
-                  <div>
-                    <label
-                      htmlFor="apple"
-                      className="text-xs font-black font-400 capitalize"
-                    >
-                      apple
-                    </label>
-                  </div>
-                </div>
-              </li>
-              <li className="item flex justify-between items-center mb-5">
-                <div className="flex space-x-[14px] items-center">
-                  <div>
-                    <Checkbox
-                      id="samsung"
-                      name="samsung"
-                      handleChange={(e) => checkboxHandler(e)}
-                      checked={filters.samsung}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="samsung"
-                      className="text-xs font-black font-400 capitalize"
-                    >
-                      Samsung
-                    </label>
-                  </div>
-                </div>
-              </li>
-              <li className="item flex justify-between items-center mb-5">
-                <div className="flex space-x-[14px] items-center">
-                  <div>
-                    <Checkbox
-                      id="walton"
-                      name="walton"
-                      handleChange={(e) => checkboxHandler(e)}
-                      checked={filters.walton}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="walton"
-                      className="text-xs font-black font-400 capitalize"
-                    >
-                      walton
-                    </label>
-                  </div>
-                </div>
-              </li>
-              <li className="item flex justify-between items-center mb-5">
-                <div className="flex space-x-[14px] items-center">
-                  <div>
-                    <Checkbox
-                      id="oneplus"
-                      name="oneplus"
-                      handleChange={(e) => checkboxHandler(e)}
-                      checked={filters.oneplus}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="oneplus"
-                      className="text-xs font-black font-400 capitalize"
-                    >
-                      oneplus
-                    </label>
-                  </div>
-                </div>
-              </li>
-              <li className="item flex justify-between items-center mb-5">
-                <div className="flex space-x-[14px] items-center">
-                  <div>
-                    <Checkbox
-                      id="vivo"
-                      name="vivo"
-                      handleChange={(e) => checkboxHandler(e)}
-                      checked={filters.vivo}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="vivo"
-                      className="text-xs font-black font-400 capitalize"
-                    >
-                      vivo
-                    </label>
-                  </div>
-                </div>
-              </li>
-              <li className="item flex justify-between items-center mb-5">
-                <div className="flex space-x-[14px] items-center">
-                  <div>
-                    <Checkbox
-                      id="oppo"
-                      name="oppo"
-                      handleChange={(e) => checkboxHandler(e)}
-                      checked={filters.oppo}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="oppo"
-                      className="text-xs font-black font-400 capitalize"
-                    >
-                      oppo
-                    </label>
-                  </div>
-                </div>
-              </li>
-              <li className="item flex justify-between items-center mb-5">
-                <div className="flex space-x-[14px] items-center">
-                  <div>
-                    <Checkbox
-                      id="xiomi"
-                      name="xiomi"
-                      handleChange={(e) => checkboxHandler(e)}
-                      checked={filters.xiomi}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="xiomi"
-                      className="text-xs font-black font-400 capitalize"
-                    >
-                      xiomi
-                    </label>
-                  </div>
-                </div>
-              </li>
-              <li className="item flex justify-between items-center mb-5">
-                <div className="flex space-x-[14px] items-center">
-                  <div>
-                    <Checkbox
-                      id="others"
-                      name="others"
-                      handleChange={(e) => checkboxHandler(e)}
-                      checked={filters.others}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="others"
-                      className="text-xs font-black font-400 capitalize"
-                    >
-                      others
-                    </label>
-                  </div>
-                </div>
-              </li>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
@@ -330,111 +204,35 @@ export default function ProductsFilter({
           </div>
           <div className="filter-items">
             <ul>
-              <li className="item flex justify-between items-center mb-5">
-                <div className="flex space-x-[14px] items-center">
-                  <div>
-                    <Checkbox
-                      id="sizeS"
-                      name="sizeS"
-                      handleChange={(e) => checkboxHandler(e)}
-                      checked={filters.sizeS}
-                    />
+            {sizes.map((size) => (
+                <li className="item flex justify-between items-center mb-5">
+                  <div className="flex space-x-[14px] items-center">
+                    <div>
+                      <Checkbox
+                        value={size.title}
+                        handleChange={() =>
+                          handleCheckboxSizesChange(size.title)
+                        }
+                        checked={selectedSizes.includes(size.title)}
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="apple"
+                        className="text-xs font-black font-400 capitalize"
+                      >
+                        {size.title}
+                      </label>
+                    </div>
                   </div>
-                  <div>
-                    <label
-                      htmlFor="sizeS"
-                      className="text-xs font-black font-400 capitalize"
-                    >
-                      s
-                    </label>
-                  </div>
-                </div>
-              </li>
-              <li className="item flex justify-between items-center mb-5">
-                <div className="flex space-x-[14px] items-center">
-                  <div>
-                    <Checkbox
-                      id="sizeM"
-                      name="sizeM"
-                      handleChange={(e) => checkboxHandler(e)}
-                      checked={filters.sizeM}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="sizeM"
-                      className="text-xs font-black font-400 capitalize"
-                    >
-                      M
-                    </label>
-                  </div>
-                </div>
-              </li>
-              <li className="item flex justify-between items-center mb-5">
-                <div className="flex space-x-[14px] items-center">
-                  <div>
-                    <Checkbox
-                      id="sizeXL"
-                      name="sizeXL"
-                      handleChange={(e) => checkboxHandler(e)}
-                      checked={filters.sizeXL}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="sizeXL"
-                      className="text-xs font-black font-400 capitalize"
-                    >
-                      XL
-                    </label>
-                  </div>
-                </div>
-              </li>
-              <li className="item flex justify-between items-center mb-5">
-                <div className="flex space-x-[14px] items-center">
-                  <div>
-                    <Checkbox
-                      id="sizeXXL"
-                      name="sizeXXL"
-                      handleChange={(e) => checkboxHandler(e)}
-                      checked={filters.sizeXXL}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="sizeXXL"
-                      className="text-xs font-black font-400 capitalize"
-                    >
-                      XXL
-                    </label>
-                  </div>
-                </div>
-              </li>
-              <li className="item flex justify-between items-center mb-5">
-                <div className="flex space-x-[14px] items-center">
-                  <div>
-                    <Checkbox
-                      id="sizeFit"
-                      name="sizeFit"
-                      handleChange={(e) => checkboxHandler(e)}
-                      checked={filters.sizeFit}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="sizeFit"
-                      className="text-xs font-black font-400 capitalize"
-                    >
-                      Sliem Fit
-                    </label>
-                  </div>
-                </div>
-              </li>
+                </li>
+              ))}
+
             </ul>
           </div>
         </div>
         <button
-          onClick={filterToggleHandler}
+          // onClick={filterToggleHandler}
           type="button"
           className="w-10 h-10 fixed top-5 right-5 z-50 rounded  lg:hidden flex justify-center items-center border border-qred text-qred"
         >

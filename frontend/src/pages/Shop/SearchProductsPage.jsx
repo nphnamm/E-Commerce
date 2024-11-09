@@ -16,7 +16,7 @@ function SearchProductsPage() {
   return (
     <div>
     <Header />
-    <SearchProducts allProducts={allProducts}/>
+    {allProducts && <SearchProducts allProducts={allProducts}/>}
     <Footer />
   </div>
   )
