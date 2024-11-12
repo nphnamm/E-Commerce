@@ -9,7 +9,7 @@ process.on("uncaughtException", (err) => {
 });
 
 if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({ path: "backend/config/.env" });
+  require("dotenv").config({ path: "config/.env" });
 }
 
 // const dotenv = require("dotenv");
@@ -23,6 +23,9 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 // })
 
 // Connection Database
+app.use("/",(req,res)=>{
+  res.send("Hello world");
+})
 connectDatabase();
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
