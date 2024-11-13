@@ -5,12 +5,28 @@ import ProductCard from "../ProductCard/ProductCard";
 const BestDeals = () => {
   const [data, setData] = useState([]);
   const { allProducts } = useSelector((state) => state.products);
+  const getUniqueProductsByTag = (products) => {
+    const productMap = new Map();
+    
+    products.forEach(product => {
+      const tags = product.tags.split(','); // nếu có nhiều tag
+      tags.forEach(tag => {
+        if (!productMap.has(tag)) {
+          productMap.set(tag, product); // Chỉ lưu sản phẩm đầu tiên của mỗi tag
+        }
+      });
+    });
+  
+    return Array.from(productMap.values()); // Trả về các sản phẩm duy nhất
+  };
+  
   useEffect(() => {
     const allProductsData = allProducts ? [...allProducts] : [];
     const sortedData = allProductsData?.sort((a, b) => b.sold_out - a.sold_out);
     const firstFive = sortedData && sortedData.slice(0, 5);
+    
     setData(firstFive);
-  }, []);
+  }, [data]);
   // console.log('product card', productData);
   return (
     //TODO: if max screen is 1385 when use styles section then screen is 1269 and each div is 253

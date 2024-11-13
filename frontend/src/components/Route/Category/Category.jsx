@@ -17,7 +17,7 @@ const Category = () => {
     //TODO: if max screen is 1385 when use styles section then screen is 1269 and each div is 253
     <div>
           {/* //TODO: hidden and lg:block -> if screen > sm then div tag will be displayed. */}
-     <div className={`${styles.section} hidden sm:block `}>
+     <div className={`${styles.section} hidden sm:block`}>
         {/* //TODO: branding this is a class name apllied to this div  */}
         {/* //TODO: my-12 is used to margin top and bottom 48px; rounded-md = 0.375rem = 6px; */}
         {/* //TODO: Justify-between is used to align four elements  */}

@@ -125,11 +125,11 @@ const ProductCard = ({ data, isEvent }) => {
                     />
                   )}
                 </div>
-                <Link to="product">
+                <Link to="product" className="min-h-[96px]">
                   <h5 className="font-bold text-base text-left">{data.name}</h5>
                 </Link>
                 <div className="flex">
-                  <h5 className={`${styles.productDiscountPrice}`}>
+                  <h5 className={`${styles.productDiscountPrice} `}>
                     {data.originalPrice === 0
                       ? parseInt(data.originalPrice).toLocaleString("vi-VN", {
                           style: "currency",

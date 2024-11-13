@@ -1,10 +1,14 @@
 import { useState } from "react";
 import Icon from "../../Icon/Icon";
+import formatPrice from "../../../utils/formatPrice";
 
 export default function ProductCardStyleOne({ datas, type }) {
   const [isHovered, setIsHovered] = useState(false);
-
+  console.log("product item", datas);
   const available = (datas?.stock / (datas?.stock + datas?.sold_out)) * 100;
+  const originalPrice = formatPrice(datas.originalPrice);
+  const discountPrice = formatPrice(datas.discountPrice);
+  console.log('price', originalPrice);
   return (
     // <div
     //   className="product-card-one w-full h-full bg-white relative group overflow-hidden"
@@ -127,17 +131,17 @@ export default function ProductCardStyleOne({ datas, type }) {
         />
         {isHovered && (
           <div className="absolute top-1/2 right-2 transform -translate-y-1/2 flex flex-col space-y-2">
-            <button className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition">
-              <i className="fas fa-expand text-gray-500"></i>{" "}
-              {/* Icon phóng to */}
+            <button className="w-9 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition">
+              
+              <Icon name="Expand"/>
             </button>
-            <button className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition">
-              <i className="fas fa-heart text-gray-500"></i>{" "}
-              {/* Icon yêu thích */}
+            <button className="w-9 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition">
+              <Icon name="Heart"/>
+
             </button>
-            <button className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition">
-              <i className="fas fa-sync-alt text-gray-500"></i>{" "}
-              {/* Icon refresh */}
+            <button className="w-9 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition">
+              <Icon name="Reload"/>
+            {/* Icon refresh */}
             </button>
           </div>
         )}
@@ -148,17 +152,20 @@ export default function ProductCardStyleOne({ datas, type }) {
             <span className="text-yellow-500">★★★☆☆</span> {/* Đánh giá */}
           </div>
           <h2 className="text-gray-800 text-lg font-semibold mt-1">
-            Xoggle aute et pariatur adipiscing nostrud et...
+            {datas.name.length > 30 ? datas.name.substring(0,30)+`...  ` : datas.name}
           </h2>
           <div
             className={`mt-3 flex items-center ${
               isHovered ? "opacity-0" : "opacity-100"
             } transition-opacity duration-300`}
           >
-            <span className="text-gray-500 line-through mr-2">$27.27</span>{" "}
-            {/* Giá cũ */}
-            <span className="text-red-500 font-semibold">$18.73</span>{" "}
-            {/* Giá mới */}
+            <span className="text-gray-500 line-through mr-2">
+              {" "}
+              {originalPrice}
+            </span>{" "}
+            <span className="text-red-500 font-semibold">
+              {discountPrice}
+            </span>{" "}
           </div>
         </div>
 

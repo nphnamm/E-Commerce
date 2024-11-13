@@ -121,9 +121,21 @@ function Header({ activeHeading }) {
             ) : null}
           </div>
           <div className={`${styles.button}`}>
-            <Link to={`${isSeller ? "/dashboard" : "/shop-create"}`}>
+            <Link
+              to={
+                user.role === "Admin"
+                  ? "/admin/dashboard"
+                  : isSeller
+                  ? "/dashboard"
+                  : "/shop-create"
+              }
+            >
               <h1 className="text-[#fff] flex items-center">
-                {isSeller ? "Go Dashboard" : "Become Seller"}{" "}
+                {user.role === "Admin"
+                  ? "Admin Dashboard"
+                  : isSeller
+                  ? "Go Dashboard"
+                  : "Become Seller"}
               </h1>
             </Link>
           </div>
@@ -142,7 +154,6 @@ function Header({ activeHeading }) {
 
           <div
             onClick={() => setDropDown(!dropDown)}
-
             className="relative h-[60px] mt-[10px] w-[270px] hidden 1000px:block"
           >
             <BiMenuAltLeft size={30} className="absolute top-3 left-2" />
@@ -154,23 +165,18 @@ function Header({ activeHeading }) {
               className="absolute right-2 top-4 cursor-pointer"
               onClick={() => setDropDown(!dropDown)}
             />
-            {dropDown &&
-            <div
-            className="max-h-[500px]
+            {dropDown && (
+              <div
+                className="max-h-[500px]
              overflow-hidden transition-transform duration-1000"
-
-          >
-            
-            <DropDown
-              categoriesData={limitedCategoriesData}
-              setDropDown={setDropDown}
-            />
+              >
+                <DropDown
+                  categoriesData={limitedCategoriesData}
+                  setDropDown={setDropDown}
+                />
+              </div>
+            )}
           </div>
-            }
-
-          </div>
-
-          
 
           {/*nav items*/}
           <div className={`${styles.normalFlex}`}>
@@ -325,11 +331,19 @@ function Header({ activeHeading }) {
               </div>
               <Navbar active={activeHeading} />
               <div className={`${styles.button} ml-4 !rounded-[4px]`}>
-                <Link to="/shop-create">
-                  <h1 className="text-[#fff] flex items-center">
-                    Become Seller <IoIosArrowForward className="ml-1" />
-                  </h1>
-                </Link>
+                {user?.role == "Admin" ? (
+                  <Link to="/admin/dashboard">
+                    <h1 className="text-[#fff] flex items-center">
+                      Admin Dashboard <IoIosArrowForward className="ml-1" />
+                    </h1>
+                  </Link>
+                ) : (
+                  <Link to="/shop-create">
+                    <h1 className="text-[#fff] flex items-center">
+                      Become Seller <IoIosArrowForward className="ml-1" />
+                    </h1>
+                  </Link>
+                )}
               </div>
               <div className="flex w-full justify-center">
                 {isAuthenticated ? (

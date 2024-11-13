@@ -15,6 +15,9 @@ import { ReactComponent as IconStar } from '../../static/Icons/Star.svg';
 import { ReactComponent as IconQuickView } from '../../static/Icons/QuickView.svg';
 import { ReactComponent as IconCompair } from '../../static/Icons/Compair.svg';
 import { ReactComponent as IconThinLove } from '../../static/Icons/ThinLove.svg';
+import { ReactComponent as IconExpand } from '../../static/Icons/Expand.svg';
+import { ReactComponent as IconHeart } from '../../static/Icons/Heart.svg';
+import { ReactComponent as IconReload } from '../../static/Icons/Reload.svg';
 
 
 
@@ -38,6 +41,9 @@ const icons={
     Star: IconStar,
     QuickView: IconQuickView,
     ThinLove: IconThinLove,
+    Expand: IconExpand,
+    Heart: IconHeart,
+    Reload: IconReload,
 
 }
 function Icon({ name, size , color = 'currentColor', ...props }) {
