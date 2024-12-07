@@ -13,8 +13,8 @@ import {
   AiOutlinePlusCircle,
 } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@material-ui/core";
-import { DataGrid } from "@material-ui/data-grid";
+import { Button } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 import Loader from "../Layout/Loader";
 import { RxCross1 } from "react-icons/rx";
 import { categoriesData, sizeData, storageData } from "../../static/data";

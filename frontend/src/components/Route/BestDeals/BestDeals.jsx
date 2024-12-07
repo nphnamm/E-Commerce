@@ -26,7 +26,7 @@ const BestDeals = () => {
     const firstFive = sortedData && sortedData.slice(0, 5);
     
     setData(firstFive);
-  }, [data]);
+  }, []);
   // console.log('product card', productData);
   return (
     //TODO: if max screen is 1385 when use styles section then screen is 1269 and each div is 253

@@ -19,6 +19,9 @@ import { backend_url } from "../../server";
 import Cart from "../Cart/Cart";
 import Wishlist from "../Wishlist/Wishlist";
 import { RxCross1 } from "react-icons/rx";
+import { useTranslation } from "react-i18next";
+import { Menu, MenuItem, Button, ListItemIcon, ListItemText } from '@mui/material';
+import { ArrowDropDown } from '@mui/icons-material';
 
 function Header({ activeHeading }) {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -35,6 +38,22 @@ function Header({ activeHeading }) {
   const [openCart, setOpenCart] = useState(false);
   const [openWishlist, setOpenWishlist] = useState(false);
   const [open, setOpen] = useState(false);
+  const { i18n } = useTranslation();
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    handleClose();
+  };
+
 
   const handleSearchChange = (e) => {
     const term = e.target.value;
@@ -126,16 +145,16 @@ function Header({ activeHeading }) {
                 user?.role === "Admin"
                   ? "/admin/dashboard"
                   : isSeller
-                  ? "/dashboard"
-                  : "/shop-create"
+                    ? "/dashboard"
+                    : "/shop-create"
               }
             >
               <h1 className="text-[#fff] flex items-center">
                 {user?.role === "Admin"
                   ? "Admin Dashboard"
                   : isSeller
-                  ? "Go Dashboard"
-                  : "Become Seller"}
+                    ? "Go Dashboard"
+                    : "Become Seller"}
               </h1>
             </Link>
           </div>
@@ -143,9 +162,8 @@ function Header({ activeHeading }) {
       </div>
 
       <div
-        className={`${
-          active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
-        } transition hidden 800px:flex items-center justify-between w-full bg-[#1868d5] h-[70px]`}
+        className={`${active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
+          } transition hidden 800px:flex items-center justify-between w-full bg-[#1868d5] h-[70px]`}
       >
         <div
           className={`${styles.section} relative ${styles.normalFlex} justify-between`}
@@ -231,6 +249,40 @@ function Header({ activeHeading }) {
                 )}
               </div>
             </div>
+            {/* // change language */}
+            <div className="relative inline-block">
+              <Button
+                aria-controls="language-menu"
+                aria-haspopup="true"
+                onClick={handleClick}
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+                endIcon={<ArrowDropDown />}
+              >
+                Select Language
+              </Button>
+              <Menu
+                id="language-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={() => changeLanguage('en')}>
+                  <ListItemIcon>
+                    <img src="/path/to/english-flag.png" alt="English" className="w-5 h-5" />
+                  </ListItemIcon>
+                  <ListItemText primary="English" />
+                </MenuItem>
+                <MenuItem onClick={() => changeLanguage('vi')}>
+                  <ListItemIcon>
+                    <img src="/path/to/vietnamese-flag.png" alt="Vietnamese" className="w-5 h-5" />
+                  </ListItemIcon>
+                  <ListItemText primary="Vietnamese" />
+                </MenuItem>
+              </Menu>
+            </div>
+
+
             {/* cart popup */}
             {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
 
@@ -245,9 +297,8 @@ function Header({ activeHeading }) {
 
       {/* mobile header */}
       <div
-        className={`${
-          active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
-        }
+        className={`${active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
+          }
           w-full h-[60px] bg-[#fff] z-50 top-0 left-0 shadow-sm 800px:hidden`}
       >
         <div className="w-full flex items-center justify-between">

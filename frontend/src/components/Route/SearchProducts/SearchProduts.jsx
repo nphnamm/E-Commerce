@@ -6,7 +6,6 @@ import Banner3 from "../../../Assests/images/banner-3.png";
 import DataIteration from "./DataIteration";
 import ProductCardStyleOne from "./ProductCardStyleOne";
 import axios from "axios";
-import { Spin } from "antd"; // Ant Design Spinner
 
 const categories = [
   { id: 1, title: "Computers and Laptops" },
@@ -144,7 +143,7 @@ export default function SearchProducts({ allProducts }) {
             {/* <BreadcrumbCom /> */}
             {loading ? (
               <div className="flex justify-center items-center h-screen">
-                <Spin/> {/* Material UI loading spinner */}
+                ...Loading
               </div>
             ) :
             (<div className="w-full lg:flex lg:space-x-[30px]">
