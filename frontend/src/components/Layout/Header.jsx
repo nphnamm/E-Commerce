@@ -22,7 +22,9 @@ import { RxCross1 } from "react-icons/rx";
 import { useTranslation } from "react-i18next";
 import { Menu, MenuItem, Button, ListItemIcon, ListItemText } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-
+import LanguageIcon from '@mui/icons-material/Language';
+import logoVi from '../../Assests/images/vietnamese.png';
+import logoUs from '../../Assests/images/us.png';
 function Header({ activeHeading }) {
   const { isAuthenticated, user } = useSelector((state) => state.user);
   const { isSeller } = useSelector((state) => state.seller);
@@ -40,6 +42,8 @@ function Header({ activeHeading }) {
   const [open, setOpen] = useState(false);
   const { i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [language, setLanguage] = useState('vi'); // Mặc định là tiếng Anh
+  const [selectedIndex, setSelectedIndex] = useState(1);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -49,8 +53,12 @@ function Header({ activeHeading }) {
     setAnchorEl(null);
   };
 
-  const changeLanguage = (lng) => {
+
+
+  const changeLanguage = (lng,index) => {
     i18n.changeLanguage(lng);
+    setLanguage(lng);
+    setSelectedIndex(index);
     handleClose();
   };
 
@@ -65,7 +73,15 @@ function Header({ activeHeading }) {
       );
     setSearchData(filteredProducts);
   };
+  const languageMap = {
+    en: 'English',
+    vi: 'Vietnamese',
+  };
 
+  const flagMap = {
+    en: logoUs,
+    vi: logoVi,
+  };
   // console.log("search term ", searchTerm);
   // console.log("search data ", searchData);
 
@@ -251,34 +267,42 @@ function Header({ activeHeading }) {
             </div>
             {/* // change language */}
             <div className="relative inline-block">
-              <Button
+              <div
                 aria-controls="language-menu"
                 aria-haspopup="true"
                 onClick={handleClick}
-                className="bg-blue-500 text-white px-4 py-2 rounded"
-                endIcon={<ArrowDropDown />}
+                className="bg-white text-black px-4 py-2 rounded cursor-pointer flex items-center shadow-md"
               >
-                Select Language
-              </Button>
+                <LanguageIcon className="mr-2" />
+                {languageMap[language]} <ArrowDropDown className="ml-2" />
+              </div>
               <Menu
                 id="language-menu"
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
+                PaperProps={{
+                  style: {
+                    borderRadius: '10px',
+                    marginTop: '10px',
+                    boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+                  },
+                }}
               >
-                <MenuItem onClick={() => changeLanguage('en')}>
-                  <ListItemIcon>
-                    <img src="/path/to/english-flag.png" alt="English" className="w-5 h-5" />
-                  </ListItemIcon>
-                  <ListItemText primary="English" />
-                </MenuItem>
-                <MenuItem onClick={() => changeLanguage('vi')}>
-                  <ListItemIcon>
-                    <img src="/path/to/vietnamese-flag.png" alt="Vietnamese" className="w-5 h-5" />
-                  </ListItemIcon>
-                  <ListItemText primary="Vietnamese" />
-                </MenuItem>
+                {Object.keys(languageMap).map((lang, index) => (
+                  <MenuItem 
+                  key={lang} 
+                  onClick={() => changeLanguage(lang,index)}
+                  selected={index === selectedIndex}
+
+                  >
+                    <ListItemIcon>
+                      <img src={flagMap[lang]} alt={languageMap[lang]} className="w-6 h-6" />
+                    </ListItemIcon>
+                    <ListItemText primary={languageMap[lang]} />
+                  </MenuItem>
+                ))}
               </Menu>
             </div>
 
