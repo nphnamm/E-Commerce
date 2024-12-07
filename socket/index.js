@@ -17,6 +17,12 @@ app.get("/", (req, res) => {
   res.send("Hello world from socket server!");
 });
 
+if (process.env.NODE_ENV !== "PRODUCTION") {
+  require("dotenv").config({
+    path: ".env",
+  });
+}
+
 let users = [];
 
 const addUser = (userId, socketId) => {
@@ -106,11 +112,9 @@ io.on("connection", (socket) => {
     removeUser(socket.id);
     io.emit("getUsers", users);
   });
-  
-
-
 });
-
-server.listen(process.env.PORT || 4000, () => {
-  console.log(`server is running on port ${process.env.PORT || 4000}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  server.listen(process.env.PORT || 4000, () => {
+    console.log(`server is running on port ${process.env.PORT || 4000}`);
+  });
+}
