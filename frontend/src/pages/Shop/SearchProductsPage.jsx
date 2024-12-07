@@ -9,9 +9,12 @@ function SearchProductsPage() {
   const { allProducts } = useSelector((state) => state.products);
   const dispatch = useDispatch()
   useEffect(()=>{
-    dispatch(getAllProducts())
+    if(!allProducts){
+      dispatch(getAllProducts())
 
-  },[])
+    }
+
+  },[dispatch,allProducts])
   
   return (
     <div>

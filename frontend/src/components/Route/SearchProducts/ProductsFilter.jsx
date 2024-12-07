@@ -88,7 +88,7 @@ export default function ProductsFilter({
           <div className="price-range mb-5">
             <InputRange
               draggableTrack
-              maxValue={5000000}
+              maxValue={50000000}
               minValue={0}
               value={volume}
               onChange={volumeHandler}

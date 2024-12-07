@@ -1,15 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 import styles from './../../styles/styles';
 import { Link, useNavigate } from "react-router-dom";
 import axios  from 'axios';
 import { server } from './../../server';
 import { toast } from 'react-toastify';
+import { useSelector } from "react-redux";
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/"); // Điều hướng về trang chủ nếu đã đăng nhập
+    }
+  }, [isAuthenticated, navigate]);
+
   const handleSubmit = async(e) =>{
     e.preventDefault();
     await axios.post(`${server}/user/login-user`,{

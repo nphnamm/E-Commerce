@@ -123,7 +123,7 @@ function Header({ activeHeading }) {
           <div className={`${styles.button}`}>
             <Link
               to={
-                user.role === "Admin"
+                user?.role === "Admin"
                   ? "/admin/dashboard"
                   : isSeller
                   ? "/dashboard"
@@ -131,7 +131,7 @@ function Header({ activeHeading }) {
               }
             >
               <h1 className="text-[#fff] flex items-center">
-                {user.role === "Admin"
+                {user?.role === "Admin"
                   ? "Admin Dashboard"
                   : isSeller
                   ? "Go Dashboard"
