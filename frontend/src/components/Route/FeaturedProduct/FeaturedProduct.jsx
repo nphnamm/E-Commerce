@@ -27,7 +27,7 @@ const FeaturedProduct = () => {
     const uniqueProducts = getUniqueProductsByTag(allProductsData);
     console.log('unique',uniqueProducts)
     setData(uniqueProducts);
-  }, []);
+  }, [allProducts]);
   return (
     <div>
       <div className={`${styles.section}`}>
