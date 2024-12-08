@@ -114,7 +114,7 @@ export default function SearchProducts({ allProducts }) {
 
     try {
       const response = await axios.patch(
-        "http://localhost:8000/api/v2/product/list",
+        "https://e-commerce-api-tzp0.onrender.com/api/v2/product/list",
         body,
         {
           headers: { "Content-Type": "application/json" },
